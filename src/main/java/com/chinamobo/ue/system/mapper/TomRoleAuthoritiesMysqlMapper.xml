@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.system.dao.TomRoleAuthoritiesMapper">
+	<resultMap id="BaseResultMap"
+		type="com.chinamobo.ue.system.entity.TomRoleAuthorities">
+		<result column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+		<result column="AUTHORITY_ID" property="authorityId" jdbcType="DECIMAL" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="TomAuthorities"
+		type="com.chinamobo.ue.system.entity.TomAuthorities">
+		<id column="AUTHORITY_ID" property="authorityId" jdbcType="DECIMAL" />
+		<result column="AUTHORITY_NAME" property="authorityName"
+			jdbcType="VARCHAR" />
+		<result column="AUTHORITY_TYPE" property="authorityType"
+			jdbcType="VARCHAR" />
+		<result column="AUTHORITY_URL" property="authorityUrl"
+			jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="METHOD" property="method" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="TomAuthorities_Column_List">
+		AUTHORITY_ID, AUTHORITY_NAME, AUTHORITY_TYPE, AUTHORITY_URL, STATUS, METHOD,
+		CREATE_TIME
+	</sql>
+	<!-- 通过角色id查询所有 -->
+		<select id="selectAuthoritiesByRoilId" parameterType="Integer"
+		resultMap="BaseResultMap">
+		select AUTHORITY_ID from tom_role_authorities where
+		role_id = #{roleId,jdbcType=DECIMAL}
+	</select>
+	
+	
+	<insert id="insertSelective" parameterType="com.chinamobo.ue.system.entity.TomRoleAuthorities">
+		insert into TOM_ROLE_AUTHORITIES (ROLE_ID, AUTHORITY_ID, STATUS,
+		CREATOR, CREATE_TIME, OPERATOR,
+		UPDATE_TIME)
+		values (#{roleId,jdbcType=DECIMAL}, #{authorityId,jdbcType=DECIMAL},
+		#{status,jdbcType=VARCHAR},
+		#{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insert" parameterType="com.chinamobo.ue.system.entity.TomRoleAuthorities">
+		insert into TOM_ROLE_AUTHORITIES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="roleId != null">
+				ROLE_ID,
+			</if>
+			<if test="authorityId != null">
+				AUTHORITY_ID,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="creatorId != null">
+				CREATOR_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="roleId != null">
+				#{roleId,jdbcType=DECIMAL},
+			</if>
+			<if test="authorityId != null">
+				#{authorityId,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+				<if test="creatorId != null">
+		#{creatorId,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="selectAuthoritiesByAdminId" parameterType="java.lang.String"
+		resultType="TomAuthorities">
+		select TOM_AUTHORITIES.*
+		from TOM_AUTHORITIES,TOM_ROLE_AUTHORITIES, TOM_ADMIN_ROLES WHERE
+		TOM_ADMIN_ROLES.ROLE_ID=TOM_ROLE_AUTHORITIES.ROLE_ID AND
+		TOM_AUTHORITIES.AUTHORITY_ID=TOM_ROLE_AUTHORITIES.AUTHORITY_ID AND
+		TOM_ADMIN_ROLES.ADMIN_ID=#{id}
+	</select>
+	<select id="selectAuthoritiesByRoleId" parameterType="java.lang.String"
+		resultType="TomAuthorities">
+		select TOM_AUTHORITIES.*
+		from TOM_AUTHORITIES INNER JOIN
+		TOM_ROLE_AUTHORITIES ON
+		TOM_AUTHORITIES.AUTHORITY_ID=TOM_ROLE_AUTHORITIES.AUTHORITY_ID WHERE
+		TOM_ROLE_AUTHORITIES.ROLE_ID= #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		TOM_ROLE_AUTHORITIES
+		where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+	</delete>
+</mapper>

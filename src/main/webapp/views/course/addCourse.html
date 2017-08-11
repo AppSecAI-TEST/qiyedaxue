@@ -1,0 +1,421 @@
+<meta charset="UTF-8" >
+
+<div id="page" class="container-fluid overflow-auto">
+    <form name="courseForm" novalidate  ng-controller="AddCourseController" class="form-horizontal" role="form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="courseName" class="col-xs-2 control-label">课程名称：</label>
+            <div class="col-xs-5 width_6">
+                <input type="text" class="form-control width_1" name="courseName" 
+                ng-maxlength="50" 
+                ng-model="course.courseName" 
+                required 
+                placeholder="请输入课程名称">(最多输入50个字符)
+            </div>
+            <div class="error" ng-show="courseForm.courseName.$dirty&&courseForm.courseName.$invalid||courseForm.$submitted&&courseForm.courseName.$invalid" >
+                <span ng-show="courseForm.courseName.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写课程名称</span>
+                <span ng-show="courseForm.courseName.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">课程名称最多50个字符</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="courseName" class="col-xs-2 control-label">课程简介：</label>
+            <div class="col-xs-5 width_6">
+                <textarea class="form-control width_1" name="courseIntroduction" rows="4"
+	                ng-model="course.courseIntroduction"
+	                ng-maxlength="500" 
+	                required 
+	                placeholder="请输入课程简介" >(最多输入500个字符)
+                </textarea>
+            </div>
+            <div class="error" ng-show="courseForm.courseIntroduction.$dirty&&courseForm.courseIntroduction.$invalid||courseForm.$submitted&&courseForm.courseIntroduction.$invalid" >
+                <span ng-show="courseForm.courseIntroduction.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写课程简介</span>
+                <span ng-show="courseForm.courseIntroduction.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">课程简介最多500个字符</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="courseName" class="col-xs-2 control-label">课程积分：</label>
+            <div class="col-xs-5 width_6">
+                <input type="text" class="form-control width_3" name="eCurrency" 
+                	ng-model="course.eCurrency"
+                	ng-pattern ="/^(\+?[1-9]\d{0,3}|\+?10000|0)$/" 
+                	required
+                    placeholder="课程奖励积分数量">
+            </div>
+            <div class="error" ng-show="courseForm.eCurrency.$dirty&&courseForm.eCurrency.$invalid||courseForm.$submitted&&courseForm.eCurrency.$invalid" >
+                <span ng-show="courseForm.eCurrency.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写课程积分数</span>
+                <span ng-show="courseForm.eCurrency.$error.pattern" class="glyphicon glyphicon-exclamation-sign">请输入0-10000的数字</span>
+            </div>
+        </div>
+        <!-- 线上线下课程单选按钮 -->
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">线下/线上课程：</label>
+            <div class="col-xs-8 width_6">
+                <label class="radio-inline">
+                    <input type="radio" class="" name="courseOnline" ng-model="course.courseOnline" value="Y" ng-checked="{{course.courseOnline=='Y'}}" ng-click="beCourseOnline(course)">线上课程
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="courseOnline"  ng-model="course.courseOnline"  value="N" ng-checked="{{course.courseOnline=='N'}}" ng-click="beCourseOnline(course)">线下课程
+                </label>
+            </div>
+        </div>
+        
+        <!-- /线上线下课程单选按钮 -->
+        <!--上传课程章节-->
+        <div class="form-group" ng-controller="CourseSectionFileUploadController" uploader="uploader" filters="queueLimit , customFilter">
+            <label class="col-xs-2 control-label" for="courseSection">上传课程：</label>
+            <div class="col-xs-5 width_6">
+                <a class="fileInputBtn btn btn-primary btn-control" ng-class="{'is-hover':sectionFileInputIsHover}">上传文件</a>
+                <input id="courseSectionInput" type="file" class="fileInput btn btn-control" multiple  
+                	nv-file-select ng-mouseenter="mouseenter()" ng-mouseleave="mouseleave()" uploader="uploader"> 
+                <a style="margin-left:15px;" class="btn btn-primary btn-control" ng-click="addUrlCourseSection()">添加外链章节</a>
+                <a style="margin-left:15px;" class="btn btn-primary btn-control" ng-click="addSummernoteCourseSection()">添加富文本章节</a>
+            </div>
+            <input type="hidden" name="sectionAddressList" ng-model="course.sectionList.length" required-sections>
+            <div class="error" ng-show="courseForm.$submitted&&courseForm.sectionAddressList.$invalid" >
+                <span ng-show="courseForm.sectionAddressList.$error.requiredSections" class="glyphicon glyphicon-exclamation-sign">请上传课程章节</span>
+            </div>
+            <input type="hidden" name="sectionAddressLength" ng-model="uploader.queue.length" section-length>
+            <div class="error" ng-show="courseForm.$submitted&&courseForm.sectionAddressLength.$invalid" >
+                <span ng-show="courseForm.sectionAddressLength.$error.sectionLength&&!courseForm.sectionAddressList.$error.requiredSections" class="glyphicon glyphicon-exclamation-sign">存在未上传完毕的课程章节</span>
+            </div>
+            <div style="height: 25px; padding-bottom: 0px;" class="col-xs-offset-2 inputIntro">(可上传H.264编码的MP4、Microsoft Power Point 2003/2007/2010/2013、pdf格式的文件 )</div>
+            <!--当前上传文件列表-->
+            <div style="min-height:0;" class="col-xs-offset-2 col-xs-8 width_10">
+                <table style="margin-top: 10px;" ng-show="urlCourseSectionArr.length >0 || uploader.queue.length >0" class="table table-bordered text-center">
+                    <tr>
+                    	<td class="col-xs-3">章节序号</td>
+                        <td class="col-xs-2">课程章节名称</td>
+                        <td class="col-xs-2">章节所属类型</td>   
+                        <td ng-show="uploader.isHTML5" class="col-xs-2">上传进度</td>
+                        <td class="col-xs-2">处理状态</td>
+                        <td class="col-xs-2">操作</td>
+                    </tr>
+                    <tr class="tr-input" ng-repeat="item in uploader.queue">
+                    	<td>
+                    		<input type="number" class="td-input" name="sectionSort{{item.formData.key}}"  
+				                	ng-model="item.formData.sectionSort"  
+				                	ng-pattern ="/^(\+?[1-9]\d{0,3}|\+?10000|0)$/" 
+				                	   placeholder="请输入序号">
+                    	</td>
+                        <!-- <td class="overflow-breakall"><strong>{{ item.file.name }}</strong></td> -->
+                        <td>
+                        	<input type="text" class="td-input" name="sectionName{{item.formData.key}}"
+				                	ng-model="item.formData.sectionName"
+				                	ng-pattern ="/^((?!\/).)*$/"
+				                	ng-maxlength ="100"
+				                	required />
+                        </td>
+					 	<td nowrap>
+							<input type="radio"  name="belongType{{$index}}"  ng-disabled="item.file.name.indexOf('.zip')==-1"  ng-checked="item.file.name.indexOf('.zip')!=-1"   ng-click="toggleType('H5',item)"> H5
+							<input type="radio"  name="belongType{{$index}}"  ng-disabled="item.file.name.indexOf('.zip')==-1" ng-checked="false"  ng-click="toggleType('PC',item)"> PC
+						</td>
+                        <td ng-show="uploader.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                        	<span ng-show="item.isUploading" ><i class="glyphicon loading"></i></span>
+                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                        </td>
+                        <td nowrap>
+                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="glyphicon glyphicon-upload"></span> 上传
+                            </a>
+                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </a>
+                        </td>
+                    </tr>
+                    <!-- add url courseSections s-->
+                    <tr class="tr-input" ng-repeat="urlItem in urlCourseSectionArr">
+                    	<td>
+                    		<input type="number" class="td-input" name="sectionSort{{urlItem.key}}"  
+				                	ng-model="urlItem.sectionSort"  
+				                	ng-pattern ="/^(\+?[1-9]\d{0,3}|\+?10000|0)$/" 
+				                	   placeholder="请输入序号">
+                    	</td>
+                    	<td>
+                    		<input  class="td-input" type="text" name="urlSectionName{{urlItem.key}}" placeholder="最多60字符" ng-model="urlItem.sectionName" ng-maxlength="60" required/></td>
+                    	<td colspan="2">
+                    		<input class="td-input input-url" type="text" name="urlSectionAddress{{urlItem.key}}" placeholder="输入外链地址，最多500字符" ng-model="urlItem.sectionAddress" ng-maxlength="500" required ng-pattern="/^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/"/></td>
+                    	<td>
+                    		<span class="error glyphicon glyphicon-exclamation-sign" 
+                    			ng-show="courseForm.urlSectionName{{urlItem.key}}.$error.maxlength||courseForm.urlSectionName{{urlItem.key}}.$error.required
+                    				||courseForm.urlSectionAddress{{urlItem.key}}.$error.maxlength||courseForm.urlSectionAddress{{urlItem.key}}.$error.required
+                    				||courseForm.urlSectionAddress{{urlItem.key}}.$error.pattern" > 外链参数不合法</span>
+                    		<span class="glyphicon glyphicon-ok" 
+                    			ng-show="!(courseForm.urlSectionName{{urlItem.key}}.$error.maxlength||courseForm.urlSectionName{{urlItem.key}}.$error.required
+                    				||courseForm.urlSectionAddress{{urlItem.key}}.$error.maxlength||courseForm.urlSectionAddress{{urlItem.key}}.$error.required
+                    				||courseForm.urlSectionAddress{{urlItem.key}}.$error.pattern)" > 外链参数合法</span></td>
+                    	<td nowrap>
+                    		<a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="true">
+                                <span class="glyphicon glyphicon-upload"></span> 上传
+                            </a>
+                            <a class="btn btn-danger btn-xs" ng-click="removeUrlCourseSection(urlItem)">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </a>
+                        </td>
+                    </tr>
+                    <!-- add url courseSections e-->
+                </table>
+                <!-- ng-show="summernoteCourseSectionArr.length >0" -->
+                <div style="margin-top: 10px;" ng-show="summernoteCourseSectionArr.length >0">
+                	<div class="summernot-container" ng-repeat="summernote in summernoteCourseSectionArr" >
+                		 
+                   		<input type="number" class="form-control width_1 summernote_sectionName" name="sectionSort{{summernote.key}}"  
+			                	ng-model="summernote.sectionSort"  
+			                	ng-pattern ="/^(\+?[1-9]\d{0,3}|\+?10000|0)$/" 
+			                	   placeholder="请输入序号">
+                    	 
+                		
+                		<input type="text" class="form-control width_1 summernote_sectionName" name="sectionName{{summernote.key}}" ng-maxlength="50" 
+			                ng-model="summernote.sectionName" 
+			                required 
+			                placeholder="请输入章节名称">
+		                <span class="glyphicon glyphicon-exclamation-sign pull-right error" ng-show="courseForm.$submitted && courseForm.sectionName{{summernote.key}}.$invalid &&(courseForm.sectionName{{summernote.key}}.$error.required || courseForm.sectionName{{summernote.key}}.$error.maxlength)" class="glyphicon glyphicon-exclamation-sign">章节名称不合法</span>
+                		<div summernote ng-model="summernote.sectionDetails"></div>
+                		<a class="btn btn-danger btn-xs btn-del" ng-click="removeSummernoteCourseSection(summernote)">
+                           <span class="glyphicon glyphicon-trash"></span> 删除
+                        </a>
+                	</div>
+                </div>
+            </div> 
+            <!--/当前上传文件列表-->
+        </div>
+        <!--end 上传课程章节-->
+        
+        <!--上传课程封面-->
+        <div style="position:relative;" class="form-group" ng-controller="CourseImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+            <label class="col-xs-2 control-label">上传课程封面：</label>
+            <div class="col-xs-5 width_6">
+                <a class="fileInputBtn btn btn-primary btn-control">上传图片</a>
+                <input type="file" class="fileInput btn btn-control"  id="courseImgFileInput" nv-file-select  uploader="imgUploader">
+                <div class="inputIntro">(1.5:1,&lt;=2M;建议360*240px,&lt;=500kb)</div>
+            </div>
+            <input type="hidden" name="courseImg" ng-model="course.courseImg" required-courseimg>
+            <div class="error" ng-show="courseForm.$submitted&&courseForm.courseImg.$invalid" >
+                <span ng-show="courseForm.courseImg.$error.requiredCourseimg" class="glyphicon glyphicon-exclamation-sign">请上传课程封面图片</span>
+            </div>
+            <div class="preview-container" ng-show="openPreview">
+		      <div class="thumbnail">
+		         <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+		         <div class="caption">
+		            <p>
+		               <a ng-click="closePreview()" class="btn btn-primary" role="button">关闭</a> 
+		            </p>
+		         </div>
+		      </div>
+   			</div>
+            <!-- 新的课程封面图片列表-->
+            <div style="min-height:0;" class="col-xs-offset-2 col-xs-8 width_10">
+                <table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0"class="table table-bordered text-center">
+                    <tr>
+                        <td class="col-xs-2">课程封面图片名称</td>
+                        <td class="col-xs-2">大小</td>
+                        <td class="col-xs-2">进度</td>
+                        <td class="col-xs-2">状态</td>
+                        <td class="col-xs-2">操作</td>
+                    </tr>
+                    <tr ng-repeat="item in imgUploader.queue">
+                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+                        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                        <td ng-show="imgUploader.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                        </td>
+                        <td nowrap>
+                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="glyphicon glyphicon-upload"></span> 上传
+                            </a>
+                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <!-- 新的课程封面图片列表-->
+            </div>
+        </div>
+        <!--end 上传课程封面-->
+        
+        <!--选择课程分类-->
+        <div class="form-group" >
+	        <label class="col-xs-2 control-label">课程分类：</label>
+	    	<div class="col-xs-5 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" ng-click="doOpenCourseClassifyModal()">选择课程分类</a>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/courseClassifyModalTemplate.html'"></div>
+	        </div>
+	        <input type="hidden" name="classify" ng-model="course.classifyIds.length" require-number>
+	        <div class="error" ng-show="courseForm.classify.$invalid&&courseForm.$submitted">
+                <span ng-show="courseForm.classify.$error.requireNumber" class="glyphicon glyphicon-exclamation-sign">请选择课程分类</span>
+           	</div>
+        </div>
+        <!--end 选择课程分类-->
+        
+        <!--选择评价维度 -->
+        <div class="form-group"  >
+        	<label class="col-xs-2 control-label">课程评分维度：</label>
+        	<div class="col-xs-5 width_6">
+		        <div class="form-control-static">
+	                <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal" ng-click="doOpenCourseGradeDimensionModal()">选择课程评分维度 </a>
+                    <div class="inputIntro">(最多可选择5种课程评分维度)</div>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/courseGradeDimensionModalTemplate.html'"></div>
+		    </div>
+		    <input type="hidden" name="courseGradeDimensions" ng-model="course.courseGradeDimensions" require-string>
+		    <div class="error" ng-show="courseForm.courseGradeDimensions.$invalid&&courseForm.$submitted">
+                <span ng-show="courseForm.courseGradeDimensions.$error.requireString" class="glyphicon glyphicon-exclamation-sign">请选择课程评分维度</span>
+           	</div>
+        </div>
+        <!--选择讲师-->
+        <div class="form-group"  >
+        	<label class="col-xs-2 control-label">授课讲师：</label>
+    		<div class="col-xs-5 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal" ng-click="doOpenLectureModal()">选择讲师</a>
+		        </div>
+	        	<div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/lectureModalTemplate.html'"></div>
+	        </div>
+	        <input type="hidden" name="lecturers" ng-model="course.lecturers">
+	        <div class="error" ng-show="courseForm.lecturers.$invalid&&courseForm.$submitted">
+                <span ng-show="courseForm.lecturers.$error.requiredLecturers" class="glyphicon glyphicon-exclamation-sign">请选择讲师</span>
+           	</div>
+        </div>
+        <!--end 选择讲师-->
+        <div class="form-group"  ng-if = "null != course.lecturers && '' != course.lecturers">
+        	<label class="col-xs-2 control-label">讲师评分维度：</label>
+        	<div class="col-xs-5 width_6">
+	            <div class="form-control-static">
+	               <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal" ng-click="doOpenLectureGradeDimensionModal()">选择讲师评分维度</a>
+                   <div class="inputIntro">(最多可选择5种讲师评分维度)</div>
+	            </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/lectureGradeDimensionModalTemplate.html'"></div>
+		    </div>
+		    <input type="hidden" name="lecturerGradeDimensions" ng-model="course.lecturerGradeDimensions" require-string>
+		    <div class="error" ng-show="courseForm.lecturerGradeDimensions.$invalid&&courseForm.$submitted">
+                <span ng-show="courseForm.lecturerGradeDimensions.$error.requireString" class="glyphicon glyphicon-exclamation-sign">请选择讲师评分维度</span>
+           	</div>
+        </div> 
+        <!--end 选择评价维度-->
+        <!-- start选择管理员-->
+        <div class="form-group">
+            <label class="col-xs-2 control-label">课程授权：</label>
+            <div class="col-xs-5 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal" ng-click="doOpenAdminModal()">选择管理员</a>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+    		</div>
+    		<input type="hidden" name="admins" ng-model="course.admins" required-admin>
+    		<div class="error" ng-show="courseForm.admins.$invalid&&courseForm.$submitted">
+                <span ng-show="courseForm.admins.$error.requiredAdmin" class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+           	</div>
+        </div>
+        <!-- end 选择管理员 -->
+        
+        <!--start 选择公开范围-->
+        <div class="form-group" ng-show="course.courseOnline=='Y'">
+        	<label class="col-xs-2 control-label">选择可见范围：</label>
+		    <div class="col-xs-5 width_6">
+		        <div class="form-control-static">
+		            <label class="checkbox-inline">
+		                <input type="checkbox" ng-checked ="course.openCourse=='Y'" ng-click="beOpenCourse(course)"/>设为公开课
+		            </label>
+		        </div>
+		        <div class="form-control-static" ng-if="course.openCourse!='Y'">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control"  ng-disabled="isOpenCourse" ng-click="doOpenEmpModal()">选择学习人员</a>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/empModalTemplate.html'"></div>
+    		</div>
+<!--     		<input type="hidden" name="emps" ng-model="course.empIds.length" require-emps> -->
+<!-- 	        <div class="error" ng-show="courseForm.emps.$invalid&&courseForm.$submitted"> -->
+<!--                 <span ng-show="courseForm.emps.$error.requireEmps" class="glyphicon glyphicon-exclamation-sign">请选择可见人员</span> -->
+<!--            	</div> -->
+			<input type="hidden" name="empIds" ng-model="course.tempEmps"  required-course/>
+			<div class="error" ng-show="courseForm.empIds.$invalid&&courseForm.$submitted">
+                <span ng-show="courseForm.empIds.$error.requiredCourse"  class="glyphicon glyphicon-exclamation-sign">请选择可见人员</span>
+           	</div>
+        </div>
+        <!--end 选择公开范围-->
+<!--         <div class="form-group"> -->
+<!--             <label  class="col-xs-2 control-label">课程下载：</label> -->
+<!--             <div class="col-xs-8"> -->
+<!--                 <label class="radio-inline "> -->
+<!--                     <input type="radio" class="" name="courseDownloadable"  ng-model="course.courseDownloadable" -->
+<!--                            value="Y" ng-checked="course.courseDownloadable=='Y'">开启 -->
+<!--                 </label> -->
+<!--                 <label class="radio-inline"> -->
+<!--                     <input type="radio" class="" name="courseDownloadable"  ng-model="course.courseDownloadable" -->
+<!--                            value="N" ng-checked="course.courseDownloadable=='N'">关闭 -->
+<!--                 </label> -->
+<!--             </div> -->
+<!--         </div> -->
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">最佳课程：</label>
+            <div class="col-xs-8">
+                <label class="radio-inline ">
+                    <input type="radio" class="" name="isExcellentCourse"  ng-model="course.isExcellentCourse"
+                           value="Y" ng-checked="course.isExcellentCourse=='Y'">是&nbsp;&nbsp;&nbsp;
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="isExcellentCourse"  ng-model="course.isExcellentCourse"
+                           value="N" ng-checked="course.isExcellentCourse=='N'">否
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">上架/下架：</label>
+            <div class="col-xs-8">
+                <label class="radio-inline ">
+                    <input type="radio" class="" name="status"  ng-model="course.status"
+                           value="Y" ng-checked="course.status=='Y'">上架
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="status"  ng-model="course.status"
+                           value="N" ng-checked="course.status=='N'">下架
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">开启评论：</label>
+            <div class="col-xs-8">
+                <label class="radio-inline ">
+                    <input type="radio" class="" name="openComment" ng-model="course.openComment" 
+                           value="Y" ng-checked="course.openComment=='Y'">开启
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="openComment"  ng-model="course.openComment"
+                           value="N" ng-checked="course.openComment=='N'">关闭
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control" ng-click="doSave()">保&nbsp;&nbsp;&nbsp;存</a>
+                <a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+        </div>
+        <div class="modal-backdrop fade" ng-class="{'in':addCourseSubmit,'display-block':addCourseSubmit,'display-none':!addCourseSubmit}"></div>
+    </form>
+</div>
+<script type="text/javascript">
+    //监听窗口大小变化，自适应高度
+    $(document).ready(function () {
+    	resizeView();
+    	$('#summernote').summernote({
+    		  height: 300,                 // set editor height
+    		  minHeight: null,             // set minimum height of editor
+    		  maxHeight: null,             // set maximum height of editor
+    		  focus: true ,                 // set focus to editable area after initializing summernote,
+    		  lang: 'en-US' // default: 'en-US'
+    		});
+    });
+</script>

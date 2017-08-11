@@ -1,0 +1,74 @@
+<meta charset="utf-8">
+<div class="container-fluid overflow-auto" id="page" ng-controller="ActivityStatisticController">
+			<div class="row">
+				<div class="container-fluid top-func-bar">
+					<div class="row">
+						<div class="col-xs-10">
+							<form role="search" class="">
+								<div class="row">
+									<div class="col-xs-6">
+										<div class="input-group" ng-class="{'has-error':activityName.length>=20}">
+											<input type="text" placeholder="请输入活动名称关键字" class="form-control " ng-model="activityName" maxlength="20" ng-keydown='autoSearch($event)'>
+											<span class="input-group-btn">
+												<a  class="btn  btn-primary"  ng-click="search()">搜索</a>
+											</span>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid">
+					<table class="table table-striped table-bordered table-hover table-condensed table-layout">
+						<thead>
+							<tr>
+								<th width="50px">序号</th>
+								<th width="100px">活动编号</th>
+								<th class="col-xs-2">活动名称</th>
+								<th width="70px">是否需要报名</th>
+								<th width="70px">活动开始时间</th>
+								<th width="70px">活动结束时间</th>
+								<th width="50px">开放人数</th>
+								<th width="50px">报名人数</th>
+								<th width="50px">限额人数</th>
+								<th width="50px">报名率</th>
+								<th width="100px">管理授权</th>
+								<th width="50px">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="a in page.data" ng-class="{'current-focus-tr':a.activityId == currHighLightRow.activityId}" ng-click="highLightCurrRow(a)" style="cursor:pointer;">
+							   	<td ng-bind="$index+1"></td>
+							   	<td ng-bind="a.activityNumber"></td>
+								<td ng-bind="a.activityName"></td>
+								<td ng-bind="a.needApply"></td>
+								<td ng-bind="a.activityStartTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+								<td ng-bind="a.activityEndTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+								<td ng-bind="a.openNumber"></td>
+								<td ng-bind="a.totalEnrollment"></td>
+								<td ng-bind="a.numberOfParticipants"></td>
+								<td ng-bind="a.registrationRate"></td>
+								<td ng-bind="a.admins"></td>
+								<td>
+									<a class="btn btn-link " ng-bind="'查看'" ng-click="viewActivityStatistic(a)"></a> 
+								</td>	 
+							</tr>
+						</tbody>
+					</table>
+					<div class="container-fluid" style="margin-top:20px;" ng-if="page.data.length>0">
+						<div class="row">
+							<a class="btn btn-primary btn-con-trol" href="/enterpriseuniversity/services/activityStatistics/downloadActivityStatisticsExcel?pageNum={{page.pageNum}}&pageSize={{page.pageSize}}&activityName={{activityName}}">导&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</a>
+						</div>
+					</div>
+					<div class="container-fluid" pagination conf="paginationConf"></div>
+				</div>
+			</div>
+	<div class="form-group"  ng-include="'/enterpriseuniversity/views/modalTemplate/viewActivityStatisticModalTemplate.html'"></div>
+</div>
+<script>
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

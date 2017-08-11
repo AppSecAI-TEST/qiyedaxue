@@ -1,0 +1,49 @@
+<meta charset="UTF-8">
+<div id="page" class="container-fluid overflow-auto"  ng-controller="AddOrgController">
+	<form name="orgForm" novalidate class="form-horizontal" role="form" class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">公司名称 : </label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="name" name="name" placeholder="请输入公司名称"
+					ng-model="org.name" ng-maxlength="50" required >(最多输入50个字符)
+			</div>
+			<div class="error" ng-show="orgForm.name.$dirty&&orgForm.newsTitle.$invalid ||orgForm.$submitted&&orgForm.name.$invalid">
+				<span ng-show="orgForm.name.$error.required" class="glyphicon glyphicon-exclamation-sign" >公司名称不能为空</span>
+				<span ng-show="orgForm.name.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">公司名称最多50个字符</span>
+			</div>
+		</div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">上级公司 : </label>
+	        <div class="col-xs-2 width_6">
+				<select style="line-height: 28px;" class="form-control width_1"  ng-model="org.pkFatherorg" ng-options="x.pk_org as x.name for x in selectOptions">
+					<option value="" selected>无</option>
+				</select>
+	      	</div>
+      	</div>
+<!--       	<div class="form-group"> -->
+<!-- 			<label class="col-xs-2 control-label">启用/禁用 : </label> -->
+<!-- 				<div class="col-xs-5"> -->
+<!--                 <label class="radio-inline"> -->
+<!--                     <input type="radio" class="" name="needApply" ng-model="org.enablestate" value="N" ng-checked="org.enablestate=='N'">禁用 -->
+<!--                 </label> -->
+<!--                 <label class="radio-inline"> -->
+<!--                     <input type="radio" class="" name="needApply" ng-model="org.enablestate" value="Y" ng-checked="org.enablestate=='Y'">启用 -->
+<!--                 </label> -->
+<!--             </div> -->
+<!-- 		</div> -->
+		<div class="form-group">
+			<div class="col-xs-offset-2 col-xs-8">
+				<a class="btn btn-primary btn-control" ng-click="doSave()">保存</a>
+				<a class="btn btn-link" ng-click="doReturn()">返回</a>  
+			</div>
+		</div>
+		<div class="modal-backdrop fade" ng-class="{'in':addOrg,'display-block':addOrg,'display-none':!addOrg}"></div>
+	</form>
+</div>
+<script type="text/javascript">
+//实例化编辑器
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

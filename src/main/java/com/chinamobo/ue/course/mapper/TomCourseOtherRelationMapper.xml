@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.course.dao.TomCourseOtherRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.course.entity.TomCourseOtherRelation" >
+    <result column="COURSE_ID" property="courseId" jdbcType="INTEGER" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATOR_ID" property="creatorId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="OPERATOR_ID" property="operatorId" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    COURSE_ID, CODE, NAME, STATUS, CREATOR, CREATOR_ID, CREATE_TIME, OPERATOR, OPERATOR_ID, UPDATE_TIME, TYPE
+  </sql>
+  <select id="selectOtherList" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  		*
+  	FROM tom_course_other_relation
+  	WHERE 1=1
+  	<if test="courseId != null">
+  		AND COURSE_ID = #{courseId,jdbcType=INTEGER}
+  	</if>
+  	<if test="code != null">
+  		AND CODE = #{code,jdbcType=VARCHAR}
+  	</if>
+  	<if test="type != null">
+  		AND TYPE = #{type,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  <delete id="deleteByCourseId" parameterType="java.lang.Integer">
+  	DELETE
+  	FROM tom_course_other_relation
+  	WHERE COURSE_ID = #{courseId,jdbcType=INTEGER}
+  </delete>
+  <update id="falseDeletion" parameterType="com.chinamobo.ue.course.entity.TomCourseOtherRelation">
+  	UPDATE tom_course_other_relation
+  	<set>
+        STATUS='N'
+    </set>
+    WHERE 1=1
+    <if test="courseId != null" >
+        AND COURSE_ID=#{courseId,jdbcType=INTEGER}
+    </if>
+    <if test="code != null">
+  		AND CODE = #{code,jdbcType=VARCHAR}
+  	</if>
+  	<if test="createTime != null">
+  		AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+  	</if>
+    <if test="type != null" >
+        AND TYPE=#{type,jdbcType=VARCHAR}
+    </if>
+  </update>
+  <insert id="insert" parameterType="com.chinamobo.ue.course.entity.TomCourseOtherRelation" >
+    insert into tom_course_other_relation (COURSE_ID, CODE, NAME, 
+      STATUS, CREATOR, CREATOR_ID, 
+      CREATE_TIME, OPERATOR, OPERATOR_ID, 
+      UPDATE_TIME, TYPE)
+    values (#{courseId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{creatorId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.course.entity.TomCourseOtherRelation" >
+    insert into tom_course_other_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courseId != null" >
+        COURSE_ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="creatorId != null" >
+        CREATOR_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="operatorId != null" >
+        OPERATOR_ID,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courseId != null" >
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null" >
+        #{creatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

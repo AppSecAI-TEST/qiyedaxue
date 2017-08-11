@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+	<typeAliases> 
+	
+		<typeAlias type="com.chinamobo.ue.system.entity.TomMessageDetails"
+			alias="TomMessageDetails" />
+	<typeAlias type="com.chinamobo.ue.system.entity.TomActiveUser"
+			alias="TomActiveUser" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomApiUser"
+			alias="TomApiUser" />
+	
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomActivity"
+			alias="TomActivity" />
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomActivityDept"
+			alias="TomActivityDept" />
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomActivityEmpsRelation"
+			alias="TomActivityEmpsRelation" />
+		<typeAlias
+			type="com.chinamobo.ue.activity.entity.TomActivityEmpsRelationKey"
+			alias="TomActivityEmpsRelationKey" />
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomActivityExapInfo"
+			alias="TomActivityExapInfo" />
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomActivityFees"
+			alias="TomActivityFees" />
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomActivityFeesKey"
+			alias="TomActivityFeesKey" />
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomActivityProperty"
+			alias="TomActivityProperty" />
+<!-- 		<typeAlias type="com.chinamobo.ue.activity.entity.TomTaskExamRelation" -->
+<!-- 			alias="TomTaskExamRelation" /> -->
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomTaskExamPaperRelation"
+			alias="TomTaskExamPaperRelation" />
+<!-- 		<typeAlias type="com.chinamobo.ue.activity.entity.TomTaskExamRelationKey" -->
+<!-- 			 alias="TomTaskExamRelationKey" /> -->
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomTaskPackage"
+			alias="TomTaskPackage" />
+		<typeAlias type="com.chinamobo.ue.course.entity.TomCourseClassify"
+			alias="TomCourseClassify" />
+		<typeAlias type="com.chinamobo.ue.course.entity.TomCourseComment"
+			alias="TomCourseComment" />
+		<typeAlias type="com.chinamobo.ue.course.entity.TomCourses"
+			alias="TomCourses" />
+		<typeAlias type="com.chinamobo.ue.course.entity.TomCourseSection"
+			alias="TomCourseSection" />
+		<typeAlias type="com.chinamobo.ue.course.entity.TomCourseClassifyRelation"
+			alias="TomCourseClassifyRelation" />
+		<typeAlias type="com.chinamobo.ue.course.entity.TomGradeDimension"
+			alias="TomGradeDimension" />
+		<typeAlias type="com.chinamobo.ue.course.entity.TomCourseSectionLearningRecord"
+			alias="TomCourseSectionLearningRecord" />
+		<typeAlias type="com.chinamobo.ue.course.entity.TomLecturer"
+			alias="TomLecturer" />
+		<typeAlias type="com.chinamobo.ue.course.entity.TomLearnTimeLog"
+			alias="TomLearnTimeLog" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomExam"
+			alias="TomExam" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomExamAnswerDetails"
+			alias="TomExamAnswerDetails" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomExamEmpAllocation"
+			alias="TomExamEmpAllocation" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomExamPaper"
+			alias="TomExamPaper" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomExamQuestion"
+			alias="TomExamQuestion" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomExamScore"
+			alias="TomExamScore" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomExamTopic"
+			alias="TomExamTopic" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomQuestionBank"
+			alias="TomQuestionBank" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomQuestionClassification"
+			alias="TomQuestionClassification" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomRetakingExam"
+			alias="TomRetakingExam" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomTopic"
+			alias="TomTopic" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomTopicOption"
+			alias="TomTopicOption" />
+		<typeAlias type="com.chinamobo.ue.exam.entity.TomJoinExamRecord"
+			alias="TomJoinExamRecord" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomAdmin"
+			alias="TomAdmin" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomAdminRoles"
+			alias="TomAdminRoles" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomAppErrorLog"
+			alias="TomAppErrorLog" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomAppVersions"
+			alias="TomAppVersions" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomAuthorities"
+			alias="TomAuthorities" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomDept"
+			alias="TomDept" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomEmp"
+			alias="TomEmp" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomForumPlate"
+			alias="TomForumPlate" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomForumPost"
+			alias="TomForumPost" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomGrpOrgRelation"
+			alias="TomGrpOrgRelation" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomMessages"
+			alias="TomMessages" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomMessagesEmployees"
+			alias="TomMessagesEmployees" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomNews"
+			alias="TomNews" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomNumberRecord"
+			alias="TomNumberRecord" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomOperateLog"
+			alias="TomOperateLog" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomOrg"
+			alias="TomOrg" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomOrgGroups"
+			alias="TomOrgGroups" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomPostComment"
+			alias="TomPostComment" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomPostCommentPraise"
+			alias="TomPostCommentPraie" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomPostFavor"
+			alias="TomPostFavor" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomPostPraise"
+			alias="TomPostPraise" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomRole"
+			alias="TomRole" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomRoleAuthorities"
+			alias="TomRoleAuthorities" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomRoleScopes"
+			alias="TomRoleScopes" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomRollingPicture"
+			alias="TomRollingPicture" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomRollingPictureRecord"
+			alias="TomRollingPictureRecord" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomUserInfo"
+			alias="TomUserInfo" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomUserLog"
+			alias="TomUserLog" />
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomTaskCoursesRelation"
+			alias="TomTaskCoursesRelation" />	
+		<typeAlias type="com.chinamobo.ue.course.entity.TomCourseEmpRelation"
+			alias="TomCourseEmpRelation" />	
+		<typeAlias type="com.chinamobo.ue.system.entity.TomAuthoritiesType"
+			alias="TomAuthoritiesType" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomAuthoritiesTypeRole"
+			alias="TomAuthoritiesTypeRole" />
+		<typeAlias type="com.chinamobo.ue.commodity.entity.TomCommodity"
+			alias="TomCommodity" />
+		<typeAlias type="com.chinamobo.ue.commodity.entity.TomCommodityExchange"
+			alias="TomCommodityExchange" />
+		<typeAlias type="com.chinamobo.ue.commodity.entity.TomEbRecord"
+			alias="TomEbRecord" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomInterfLog"
+			alias="TomInterfLog" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomNewsEmployees"
+			alias="TomNewsEmployees" />
+		<typeAlias type="com.chinamobo.ue.statistics.entity.ExamAnswerDto"
+			alias="ExamAnswerDto" />
+		<typeAlias type="com.chinamobo.ue.activity.entity.TomActivityQr"
+			alias="TomActivityQr" />	
+		<typeAlias type="com.chinamobo.ue.course.entity.TomTest"
+			alias="TomTest" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomLabel"
+			alias="TomLabel" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomLabelClass"
+			alias="TomLabelClass" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomLabelClassRelation"
+			alias="TomLabelClassRelation" />
+		<typeAlias type="com.chinamobo.ue.system.entity.TomLabelEmpRelation"
+			alias="TomLabelEmpRelation" />
+		<!-- 证书 -->
+		<typeAlias type="com.chinamobo.ue.activity.dto.TomCertificateManageDto"
+            alias="TomCertificateManageDto" />
+        <typeAlias type="com.chinamobo.ue.activity.dto.TomCertificateDto"
+            alias="TomCertificateDto" />
+        <typeAlias type="com.chinamobo.ue.activity.entity.TomActivityOtherRelation"
+            alias="TomActivityOtherRelation" />
+       	<typeAlias type="com.chinamobo.ue.course.entity.TomCourseOtherRelation"
+            alias="TomCourseOtherRelation" />
+         <typeAlias type="com.chinamobo.ue.exam.entity.TomExamOtherRelation"
+            alias="TomExamOtherRelation" />
+		</typeAliases>
+		
+
+
+	<mappers>
+	<mapper
+			resource="com/chinamobo/ue/system/mapper/TomMessageDetailsMapper.xml"/>
+	<mapper
+			resource="com/chinamobo/ue/system/mapper/TomActiveUserMapper.xml"/>
+	<mapper
+			resource="com/chinamobo/ue/system/mapper/TomApiUserMapper.xml" />
+	<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomActivityMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomActivityDeptMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomActivityEmpsRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomActivityExapInfoMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomActivityFeesMapper.xml" />
+		
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomActivityPropertyMapper.xml" />
+<!-- 		<mapper -->
+<!-- 			resource="com/chinamobo/ue/activity/mapper/TomTaskExamRelationMapper.xml" /> -->
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomTaskExamPaperRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomTaskPackageMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCourseClassifyMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCourseCommentMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCourseSectionMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCoursesMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCourseSignInRecordsMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCourseLearningRecordMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCourseClassifyRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCourseSectionLearningRecordMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomGradeDimensionMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomLecturerMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomGradeRecordsMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomLearnTimeLogMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomExamAnswerDetailsMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomExamEmpAllocationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomExamMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomExamPaperMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomExamQuestionMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomExamScoreMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomExamTopicMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomQuestionBankMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomQuestionClassificationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomRetakingExamMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomTopicMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomTopicOptionMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomJoinExamRecordMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomAdminMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomAdminRolesMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomAppErrorLogMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomAppVersionsMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomAuthoritiesMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomDeptMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomEmpMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomForumPlateMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomForumPostMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomGrpOrgRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomMessagesEmployeesMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomMessagesMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomNewsMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomNumberRecordMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomOperateLogMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomOrgGroupsMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomOrgMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomPostCommentMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomPostCommentPraiseMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomPostFavorMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomPostPraiseMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomRoleAuthoritiesMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomRoleMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomRoleScopesMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomRollingPictureMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomRollingPictureRecordMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomUserInfoMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomUserLogMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomTaskCoursesRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCourseEmpRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomAuthoritiesTypeMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomAuthoritiesTypeRoleMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/commodity/mapper/TomCommodityMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/commodity/mapper/TomCommodityExchangeMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/commodity/mapper/TomEbRecordMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomInterfLogMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomNewsEmployeesMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomActivityQrMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomTestMapper.xml" />
+
+		<!-- 证书 -->
+		<mapper
+            resource="com/chinamobo/ue/activity/mapper/TomCertificateManageMapper.xml" />
+        <mapper
+            resource="com/chinamobo/ue/activity/mapper/TomCertificateMapper.xml" />
+
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomLabelMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomLabelClassMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomLabelClassRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/system/mapper/TomLabelEmpRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/activity/mapper/TomActivityOtherRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/course/mapper/TomCourseOtherRelationMapper.xml" />
+		<mapper
+			resource="com/chinamobo/ue/exam/mapper/TomExamOtherRelationMapper.xml" />
+
+	</mappers>
+	
+
+
+</configuration>
+

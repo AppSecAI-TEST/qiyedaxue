@@ -1,0 +1,62 @@
+<meta charset="utf-8">
+<div class="container-fluid overflow-auto" id="page" ng-controller="OpenCourseStatisticController">
+	<div class="row">
+		<div class="container-fluid top-func-bar">
+			<div class="row">
+				<div class="col-xs-10">
+					<form role="search" class="">
+						<div class="row">
+							<div class="col-xs-6">
+								<div class="input-group" ng-class="{'has-error':activityName.length>=20}">
+									<input type="text" placeholder="请输入课程名称关键字" class="form-control " ng-model="courseName" maxlength="20" ng-keydown='autoSearch($event)'>
+									<span class="input-group-btn">
+										<a  class="btn  btn-primary"  ng-click="search()">搜索</a>
+									</span>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<table  class="table table-striped table-bordered table-hover table-condensed table-layout">
+					<thead>
+						<tr>
+							<th width="50px">序号</th>
+							<th width="120px">课程编号</th>
+							<th class="col-xs-2">课程名称</th>
+							<th width="50px">分类</th>
+							<th width="80px">完成人数</th>
+							<th width="90px">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in page.data" ng-class="{'current-focus-tr':item.courseId == currHighLightRow.courseId&&item.activityId == currHighLightRow.activityId}" ng-click="highLightCurrRow(item)" style="cursor:pointer;">
+					   		<td ng-bind="$index+1"></td>
+					   		<td ng-bind="item.courseNumber"></td>
+							<td ng-bind="item.courseName"></td>
+							<td ng-bind="item.courseType"></td>
+							<td ng-bind="item.learningNumber"></td>
+							<td>
+								<a class="btn btn-link" ng-click="viewCourseLearnStatistic(item)" ng-bind="'查看'"></a>
+							</td>
+						</tr>
+					</tbody>
+			</table>
+			<div class="container-fluid" style="margin-top:20px;" ng-show="page.data.length>0">
+				<div class="row">
+					<a class="btn btn-primary btn-con-trol" href="/enterpriseuniversity/services/attendanceStatistics/downloadOpenCourseExcel?pageNum={{page.pageNum}}&pageSize={{page.pageSize}}&courseName={{courseName}}">导&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</a>
+				</div>
+			</div>
+			<div class="container-fluid" pagination conf="paginationConf"></div>
+		</div>
+	</div>
+	<div class="form-group"  ng-include="'/enterpriseuniversity/views/modalTemplate/openCourseLearnModalTemplate.html'"></div>
+</div>
+<script>
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

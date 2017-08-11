@@ -1,0 +1,90 @@
+<meta charset="utf-8">
+<div id="page" class="container-fluid overflow-auto">
+    <form name="form" novalidate ng-controller="AddCertificateController" class="form-horizontal" role="form" enctype="multipart/form-data" >
+        <div class="form-group">
+	        <label class="col-xs-2 control-label">一、证书样式&nbsp;&nbsp;</label>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">证书模板：</label>
+        	<!-- <div class="col-xs-5">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary btn-control" ng-click="openCertificateModal()">选择证书模板</a>
+		        </div>
+        	</div> -->
+        	<div class="col-xs-offset-2" ng-include="'/enterpriseuniversity/views/activity/template/certificateModalTemplate.html'"></div>
+       	</div>
+        <div class="form-group">
+	        <label class="col-xs-2 control-label">二、编辑证书&nbsp;&nbsp;</label>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">证书详情：</label>
+        	<div class="col-xs-5 width_6">
+        		<div ng-if="!certTemplate">未选择任何证书模板!</div>
+           	 	<div ng-show="certTemplate != undefined" class="cert-container" resizer-container>
+				    <div class="cert-img" ng-style="certImgStyle('/enterpriseuniversity/', certTemplate.address)"></div>
+				    <div class="cert-component">
+				    	<p class="cert-describe">
+				    		<span class="text-bold margin_right_5">编辑文本</span>（填写好下列文本后，可将单元格拖动到证书中对应的区域）</br>
+				    		<span class="margin_top_10">
+					    		<span class="text-bold margin_right_5">字体样式</span>
+					    		<span class="width_90">
+					    			<select class="form-control font-12" ng-model="font.fontFamily" ng-change="font.initFontStyle()" ng-options="f for f in font.fontFamilys">
+	                                	<option value="" >字体</option>
+	                            	</select>
+					    		</span>
+					    		<!-- 字号： -->
+					    		<span class="width_70">
+					    			<select class="form-control font-12" ng-model="font.fontSizeNum" ng-change="font.initFontStyle()" ng-options="num for num in font.fontSizeNums">
+	                                	<!-- <option value="" ></option> -->
+	                            	</select>
+					    		</span>
+					    		粗细：
+					    		<span class="width_70">
+					    			<select class="form-control font-12" ng-model="font.fontWeight" ng-change="font.initFontStyle()" ng-options="w for w in font.fontWeights">
+	                                	<!-- <option value="" ></option> -->
+	                            	</select>
+					    		</span>
+					    		斜体：
+					    		<span class="width_70">
+					    			<select class="form-control font-12" ng-model="font.fStyle" ng-change="font.initFontStyle()" ng-options="w for w in font.fontStyles">
+	                                	<!-- <option value="" ></option> -->
+	                            	</select>
+					    		</span>
+					    	</span>
+			    		</p>
+				    	<div class="input-container" ng-repeat="item in cert.attribute" resizer min-width="20" min-height="28" drag-style="item.style" drag-data="item" drag></div>
+				    	<!-- {{cert.attribute}} -->
+				    </div>
+				</div>
+            </div>
+       	</div>
+       	 
+        <!-- start选择管理员-->
+        <div class="form-group">
+            <label class="col-xs-2 control-label">证书授权：</label>
+            <div class="col-xs-8 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal" ng-click="doOpenAdminModal()">选择管理员</a>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+    		</div>
+    		<input type="hidden" name="admins" ng-model="cert.admins" required-admin>
+    		<div class="error" ng-show="form.admins.$invalid&&form.$submitted">
+                <span ng-show="form.admins.$error.requiredAdmin" class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+           	</div>
+        </div>
+        <!-- end 选择管理员 -->
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control" ng-click="doSave()">保&nbsp;&nbsp;&nbsp;存</a>
+                <a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

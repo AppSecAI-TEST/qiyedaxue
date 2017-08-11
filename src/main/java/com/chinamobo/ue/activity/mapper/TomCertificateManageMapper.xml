@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.activity.dao.TomCertificateManageMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.activity.dto.TomCertificateManageDto" >
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="certificate_id" property="certificateId" jdbcType="INTEGER"/>
+    <result column="code" property="code" jdbcType="VARCHAR"/>
+    <result column="certificate_address" property="certificateAddress" jdbcType="VARCHAR"/>
+    <result column="afour_certificate_address" property="afourCertificateAddress" jdbcType="VARCHAR"/>
+    <result column="activity_id" property="activityId" jdbcType="INTEGER"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="export_count" property="exportCount" jdbcType="INTEGER"/>
+    <result column="state" property="state" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="field">
+    id,certificate_id certificateId,code,certificate_address certificateAddress,
+    activity_id activityId,create_time createTime,export_count exportCount,state
+  </sql>
+  <select id="listTomCertificateManage" parameterType="map" resultType="java.util.Map">
+    select 
+    a.ACTIVITY_ID as activityId,a.ACTIVITY_NAME as activityName,
+    a.ACTIVITY_START_TIME as activityStartTime,a.ACTIVITY_END_TIME as activityEndTime,
+    a.certificate_id as certificateId,
+    (select count(*) from tom_certificate_manage where activity_id=a.ACTIVITY_ID) as peopleNum,
+    b.address
+    from tom_activity as a,tom_certificate as b where 1=1 and a.certificate_id=b.id and a.certificate_state='Y'
+    and a.certificate_valid_state='Y'
+    <if test="activityName!=null and activityName!=''">
+        and a.ACTIVITY_NAME like "%" #{activityName,jdbcType=VARCHAR} "%"
+    </if>
+    <if test="startNum!=null and startNum!='' and endNum!=null and endNum!=''">
+        limit #{startNum,jdbcType=INTEGER},#{endNum,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="findListCount" parameterType="map" resultType="java.lang.Integer">
+    select count(*) from tom_activity where 1=1 and certificate_valid_state='Y'
+  </select>
+  
+  <select id="findCertificateAddressByActivityId" parameterType="java.lang.Integer" resultType="java.util.Map">
+    select afour_certificate_address as afourCertificateAddress
+    from tom_certificate_manage where activity_id=#{jdbcType=INTEGER}
+  </select>
+  
+  <insert id="insert" parameterType="com.chinamobo.ue.activity.dto.TomCertificateManageDto"
+    useGeneratedKeys="true" keyProperty="id">
+    insert into tom_certificate_manage 
+    (certificate_id,code,certificate_address,afour_certificate_address,activity_id,create_time)
+    values(
+         #{certificateId,jdbcType=INTEGER},
+         #{code,jdbcType=VARCHAR},
+         #{certificateAddress,jdbcType=VARCHAR},
+         #{afourCertificateAddress,jdbcType=VARCHAR},
+         #{activityId,jdbcType=INTEGER},
+         #{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <update id="update" parameterType="com.chinamobo.ue.activity.dto.TomCertificateManageDto">
+    update tom_certificate_manage set
+         certificate_id=#{certificateId,jdbcType=INTEGER},
+         code=#{code,jdbcType=VARCHAR},
+         certificate_address=#{certificateAddress,jdbcType=VARCHAR},
+         afour_certificate_address=#{afourCertificateAddress,jdbcType=VARCHAR},
+         activity_id=#{activityId,jdbcType=INTEGER},
+         export_count=#{exportCount,jdbcType=INTEGER},
+         state=#{state,jdbcType=VARCHAR}
+    where id=#{id,jdbcType=BIGINT}     
+  </update>
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from tom_certificate_manage  where id=#{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByActivityId" parameterType="java.lang.Integer">
+    update tom_certificate_manage set state='N' where activity_id=#{activityId,jdbcType=INTEGER}
+  </delete>
+  <select id="countByCodeAct" parameterType="map" resultType="Integer">
+  	select COUNT(*) from tom_certificate_manage
+	where code = #{code,jdbcType=VARCHAR} and activity_id = #{activityId,jdbcType=DECIMAL}
+  </select>
+</mapper>

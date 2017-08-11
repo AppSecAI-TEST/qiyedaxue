@@ -1,0 +1,342 @@
+<meta charset="UTF-8">
+<div class="container-fluid overflow-auto" ng-controller="AddTomTopicController" id="page">
+	<form name="tomTopicForm" novalidate class="form-horizontal"
+		role="form" class="form-horizontal" role="form">
+<!-- 手动添加题库 -->
+		<div ng-hide="addquestion" >
+				<div class="form-group">
+					<div class="col-xs-offset-2 col-xs-8">
+						<div class="col-xs-5 width_6">
+							<table
+								class="table table-striped table-bordered table-hover table-condensed table-layout">
+								<tr>
+									<th><a class="btn btn-link" ng-click="questionType=1" ng-bind="'单选题'" name="questionTypeList" ng-model="questionBank.questionTypeList"></a></th>
+									<th><a class="btn btn-link" ng-click="questionType=2" ng-bind="'多选题'" name="questionTypeList" ng-model="questionBank.questionTypeList"></a></th>
+									<th><a class="btn btn-link" ng-click="questionType=3" ng-bind="'填空题'" name="questionTypeList" ng-model="questionBank.questionTypeList"></a></th>
+									<th><a class="btn btn-link" ng-click="questionType=4" ng-bind="'简答题'" name="questionTypeList" ng-model="questionBank.questionTypeList"></a></th>
+									<th><a class="btn btn-link" ng-click="questionType=5" ng-bind="'判断题'" name="questionTypeList" ng-model="questionBank.questionTypeList"></a></th>
+								</tr>
+							</table>
+							<div ng-if="questionType==1 || questionType==2">
+									<label >题目：</label>
+								           <div >
+								                <textarea class="form-control width_1" name="tompicNameList"  id="tompicNameList" rows="4"
+									                ng-model="questionBank.tompicNameList"
+									                ng-maxlength="500" 
+									                required 
+									                placeholder="请填写题目内容" >(最多输入500个字符)
+								                 </textarea>
+								                 <div class="error" ng-show="questionBankForm.tompicNameList.$dirty&&questionBankForm.tompicNameList.$invalid||questionBankForm.$submitted&&questionBankForm.tompicNameList.$invalid" >
+										                <span ng-show="questionBankForm.tompicNameList.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写题目</span>
+										         </div>
+								                 	
+											 <!--上传单选多选题目-->
+											     <div style="position:relative;" class="form-group" ng-controller="ExamImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+												           <label>为题目添加附件 
+									                 			<a class="fileInputBtn btn btn-primary btn-control">上传附件</a>
+												                <input type="file" class="fileInput btn btn-control"  id="examImgFileInput" nv-file-select  uploader="imgUploader">
+												                	(可上传H.264编码的MP4、MP3、图片的文件，30M以内)	
+												         </label>	
+											            <div class="preview-container" ng-show="openPreview">
+													      <div class="thumbnail">
+													         <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+													         <div class="caption">
+													            <p>
+													               <a ng-click="closePreview()" class="btn btn-primary" role="button">关闭</a> 
+													            </p>
+													         </div>
+													      </div>
+											   			</div>
+											            <!-- 新的题目-->
+											            <div style="min-height:0;">
+											                <table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0 || choiceoptionName.length >0"class="table table-bordered text-center">
+											                    <tr>
+											                        <td class="col-xs-2">题目名称</td>
+											                        <td class="col-xs-2">大小</td>
+											                        <td class="col-xs-2">进度</td>
+											                        <td class="col-xs-2">状态</td>
+											                        <td class="col-xs-2">操作</td>
+											                    </tr>
+											                    <tr ng-repeat="item in imgUploader.queue">
+											                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+											                        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+											                        <td ng-show="imgUploader.isHTML5">
+											                            <div class="progress" style="margin-bottom: 0;">
+											                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+											                            </div>
+											                        </td>
+											                        <td class="text-center">
+											                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+											                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+											                        </td>
+											                        <td nowrap>
+											                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+											                                <span class="glyphicon glyphicon-upload"></span> 上传
+											                            </a>
+											                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+											                                <span class="glyphicon glyphicon-trash"></span> 删除
+											                            </a>
+											                        </td>
+											                    </tr>
+											                </table>
+											                <!-- 新的题目-->
+											            </div>
+											       </div>
+											        <!--end 上传单选多选题目-->
+											      <label>题目选项：(单选题选项个数最多不超过10个，正确选项个数为1个)
+											      <a class="btn  btn-primary" ng-click="addOptionName()">添加选项</a>
+											      <a class="btn  btn-primary" ng-click="removeOptionName()">移除选项</a>
+											      </label>
+												<div class="col-xs-5 width_6">
+										 <!--上传单选多选题目选项-->
+											      <div style="position:relative;" class="form-group" ng-controller="ExamImgController" uploader="imgUploader" filters="queueLimit, customFilter" ng-repeat="questionBank in optionNameArr" ng-show="optionNameArr.length>0">
+											     	 <input type="text" class="form-control width_1" id="optionNameList"
+																name="optionNameList" ng-model="questionBank.optionNameList"
+																ng-maxlength="50" required placeholder='{{questionBank .optionKey}}' class="col-xs-5 width_6">
+												         <a class="fileInputBtn btn btn-primary btn-control">上传附件</a>
+												            <input type="file" class="fileInput btn btn-control"  id="examImgFileInput" nv-file-select  uploader="imgUploader">
+											            <div class="preview-container" ng-show="openPreview">
+													      <div class="thumbnail">
+													         <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+													         <div class="caption">
+													            <p>
+													               <a ng-click="closePreview()" class="btn btn-primary" role="button">关闭</a> 
+													            </p>
+													         </div>
+													      </div>
+											   			</div>
+											            <!-- 新的课程封面图片列表-->
+											            <div style="min-height:0;">
+											                <table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0 "class="table table-bordered text-center">
+											                    <tr>
+											                        <td class="col-xs-2">题目名称</td>
+											                        <td class="col-xs-2">大小</td>
+											                        <td class="col-xs-2">进度</td>
+											                        <td class="col-xs-2">状态</td>
+											                        <td class="col-xs-2">操作</td>
+											                    </tr>
+											                    <tr ng-repeat="item in imgUploader.queue">
+											                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+											                        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+											                        <td ng-show="imgUploader.isHTML5">
+											                            <div class="progress" style="margin-bottom: 0;">
+											                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+											                            </div>
+											                        </td>
+											                        <td class="text-center">
+											                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+											                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+											                        </td>
+											                        <td nowrap>
+											                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+											                                <span class="glyphicon glyphicon-upload"></span> 上传
+											                            </a>
+											                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+											                                <span class="glyphicon glyphicon-trash"></span> 删除
+											                            </a>
+											                        </td>
+											                    </tr>
+											                </table>
+											                <!-- 新的课程封面图片列表-->
+											            </div>
+											      	 </div>
+											      	 <!--end上传单选多选题目选项-->
+													</div>
+											       <div>
+											       		<label >题目答案：(选项用逗号隔开)</label>
+														<div >
+															<input type="text" class="form-control width_1" id="rightCellList"
+																name="rightCellList" ng-model="questionBank.rightCellList"
+																ng-maxlength="50" required placeholder="请输入题目答案 ">
+															<div class="error" ng-show="questionBankForm.rightCellList.$dirty&&questionBankForm.rightCellList.$invalid||questionBankForm.$submitted&&questionBankForm.rightCellList.$invalid" >
+										                		<span ng-show="questionBankForm.rightCellList.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写题目答案</span>
+										        		  </div>
+														</div>
+											       </div>
+								            </div>
+									</div>
+							<div ng-if="questionType==5">
+									<label >题目：</label>
+								           <div >
+								                <textarea class="form-control width_1" name="tompicNameList"  id="tompicNameList" rows="4"
+									                ng-model="questionBank.tompicNameList"
+									                ng-maxlength="500" 
+									                required 
+									                placeholder="请填写题目内容" >(最多输入500个字符)
+								                 </textarea>
+								                 <div class="error" ng-show="questionBankForm.tompicNameList.$dirty&&questionBankForm.tompicNameList.$invalid||questionBankForm.$submitted&&questionBankForm.tompicNameList.$invalid" >
+										                <span ng-show="questionBankForm.tompicNameList.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写题目</span>
+										         </div>
+											 <!--上传判断题目-->
+											     <div style="position:relative;" class="form-group" ng-controller="ExamImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+												           <label>为题目添加附件 
+									                 			<a class="fileInputBtn btn btn-primary btn-control">上传附件</a>
+												                <input type="file" class="fileInput btn btn-control"  id="examImgFileInput" nv-file-select  uploader="imgUploader">
+												                	(可上传H.264编码的MP4、MP3、图片的文件，30M以内)	
+												         </label>	
+											            <div class="preview-container" ng-show="openPreview">
+													      <div class="thumbnail">
+													         <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+													         <div class="caption">
+													            <p>
+													               <a ng-click="closePreview()" class="btn btn-primary" role="button">关闭</a> 
+													            </p>
+													         </div>
+													      </div>
+											   			</div>
+											            <!-- 新的题目-->
+											            <div style="min-height:0;">
+											                <table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0"class="table table-bordered text-center">
+											                    <tr>
+											                        <td class="col-xs-2">课程封面图片名称</td>
+											                        <td class="col-xs-2">大小</td>
+											                        <td class="col-xs-2">进度</td>
+											                        <td class="col-xs-2">状态</td>
+											                        <td class="col-xs-2">操作</td>
+											                    </tr>
+											                    <tr ng-repeat="item in imgUploader.queue">
+											                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+											                        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+											                        <td ng-show="imgUploader.isHTML5">
+											                            <div class="progress" style="margin-bottom: 0;">
+											                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+											                            </div>
+											                        </td>
+											                        <td class="text-center">
+											                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+											                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+											                        </td>
+											                        <td nowrap>
+											                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+											                                <span class="glyphicon glyphicon-upload"></span> 上传
+											                            </a>
+											                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+											                                <span class="glyphicon glyphicon-trash"></span> 删除
+											                            </a>
+											                        </td>
+											                    </tr>
+											                </table>
+											                <!-- 新的题目-->
+											            </div>
+											       </div>
+											     <!--   end上传判断题目 -->
+											      <label>题目选项：</label>
+												<div>
+													<label>
+													<input type="text" class="form-control width_1" id="optionNameList"
+																name="optionNameList" ng-model="questionBank.optionNameList"
+																ng-maxlength="50" class="col-xs-5 width_6"  required placeholder="A  正确"	 readonly	>
+													</label>
+													<label>
+													<input type="text" class="form-control width_1" id="optionNameList"
+																name="optionNameList" ng-model="questionBank.optionNameList"
+																ng-maxlength="50" class="col-xs-5 width_6"   required placeholder="B  错误"	 readonly>
+													</div>
+													</label>
+											       <div>
+											       		<label >题目答案：</label>
+														<div >
+															<input type="text" class="form-control width_1" id="rightCellList"
+																name="rightCellList" ng-model="questionBank.rightCellList"
+																ng-maxlength="50" required placeholder="请输入题目答案 ">
+															<div class="error" ng-show="questionBankForm.rightCellList.$dirty&&questionBankForm.rightCellList.$invalid||questionBankForm.$submitted&&questionBankForm.rightCellList.$invalid" >
+										                		<span ng-show="questionBankForm.rightCellList.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写题目答案</span>
+										        		  </div>
+														</div>
+											       </div>
+								   			 </div>
+							</div>
+							<div ng-if="questionType==4 || questionType==3">
+									<label >题目：</label>
+								           <div >
+								                <textarea class="form-control width_1" name="tompicNameList"  id="tompicNameList" rows="4"
+									                ng-model="questionBank.tompicNameList"
+									                ng-maxlength="500" 
+									                required 
+									                placeholder="请填写题目内容" >(最多输入500个字符)
+								                 </textarea>
+								                 <div class="error" ng-show="questionBankForm.tompicNameList.$dirty&&questionBankForm.tompicNameList.$invalid||questionBankForm.$submitted&&questionBankForm.tompicNameList.$invalid" >
+										                <span ng-show="questionBankForm.tompicNameList.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写题目</span>
+										         </div>
+								                 	
+											 <!--上传填空简答题目-->
+											     <div style="position:relative;" class="form-group" ng-controller="ExamImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+												           <label>为题目添加附件 
+									                 			<a class="fileInputBtn btn btn-primary btn-control">上传附件</a>
+												                <input type="file" class="fileInput btn btn-control"  id="examImgFileInput" nv-file-select  uploader="imgUploader">
+												                	(可上传H.264编码的MP4、MP3、图片的文件，30M以内)	
+												         </label>	
+											            <div class="preview-container" ng-show="openPreview">
+													      <div class="thumbnail">
+													         <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+													         <div class="caption">
+													            <p>
+													               <a ng-click="closePreview()" class="btn btn-primary" role="button">关闭</a> 
+													            </p>
+													         </div>
+													      </div>
+											   			</div>
+											            <!-- 新的题目-->
+											            <div style="min-height:0;">
+											                <table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0"class="table table-bordered text-center">
+											                    <tr>
+											                        <td class="col-xs-2">题目名称</td>
+											                        <td class="col-xs-2">大小</td>
+											                        <td class="col-xs-2">进度</td>
+											                        <td class="col-xs-2">状态</td>
+											                        <td class="col-xs-2">操作</td>
+											                    </tr>
+											                    <tr ng-repeat="item in imgUploader.queue">
+											                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+											                        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+											                        <td ng-show="imgUploader.isHTML5">
+											                            <div class="progress" style="margin-bottom: 0;">
+											                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+											                            </div>
+											                        </td>
+											                        <td class="text-center">
+											                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+											                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+											                        </td>
+											                        <td nowrap>
+											                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+											                                <span class="glyphicon glyphicon-upload"></span> 上传
+											                            </a>
+											                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+											                                <span class="glyphicon glyphicon-trash"></span> 删除
+											                            </a>
+											                        </td>
+											                    </tr>
+											                </table>
+											                <!-- 新的题目-->
+											            </div>
+											       </div>
+											        <!--end 上传题目-->
+											       <div>
+											       		<label >题目答案：</label>
+														<div >
+															<textarea class="form-control width_1" name="rightCellList" rows="4"
+											                	 ng-model="questionBank.rightCellList"
+											               		 ng-maxlength="500" 
+											               		 required 
+											                	placeholder="请填写题目答案" >(最多输入500个字符)
+										                 </textarea>
+										                 <div class="error" ng-show="questionBankForm.rightCellList.$dirty&&questionBankForm.rightCellList.$invalid||questionBankForm.$submitted&&questionBankForm.rightCellList.$invalid" >
+												                <span ng-show="questionBankForm.rightCellList.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写题目答案</span>
+												        </div>
+										         </div>
+											</div>
+									</div>
+							 </div>
+						</div>
+					</div>
+				</div>
+	 			<div class="form-group">
+					<div class="col-xs-offset-2 col-xs-8">
+						<a class="btn btn-primary btn-control" ng-click="doSave()">保存并继续添加</a> 
+						<a class="btn btn-link" ng-click="returnAddQuestionBank()">返&nbsp;&nbsp;&nbsp;回</a>
+					</div>
+			  	</div>
+ 			</div>
+	</form>
+</div>

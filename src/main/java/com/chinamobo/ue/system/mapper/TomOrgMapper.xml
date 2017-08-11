@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.system.dao.TomOrgMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.system.entity.TomOrg" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PK_ORG" property="pkOrg" jdbcType="VARCHAR" />
+    <result column="PK_FATHERORG" property="pkFatherorg" jdbcType="VARCHAR" />
+    <result column="ENABLESTATE" property="enablestate" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultTreeMap" type="com.chinamobo.ue.common.entity.Tree" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="pk_fatherorg" property="fathercode" jdbcType="VARCHAR" />
+    <result column="STATUSS" property="statuss" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultTreeForOrgMap" type="com.chinamobo.ue.common.entity.Tree" >
+    <id column="PK_ORG" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="pk_fatherorg" property="fathercode" jdbcType="VARCHAR" />
+    <result column="STATUSS" property="statuss" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, NAME, PK_ORG, PK_FATHERORG, ENABLESTATE
+  </sql>
+  <!--根据集团CODE查询  -->
+  <select id="selectByGrp_Code" resultMap="BaseResultTreeForOrgMap" parameterType="java.lang.String" >
+      select 
+  o.NAME, o.PK_ORG, o.PK_FATHERORG,'2' as statuss
+    from TOM_ORG o,TOM_ORG_GROUPS og,TOM_GRP_ORG_RELATION gor
+    where o.code=gor.code and og.code = gor.grp_code and og.code = #{grp_code,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TOM_ORG
+    where code = #{id,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="selectById2" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TOM_ORG
+    where PK_ORG = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TOM_ORG
+  </select>
+  
+  
+  <select id="selectByTree" resultMap="BaseResultTreeForOrgMap" parameterType="java.lang.String" >
+    select 
+  NAME, PK_ORG, PK_FATHERORG,'2' as statuss
+    from TOM_ORG
+    where PK_ORG = #{code,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="selectByAllOrgTree" resultMap="BaseResultTreeForOrgMap" parameterType="java.lang.String" >
+    select 
+  NAME, PK_ORG, PK_FATHERORG,'2' as statuss
+    from TOM_ORG
+  </select>
+  
+  <select id="selectByAllTree" resultMap="BaseResultTreeMap"  >
+    select 
+  NAME, CODE, PK_FATHERORG,'2' as statuss
+    from TOM_ORG
+  </select>
+  
+   <select id="selectOrgByDeptCode" resultMap="BaseResultTreeMap" parameterType="java.lang.String" >
+select too.name,too.code,too.pk_fatherorg,'2' as statuss
+    from TOM_ORG too,Tom_Dept td where too.code=td.orgcode 
+    and td.CODE = #{code,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+  <include refid="Base_Column_List" />
+    from TOM_ORG
+    where  PK_FATHERORG = #{pkFatherorg,jdbcType=VARCHAR}
+  </select>
+ 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TOM_ORG
+    where CODE = #{code,jdbcType=VARCHAR}
+  </delete>
+  											<!-- 批量插入数据 -->
+  <insert id="insertList" parameterType="ArrayList" >
+     insert into TOM_ORG (CODE, NAME, PK_ORG, 
+      PK_FATHERORG, ENABLESTATE)
+     <foreach collection="list" item="item" index="index"  
+        separator="union all"> 
+         select #{item.code,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.pkOrg,jdbcType=VARCHAR},
+      #{item.pkFatherorg,jdbcType=VARCHAR}, #{item.enablestate,jdbcType=VARCHAR} from dual
+    </foreach>
+  </insert>
+  
+  
+  <insert id="insert" parameterType="com.chinamobo.ue.system.entity.TomOrg" >
+    insert into TOM_ORG (CODE, NAME, PK_ORG, 
+      PK_FATHERORG, ENABLESTATE)
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{pkOrg,jdbcType=VARCHAR}, 
+      #{pkFatherorg,jdbcType=VARCHAR}, #{enablestate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertOrg" parameterType="com.chinamobo.ue.system.entity.TomOrg" >
+    insert into TOM_ORG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="pkOrg != null" >
+        PK_ORG,
+      </if>
+      <if test="pkFatherorg != null" >
+        PK_FATHERORG,
+      </if>
+      <if test="enablestate != null" >
+        ENABLESTATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pkOrg != null" >
+        #{pkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="pkFatherorg != null" >
+        #{pkFatherorg,jdbcType=VARCHAR},
+      </if>
+      <if test="enablestate != null" >
+        #{enablestate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.system.entity.TomOrg" >
+    update TOM_ORG
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pkOrg != null" >
+        PK_ORG = #{pkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="pkFatherorg != null" >
+        PK_FATHERORG = #{pkFatherorg,jdbcType=VARCHAR},
+      </if>
+      <if test="enablestate != null" >
+        ENABLESTATE = #{enablestate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.system.entity.TomOrg" >
+    update TOM_ORG
+    set NAME = #{name,jdbcType=VARCHAR},
+      PK_ORG = #{pkOrg,jdbcType=VARCHAR},
+      PK_FATHERORG = #{pkFatherorg,jdbcType=VARCHAR},
+      ENABLESTATE = #{enablestate,jdbcType=VARCHAR}
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  
+  <delete id="deleteAll" >
+    delete from TOM_ORG
+  </delete>
+  
+  <!-- <select id="selectPkOrg" resultMap="BaseResultMap" >
+  select * from (select t.*  from tom_org t  order by t.pk_org desc) where rownum=1
+  </select> -->
+</mapper>

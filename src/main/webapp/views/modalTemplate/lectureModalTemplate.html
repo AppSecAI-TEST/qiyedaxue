@@ -1,0 +1,93 @@
+<div ng-controller="LectureModalController">
+  	<!--列出已勾选的项-->
+    <div ng-show="itemArr.choosedItemArr.length >0" class="form-control-static choosed-items-container clearfix"
+         style="margin-top: 10px">
+        <label class="checkbox-inline choosed-item" style="cursor: default;"
+               ng-repeat="item in itemArr.choosedItemArr">{{item.lecturerName}}
+            <span class="del-icon" ng-click="itemArr.deleteItem(item)">&nbsp;&nbsp;&times;</span></label>
+    </div>
+    <!-- 选择讲师 模态框（Modal） -->
+    <div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}"
+         tabindex="-1" role="dialog"
+         ng-if="openModalDialog">
+        <div class="modal-dialog" ng-style="setStyle_02()">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close del-icon" ng-click="doClose()"> &times;</a>
+                    <h4 class="modal-title">选择讲师</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                    	<div style="padding-top:0;" class="col-xs-6 input-group inner-padding" ng-class="{'has-error':$parent.lectureName.length>=20}">
+                            <input type="text" placeholder="请输入讲师姓名关键字" class="form-control " ng-model="$parent.lectureName" maxlength="20">
+                            <span class="input-group-btn">
+                                <a class="btn  btn-primary" ng-click="search()">搜索</a>
+                            </span>
+                        </div>
+                        <!-- 线上课程 单选讲师 -->
+                        <table class="table table-striped table-bordered table-hover table-condensed" 
+                        	ng-show="$parent.$parent.formData.courseOnline&&$parent.$parent.formData.courseOnline=='Y'" >
+                            <thead>
+	                            <tr>
+	                                <th width="50px">选择</th>
+	                                <th width="50px">序号</th>
+	                                <th>讲师姓名</th>
+	                                <th>讲师类型</th>
+	                                <th>（内部/外部）讲师</th>
+	                                <th>讲师评分</th>
+	                                <th width="">状态</th>
+	                            </tr>
+                            </thead>
+                            <tbody>
+	                            <tr ng-repeat="item in page.data" ng-class="{'current-focus-tr':item.checked}" ng-click="itemArr.chooseItem(item,'Y')" style="cursor:pointer;">
+	                            	<td><input type="radio" name="radioLecture" ng-checked="item.checked" style="cursor:pointer;"/></td>
+	                                <td ng-bind="$index+1"></td>
+	                                <td ng-bind="item.lecturerName"></td>
+	                                <td ng-bind="item.lecturerType!='N'&&item.lecturerType!='Y'?'类型错误':item.lecturerType=='Y'?'全职':'兼职'"></td>
+	                                <td ng-bind="item.isInternalLecturer!='N'&&item.isInternalLecturer!='Y'?'类型错误':item.isInternalLecturer=='Y'?'内部讲师':'外部讲师'"></td>
+	                                <td ng-bind="item.lecturerScore|number:1"></td>
+	                                <td ng-bind="item.status!='N'&&item.status!='Y'?'状态错误':item.status=='Y'?'正常':'已禁用'"></td>
+	                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- 多选讲师 -->
+                        <table class="table table-striped table-bordered table-hover table-condensed"
+                        	ng-show="!($parent.$parent.formData.courseOnline&&$parent.$parent.formData.courseOnline=='Y')">
+                            <thead>
+	                            <tr>
+	                                <th width="50px">选择</th>
+	                                <th width="50px">序号</th>
+	                                <th>讲师姓名</th>
+	                                <th>讲师类型</th>
+	                                <th>（内部/外部）讲师</th>
+	                                <th>讲师评分</th>
+	                                <th width="">状态</th>
+	                            </tr>
+                            </thead>
+                            <tbody>
+	                            <tr ng-repeat="item in page.data" ng-class="{'current-focus-tr':item.checked}" ng-click="itemArr.chooseItem(item,'N')" style="cursor:pointer;">
+	                                <td><input type="checkbox" ng-checked="item.checked" style="cursor:pointer;"/></td>
+	                                <td ng-bind="$index+1"></td>
+	                                <td ng-bind="item.lecturerName"></td>
+	                                <td ng-bind="item.lecturerType!='N'&&item.lecturerType!='Y'?'类型错误':item.lecturerType=='Y'?'全职':'兼职'"></td>
+	                                <td ng-bind="item.isInternalLecturer!='N'&&item.isInternalLecturer!='Y'?'类型错误':item.isInternalLecturer=='Y'?'内部讲师':'外部讲师'"></td>
+	                                <td ng-bind="item.lecturerScore|number:1"></td>
+	                                <td ng-bind="item.status!='N'&&item.status!='Y'?'状态错误':item.status=='Y'?'正常':'已禁用'"></td>
+	                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- 分页 -->
+                        <div class="container-fluid" pagination conf="paginationConf"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" ng-click="doClose()">关闭</a>
+                    <a class="btn btn-primary" ng-click="doSure()">确定</a>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="modal-backdrop fade in"></div> -->
+    </div>
+    <div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+    <!-- end 选择讲师 模态框（Modal） -->
+</div>

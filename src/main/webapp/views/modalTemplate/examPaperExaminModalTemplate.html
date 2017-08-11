@@ -1,0 +1,24 @@
+<div>
+	<div class="modal fade" ng-class="{'in':examineMode.openExamineModal,'display-block':examineMode.openExamineModal}" tabindex="-1" 
+    	role="dialog"  ng-if="examineMode.openExamineModal">
+	   <div class="modal-dialog" ng-style="setStyle_02()">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <a class="close del-icon" ng-click="closeExamineModal()">&times;</a>
+	            <h4 class="modal-title">查看试卷</h4>
+	         </div>
+	         <div class="modal-body">
+				<div ng-repeat="t in examineDetail">
+					<h3 >{{$index+1}}.{{t.topicName}}</h3>
+					<h4 ng-repeat="o in t.topicOptions" ng-show="o.right=='Y'">&nbsp;&nbsp;&nbsp;&nbsp;<font color="#00DB00">{{o.optionName}}</font></h4>
+					<h4 ng-repeat="o in t.topicOptions" ng-show="o.right=='N'">&nbsp;&nbsp;&nbsp;&nbsp;{{o.optionName}}</h4>
+				</div>
+	         </div>
+	         <div class="modal-footer">
+	            <button type="button" class="btn btn-default" ng-click="closeExamineModal()">关闭</button>
+	         </div>
+	      </div>
+		</div>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':examineMode.openExamineModal,'display-block':examineMode.openExamineModal,'display-none':!examineMode.openExamineModal}"></div>
+</div>

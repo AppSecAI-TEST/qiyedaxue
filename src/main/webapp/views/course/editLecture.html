@@ -1,0 +1,176 @@
+<meta charset="utf-8">
+<div id="page" class="container-fluid overflow-auto">
+    <form name="lectureForm" ng-controller="EditLectureController" class="form-horizontal" role="form" enctype="multipart/form-data" >
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">讲师类型：</label>
+            <div class="col-xs-5 width_6">
+            	<select class="form-control width_1" ng-model="lecturer.lecturerType" ng-options="lecturerType.value as lecturerType.name for lecturerType in lecturerTypes">
+                    <option value="" >选择讲师类型</option>
+                </select>
+                <input type="hidden" name="lecturerType" ng-model="lecturer.lecturerType" required-lecture-type>
+            </div>
+            <div class="error" ng-show="lectureForm.$submitted&&lectureForm.lecturerType.$invalid" >
+                 <span ng-show="lectureForm.lecturerType.$error.requiredLectureType" class="glyphicon glyphicon-exclamation-sign">请选择讲师类型</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <label class="checkbox-inline">
+                    <input type="checkbox"  name="isInternalLecturer"  ng-checked="lecturer.isInternalLecturer=='Y'" ng-click="toggle()">内部讲师
+                </label>
+            </div>
+        </div>
+        <div class="form-group" ng-show="lecturer.isInternalLecturer=='N'">
+            <label class="col-xs-2 control-label">讲师姓名：</label>
+            <div class="col-xs-5 width_6">
+                <input type="text" class="form-control width_1"  name="lecturerName"
+                       ng-model="lecturer.lecturerName"
+                       ng-maxlength="50"
+                       required
+                       placeholder="请输入讲师名称">(最多输入50个字符)
+            </div>
+            <div class="error" ng-show="lectureForm.lecturerName.$dirty&&lectureForm.lecturerName.$invalid||lectureForm.$submitted&&lectureForm.lecturerName.$invalid" >
+                <span  ng-show="lectureForm.lecturerName.$error.required"class="glyphicon glyphicon-exclamation-sign">讲师姓名不能为空</span>
+                <span ng-show="lectureForm.lecturerName.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">讲师姓名最多50个字符</span>
+            </div>
+        </div>
+        <div class="form-group" ng-show="lecturer.isInternalLecturer=='Y'">
+            <label  class="col-xs-2 control-label">讲师姓名：</label>
+            <div class="col-xs-5 width_6">
+            	<div class="input-group width_2">
+                    <input type="text" placeholder="请选择内部人员" class="form-control width_1"  name="empName"  
+                    	readonly 
+                    	required-emp
+                    	ng-model="lecturer.lecturerName">
+                    <span class="input-group-btn">
+                        <a href="javascript:void(0)" class="btn btn-primary  btn-control"  ng-click="doOpenRadioEmpModal()">选择内部人员</a>
+                    </span>
+                </div>
+            </div>
+            <div class="error" ng-show="lectureForm.$submitted&&lectureForm.empName.$invalid" >
+                 <span ng-show="lectureForm.empName.$error.requiredEmp" class="glyphicon glyphicon-exclamation-sign">内部讲师须选择内部人员</span>
+            </div>
+            <div ng-include="'/enterpriseuniversity/views/modalTemplate/empRadioModalForLecturerTemplate.html'"></div>
+        </div>
+        <div class="form-group" ng-show="lecturer.isInternalLecturer=='Y'">
+            <label  class="col-xs-2 control-label">讲师级别：</label>
+            <div class="col-xs-5 width_6">
+                <select class="form-control width_1" ng-model="lecturer.lecturerGrade" ng-options=" lecturerGrade.value as lecturerGrade.name for lecturerGrade in lecturerGrades">
+                    <option value="" >选择讲师级别</option>
+                </select>
+                <input type="hidden" name="lecturerGrade" ng-model="lecturer.lecturerGrade" required-lecture-grade>
+            </div>
+            <div class="error" ng-show="lectureForm.$submitted&&lectureForm.lecturerGrade.$invalid" >
+                 <span ng-show="lectureForm.lecturerGrade.$error.requiredLectureGrade" class="glyphicon glyphicon-exclamation-sign">内部讲师须选择讲师级别</span>
+            </div>
+        </div>
+        <!--上传讲师头像-->
+        <div style="position:relative;" class="form-group" ng-controller="LectureImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+            <label class="col-xs-2 control-label">讲师头像：</label>
+            <div class="col-xs-5 width_6">
+                <a class="fileInputBtn btn btn-primary btn-control">上传图片</a>
+                <input type="file" class="fileInput btn btn-control" id="lectureImgInput" nv-file-select uploader="imgUploader">
+                <div class="inputIntro">(1:1,&lt;=2M;建议100*100px,&lt;=500kb)</div>
+            </div>
+            <input type="hidden" name="lecturerImg" ng-model="lecturer.lecturerImg" require-lecturerimg>
+            <div class="error" ng-show="lectureForm.$submitted&&lectureForm.lecturerImg.$invalid" >
+                <span ng-show="lectureForm.lecturerImg.$error.requireLecturerimg" class="glyphicon glyphicon-exclamation-sign">请上传讲师头像图片</span>
+            </div>
+            <div class="preview-container" ng-show="openPreview">
+		      <div class="thumbnail">
+		         <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+		         <div class="caption">
+		            <p>
+		               <a ng-click="closePreview()" class="btn btn-primary">关闭</a> 
+		            </p>
+		         </div>
+		      </div>
+   			</div>
+   			<!-- 旧的讲师头像图片列表 -->
+            <div style="min-height:0;" class="col-xs-offset-2 col-xs-5">
+                <table style="margin-top: 10px;" ng-show="currFileUrlQueue.length>0" class="table table-bordered text-center width_4">
+                    <tr>
+                        <td class="col-xs-2">编号</td>
+                        <td class="col-xs-2">预览</td>
+                        <td class="col-xs-2">操作</td>
+                    </tr>
+                    <tr ng-repeat="fileUrl in currFileUrlQueue">
+                        <td ng-bind="$index+1"></td>
+                        <td><a ng-click="preview()">点击预览</a></td>
+                        <td nowrap>
+                            <a class="btn btn-danger btn-xs" ng-click="removeCurrItem(item)">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- 旧的讲师头像图片列表 -->
+            <!-- 新的讲师头像图片列表-->
+            <div style="min-height:0;" class="col-xs-offset-2 col-xs-8 width_10">
+                <table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0"class="table table-bordered text-center">
+                    <tr>
+                        <td class="col-xs-2">图片名称</td>
+                        <td class="col-xs-2">大小</td>
+                        <td class="col-xs-2">进度</td>
+                        <td class="col-xs-2">状态</td>
+                        <td class="col-xs-2">操作</td>
+                    </tr>
+                    <tr ng-repeat="item in imgUploader.queue">
+                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+                        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                        <td ng-show="imgUploader.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                        </td>
+                        <td nowrap>
+                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="glyphicon glyphicon-upload"></span> 上传
+                            </a>
+                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <!-- 新的讲师头像图片列表-->
+            </div>
+        </div>
+        <!--end 上传讲师头像-->
+        <div class="form-group">
+            <label class="col-xs-2 control-label">讲师简介：</label>
+            <div class="col-xs-5 width_6">
+                <textarea type="text" class="form-control width_1" name="lecturerIntroduction" rows="6"
+                	ng-model="lecturer.lecturerIntroduction"
+               		ng-maxlength="500"
+                    required
+                    placeholder="请输入讲师简介   讲师简介最多500个字符" >(最多输入500个字符)
+                    </textarea>
+            </div>
+            <div class="error" ng-show="lectureForm.lecturerIntroduction.$dirty&&lectureForm.lecturerIntroduction.$invalid||lectureForm.$submitted&&lectureForm.lecturerIntroduction.$invalid" >
+                <span  ng-show="lectureForm.lecturerIntroduction.$error.required"class="glyphicon glyphicon-exclamation-sign">讲师简介不能为空</span>
+                <span ng-show="lectureForm.lecturerIntroduction.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">讲师简介最多500个字符</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control" ng-click="doSave()" >保&nbsp;&nbsp;&nbsp;存</a>
+                <a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+        </div>
+        <div class="modal-backdrop fade" ng-class="{'in':editLecturerSubmit,'display-block':editLecturerSubmit,'display-none':!editLecturerSubmit}"></div>
+    </form>
+</div>
+<script>
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>
+</body>
+</html>

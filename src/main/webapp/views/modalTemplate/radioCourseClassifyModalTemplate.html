@@ -1,0 +1,24 @@
+<div ng-controller="RadioCourseClassifyModalController">
+    <!-- 选择课程分类 模态框（Modal） -->
+    <div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}" ng-if="openModalDialog">
+        <div class="modal-dialog" ng-style="setStyle_02()">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close del-icon" ng-click="doClose()">&times;</a>
+                    <h4 class="modal-title">选择课程分类</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="tree-container">
+               			 <div  data-angular-radiotreeview="true" data-tree-id="courseClassifyTree" data-radiotree-model="courseClassifyData" ></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" ng-click="doClose()">关闭</a>
+                    <a class="btn btn-primary" ng-click="doSure()">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+    <!-- end 模态框（Modal） -->
+</div>

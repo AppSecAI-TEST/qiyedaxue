@@ -1,0 +1,42 @@
+<meta charset="UTF-8" >
+<div class="container-fluid" ng-controller="AddDeptController" id="page">
+	<form name="deptForm" novalidate
+		class="form-horizontal" role="form" class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">部门名称:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="name" name="name" ng-model="dep.name"
+					ng-maxlength="50" required placeholder="请输入部门名称">(最多输入50个字符)
+			</div>
+			<div class="error" ng-show="deptForm.name.$dirty&&deptForm.name.$invalid||deptForm.$submitted&&deptForm.name.$invalid">
+				<span ng-show="deptForm.name.$error.required" class="glyphicon glyphicon-exclamation-sign" >部门名称不能为空</span>
+				<span ng-show="deptForm.name.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">部门名称最多50个字符</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">所属上级部门:</label>
+			<div class="col-xs-4 width_6">
+				<div class="input-group width_2">
+					<input type="text" class="form-control width_1"  id="topname" name="topname" ng-model="org.topname" required  readonly>
+                    <input type="hidden" class="form-control width_1"  id="topcode" name="topcode" ng-model="org.topcode" required  readonly>
+					<span class="input-group-btn">
+	                    <a href="javascript:void(0)" class="btn btn-primary  btn-control"  ng-click="doOpenRadioEmpModal()">修改</a>
+	                </span>
+				</div>
+			</div>
+			 <div ng-include="'/enterpriseuniversity/views/modalTemplate/radioEmpModalTemplate.html'"></div>
+        </div> 
+        <div class="form-group">
+			<div class="col-xs-offset-2 col-xs-8">
+				<a class="btn btn-primary btn-control" ng-click="conservationDepartment()">完成</a> 
+				<a class="btn btn-link" ng-click="returnAddDept()">返&nbsp;&nbsp;&nbsp;回</a>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	//监听窗口大小变化，自适应高度
+	$(document).ready(function () {
+		resizeView();
+	});
+</script>

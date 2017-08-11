@@ -1,0 +1,45 @@
+<meta charset="UTF-8" >
+<div id="page" class="container-fluid overflow-auto" ng-controller="DetailTaskPackageController">
+    <form name="taskPackageForm" novalidate class="form-horizontal">
+		<div class="form-group">
+			<label for="packageName" class="col-xs-2 control-label">任务包名称：</label>
+			<div class="col-xs-8 width_6">
+				<input type="text" class="form-control width_1" name="packageName"
+					ng-model="taskPackage.packageName" ng-maxlength="20" required disabled>
+			</div>
+		</div>
+		<div class="form-group">
+		    <label class="col-xs-2 control-label">指定学习内容：</label>
+		    <div class="col-xs-8 width_6">
+	    		<div class="form-control-static clearfix choosed-items-container width_4" 
+		        	style="margin-top: 15px;border:1px solid #dedede;" ng-show="taskPackage.objectList.length >0">
+		            <table class="table table-layout">
+			           <tr class="choosed-item" style="cursor: default;" ng-repeat="item in taskPackage.objectList">
+			           		<td style="border:none;" ng-bind="'任务'+($index+1)"></td>
+			           		<td style="border:none;" ng-bind="item.courseName?item.courseName:item.examPaperName"></td>
+			           </tr>
+		           </table>
+           		</div>
+       	    </div>
+		</div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">任务包授权：</label>
+            <div class="col-xs-8 width_6">
+		        <div ng-show="choosedItemArr.length >0" class="form-control-static clearfix choosed-items-container width_4">
+			        <label class="checkbox-inline choosed-item" style="cursor: default;" ng-repeat="item in choosedItemArr" ng-bind="item.name"></label>
+    			</div>
+    		</div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control"  ng-click="doReturn()" >返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

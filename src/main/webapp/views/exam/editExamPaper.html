@@ -1,0 +1,288 @@
+<meta charset="UTF-8">
+<div id="page" class="container-fluid overflow-auto" ng-controller="EditExamPaperController">
+	<form   name="examPaperForm" novalidate class="form-horizontal">
+		<div class="form-group">
+			<label for="examPaperName" class="col-xs-2 control-label">试卷名称：</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" name="examPaperName" 
+					ng-model="examPaper.examPaperName"
+					ng-maxlength="50" 
+					required 
+					placeholder="请输入试卷名称">(最多输入50个字符)
+			</div>
+			<div class="error"
+				ng-show="examPaperForm.examPaperName.$dirty&&examPaperForm.examPaperName.$invalid || examPaperForm.$submitted&&examPaperForm.examPaperName.$invalid">
+				<span ng-show="examPaperForm.examPaperName.$error.required" class="glyphicon glyphicon-exclamation-sign">试卷名称不能为空 </span> 
+				<span ng-show="examPaperForm.examPaperName.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">试卷名称最多50个字符 </span>
+			</div>
+		</div>
+		<div class="form-group">
+            <label  class="col-xs-2 control-label">试卷类型：</label>
+            <div class="col-xs-8">
+                <label class="radio-inline">
+                    <input type="radio" class="" name="examPaperType" ng-model="examPaper.examPaperType"  
+                           value="1" ng-checked="examPaper.examPaperType=='1'">固定考试
+
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="examPaperType"  ng-model="examPaper.examPaperType" 
+                           value="2" ng-checked="examPaper.examPaperType=='2'">随机考试
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="examPaperType"  ng-model="examPaper.examPaperType" 
+                           value="3" ng-checked="examPaper.examPaperType=='3'">固定调研
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="examPaperType"  ng-model="examPaper.examPaperType" 
+                           value="4" ng-checked="examPaper.examPaperType=='4'">随机调研
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="examPaperType"  ng-model="examPaper.examPaperType" 
+                           value="5" ng-checked="examPaper.examPaperType=='5'">固定总结
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="examPaperType"  ng-model="examPaper.examPaperType" 
+                           value="6" ng-checked="examPaper.examPaperType=='6'">随机总结
+                </label>
+            </div>
+        </div>
+        <!--上传封面-->
+        <div class="form-group" ng-controller="ExamPaperImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+            <label class="col-xs-2 control-label">试卷封面：</label>
+            <div class="col-xs-5 width_6">
+                <a class="fileInputBtn btn btn-primary btn-control">选择图片</a>
+                <input type="file" class="fileInput btn btn-control" id="examPaperImg" nv-file-select  uploader="imgUploader">
+                <div class="inputIntro">(1.5:1,&lt;=2M;建议360*240px,&lt;=500kb)</div>
+            </div>
+            <input type="hidden" name="examPaperPicture" ng-model="examPaper.examPaperPicture" require-string>
+            <div class="error" ng-show="examPaperForm.$submitted&&examPaperForm.examPaperPicture.$invalid" >
+                <span ng-show="examPaperForm.examPaperPicture.$error.requireString" class="glyphicon glyphicon-exclamation-sign">请上传课程封面图片</span>
+            </div>
+            <div class="preview-container" ng-show="openPreview">
+		      <div class="thumbnail">
+		         <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+		         <div class="caption">
+		            <p>
+		               <a ng-click="closePreview()" class="btn btn-primary">关闭</a> 
+		            </p>
+		         </div>
+		      </div>
+   			</div>
+   			<!-- 旧的课程封面图片列表 -->
+            <div style="min-height:0;" class="col-xs-offset-2 col-xs-6 width_10">
+                <table style="margin-top: 10px;" ng-show="currFileUrlQueue.length>0"class="table table-bordered text-center width_4">
+                    <tr>
+                        <td class="col-xs-2">编号</td>
+                        <td class="col-xs-2">预览</td>
+                        <td class="col-xs-2">操作</td>
+                    </tr>
+                    <tr ng-repeat="fileUrl in currFileUrlQueue">
+                        <td ng-bind="$index+1"></td>
+                        <td><a ng-click="preview()">点击预览</a></td>
+                        <td nowrap>
+                            <a class="btn btn-danger btn-xs" ng-click="removeCurrItem(item)">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- 新的课程封面图片列表-->
+            <div  style="min-height:0;" class="col-xs-offset-2 col-xs-6 width_10">
+                <table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0"class="table table-bordered text-center">
+                    <tr>
+                        <td class="col-xs-2">试卷封面图片名称</td>
+                        <td class="col-xs-2">大小</td>
+                        <td class="col-xs-2">进度</td>
+                        <td class="col-xs-2">状态</td>
+                        <td class="col-xs-2">操作</td>
+                    </tr>
+                    <tr ng-repeat="item in imgUploader.queue">
+                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+                        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                        <td ng-show="imgUploader.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                        </td>
+                        <td nowrap>
+                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="glyphicon glyphicon-upload"></span> 上传
+                            </a>
+                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--end 上传封面-->
+        <!-- 选择题库 -->
+        <div class="form-group"  >
+        	<div ng-include="'/enterpriseuniversity/views/exam/questionBankModalTemplate.html'"></div>
+        	<input  type="hidden" name="questionBankIds"  ng-model="examPaper.questionBankId" check-questionbankid/>
+        </div>
+        <!-- end 选择题库 -->
+        <div class="form-group">
+        	<label  class="col-xs-2 control-label">试题排序：</label>
+        	<div class="col-xs-6">
+				<table class="table table-bordered text-center table-layout">
+					<thead>
+						<tr>
+							<th class="col-xs-2">题型</th>
+							<th class="col-xs-2">单选题</th>
+							<th class="col-xs-2">多选题</th>
+							<th class="col-xs-2">填空题</th>
+							<th class="col-xs-2">简答题</th>
+							<th class="col-xs-2">判断题</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>排序</td>
+							<td>
+								<input type="hidden" ng-model="sort1" />
+							 	<select ng-model="sort1" ng-options="item for item in sortArry1" ng-change="initSelectOption('sort1')"></select> 
+							</td>
+							<td>
+								<input type="hidden" ng-model="sort2" />
+								<select ng-model="sort2" ng-options="item for item in sortArry2" ng-change="initSelectOption('sort2')"></select>
+							</td>
+							<td>
+								 <input type="hidden" ng-model="sort3" />
+								<select ng-model="sort3" ng-options="item for item in sortArry3" ng-change="initSelectOption('sort3')"></select>
+							</td>
+							<td>
+								 <input type="hidden" ng-model="sort4" />
+								<select ng-model="sort4" ng-options="item for item in sortArry4" ng-change="initSelectOption('sort4')" ></select>
+							</td>
+							<td>
+								 <input type="hidden" ng-model="sort5" />
+								<select ng-model="sort5" ng-options="item for item in sortArry5"></select>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+        </div>
+        <div class="form-group">
+        	<label  class="col-xs-2 control-label">考试时间：</label>
+        	<div class="col-xs-5 width_6">
+                <input type="text" class="form-control width_3" name="examTime" ng-model="examPaper.examTime"  ng-pattern="/^(1|([1-9]\d{0,2}))$/" required>
+            	<div class="inputIntro">分钟</div>
+            </div>
+            <div class="error" ng-show="examPaperForm.examTime.$dirty&&examPaperForm.examTime.$invalid || examPaperForm.examTime.$invalid&&examPaperForm.$submitted" >
+                <span ng-show="examPaperForm.examTime.$error.required" class="glyphicon glyphicon-exclamation-sign">请输入考试时间</span>
+                <span ng-show="examPaperForm.examTime.$error.pattern" class="glyphicon glyphicon-exclamation-sign">请输入1-999的数字</span>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label  class="col-xs-2 control-label">试题总数：</label>
+        	<div class="col-xs-5 width_6">
+                <input type="text" class="form-control width_3" ng-model="examPaper.testQuestionCount" readonly>
+                <div class="inputIntro">(系统计算，无需填写)</div>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label  class="col-xs-2 control-label">满分值：</label>
+        	<div class="col-xs-5 width_6">
+                <input type="text" class="form-control width_3" name="fullMark" ng-model="examPaper.fullMark" readonly>
+                <div class="inputIntro">(系统计算，无需填写)</div>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label  class="col-xs-2 control-label">及格分：</label>
+        	<div class="col-xs-5 width_6">
+        	<!-- /^[0-9]*$/ -->
+        	<!-- ng-pattern ="/^(\+?[1-9]\d{0,8}|\+?0)$/" -->
+                <input type="text" class="form-control width_3" name="passMark" ng-model="examPaper.passMark" required  ng-pattern="/^(0|[1-9][0-9]*)$/" check-passmark />
+            	<div class="inputIntro">(不大于满分值)</div>
+            </div>
+            <div class="error" ng-show="examPaperForm.passMark.$dirty&&examPaperForm.passMark.$invalid || examPaperForm.$submitted&&examPaperForm.passMark.$invalid" >
+                <span ng-show="examPaperForm.passMark.$error.required" class="glyphicon glyphicon-exclamation-sign">请输入试卷及格分</span>
+                <span ng-show="examPaperForm.passMark.$error.pattern" class="glyphicon glyphicon-exclamation-sign">请输入数字</span>
+                <span ng-show="examPaperForm.passMark.$error.checkPassmark" class="glyphicon glyphicon-exclamation-sign">及格分不大于满分值</span>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label  class="col-xs-2 control-label">通过奖励积分：</label>
+        	<div class="col-xs-5 width_6">
+                <input type="text" class="form-control width_3" name="passEb" ng-model="examPaper.passEb" ng-pattern="/^(1|([1-9]\d{0,2}))$/"  required />
+            </div>
+            <div class="error" ng-show="examPaperForm.passEb.$invalid&&examPaperForm.passEb.$dirty|| examPaperForm.$submitted&&examPaperForm.passEb.$invalid" >
+                <span ng-show="examPaperForm.passEb.$error.required" class="glyphicon glyphicon-exclamation-sign">请输入奖励积分</span>
+                <span ng-show="examPaperForm.passEb.$error.pattern" class="glyphicon glyphicon-exclamation-sign">请输入1-999的数字</span>
+            </div>
+        </div>
+         <div class="form-group">
+        	<label  class="col-xs-2 control-label">未通过扣除积分：</label>
+        	<div class="col-xs-5 width_6">
+                <input type="text" class="form-control width_3"  name="notPassEb" ng-model="examPaper.notPassEb" ng-pattern="/^(0|([1-9]\d{0,2}))$/" required />
+            </div>
+            <div class="error" ng-show="examPaperForm.notPassEb.$dirty&&examPaperForm.notPassEb.$invalid||examPaperForm.notPassEb.$invalid&&examPaperForm.$submitted" >
+                <span ng-show="examPaperForm.notPassEb.$error.required" class="glyphicon glyphicon-exclamation-sign">请输入扣除积分</span>
+                <span ng-show="examPaperForm.notPassEb.$error.pattern" class="glyphicon glyphicon-exclamation-sign">请输入0-999的数字</span>
+            </div>
+        </div>
+		<!-- start 选择管理员-->
+        <div class="form-group">
+            <label class="col-xs-2 control-label">试卷授权：</label>
+            <div class="col-xs-5 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal"
+		               ng-click="doOpenAdminModal()">选择管理员</a>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+		        <input type="hidden" name="admins" ng-model="examPaper.admins" required-admin>
+    		</div>
+    		<div class="error" ng-show="examPaperForm.admins.$invalid&&examPaperForm.$submitted">
+				<span ng-show="examPaperForm.admins.$error.requiredAdmin" class="glyphicon glyphicon-exclamation-sign pull-left">请选择管理员</span>
+			</div>
+        </div>
+        <!-- end 选择管理员 -->
+		<div class="form-group">
+			<label class="col-xs-2 control-label">显示成绩：</label>
+			<div class="col-xs-6">
+                <label class="radio-inline">
+                    <input type="radio" class="" name="showScore" ng-model="examPaper.showScore"  
+                           value="Y" ng-checked="examPaper.showScore=='Y'">是
+                </label>
+                 <label class="radio-inline">
+                    <input type="radio" class="" name="showScore" ng-model="examPaper.showScore"  
+                           value="N" ng-checked="examPaper.showScore=='N'">否
+                </label>
+           	</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">显示合格标准：</label>
+			<div class="col-xs-6">
+                <label class="radio-inline">
+                    <input type="radio" class="" name="showQualifiedStandard" ng-model="examPaper.showQualifiedStandard"  
+                           value="Y" ng-checked="examPaper.showQualifiedStandard=='Y'">是
+                </label>
+                 <label class="radio-inline">
+                    <input type="radio" class="" name="showQualifiedStandard" ng-model="examPaper.showQualifiedStandard"  
+                           value="N" ng-checked="examPaper.showQualifiedStandard=='N'">否
+                </label>
+           	</div>
+		</div>
+		<div class="form-group">
+			<div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control"  ng-click="doSave()" >保&nbsp;&nbsp;&nbsp;存</a>
+                <a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+		</div>
+		<div class="modal-backdrop fade" ng-class="{'in':editExamPaperSubmit,'display-block':editExamPaperSubmit,'display-none':!editExamPaperSubmit}"></div>
+	</form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

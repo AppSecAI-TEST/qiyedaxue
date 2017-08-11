@@ -1,0 +1,196 @@
+<meta charset="utf-8">
+<!-- 模态框（Modal） -->
+<div ng-controller="StudentsRecordController">
+	<div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}"		ng-if="openModalDialog">
+		<div class="modal-dialog" ng-style="setStyle_02()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close del-icon" ng-click="doClose()">&times;</a>
+					<h4 class="modal-title">学员档案</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<form name="$parent.empForm" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-xs-2 control-label">姓名：</label>
+								<div class="col-xs-5 width_6">
+									<input type="text" class="form-control width_1"
+										ng-model="emp.tomUserLog.name" readonly disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2 control-label">手机号：</label>
+								<div class="col-xs-5 width_6">
+									<input type="text" class="form-control width_1"
+										ng-model="emp.tomUserLog.phone" readonly disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2 control-label">邮箱：</label>
+								<div class="col-xs-5 width_6">
+									<input type="text" class="form-control width_1"
+										ng-model="emp.tomUserLog.email" readonly disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2 control-label">积分：</label>
+								<div class="col-xs-5 width_6">
+									<input id="eNumber" type="text" class="form-control width_1"
+										name="eCurrency" ng-model="emp.eNumber"
+										ng-pattern="/^(\+?[1-9]\d{0,3}|\+?10000|0)$/" required
+										placeholder="积分数量">
+								</div>
+								<div class="error"
+									ng-show="empForm.eCurrency.$dirty&&empForm.eCurrency.$invalid||empForm.$submitted&&empForm.eCurrency.$invalid">
+									<span ng-show="empForm.eCurrency.$error.required"
+										class="glyphicon glyphicon-exclamation-sign">积分不能为空</span> <span
+										ng-show="empForm.eCurrency.$error.pattern"
+										class="glyphicon glyphicon-exclamation-sign">请输入0-10000的数字</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2 control-label"></label>
+								<div class="col-xs-5 width_6">
+									<a class="btn btn-primary btn-control" ng-click="doSave()">保&nbsp;&nbsp;&nbsp;存</a>
+								</div>
+							</div>
+						</form>
+					</div>
+					<hr />
+					<div id="page" class="container-fluid overflow-auto">
+						<div class="row">
+							<div class="container-fluid">
+								<h5 class="modal-title">培训活动</h5>
+								<form id="view-course-list">
+									<table
+										class="table table-striped table-bordered table-hover table-condensed">
+										<thead>
+											<tr>
+												<th width="60px">序号</th>
+												<th width="360px">培训活动名称</th>
+												<th width="130px">培训活动奖励</th>
+												<th width="130px">培训活动状态</th>
+												<th width="150px">培训活动起始日期</th>
+												<th width="150px">培训活动结束日期</th>
+												<th width="120px">是否需要考试</th>
+												<th width="120px">是否签订协议</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="item in emp.tomActivity.data"
+												ng-class="{'current-focus-tr':item == currHighLightRow}"
+												ng-click="highLightCurrRow(item)" style="cursor: pointer;">
+												<td ng-bind="$index+1"></td>
+												<td ng-bind="item.activityName"></td>
+												<td ng-bind="item.eB"></td>
+												<td ng-bind="item.status"></td>
+												<td
+													ng-bind="item.activityStartTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+												<td
+													ng-bind="item.activityEndTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+												<td ng-bind="item.finishStatus=='Y'?'需要':'不需要'"></td>
+												<td ng-bind="item.protocol=='Y'?'需要':'不需要'"></td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="pagination pagination-control pull-left"
+										ng-show="emp.tomActivity==null">暂无数据</div>
+									<div class="container-fluid" pagination conf="paginationConf"></div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div id="page" class="container-fluid overflow-auto">
+						<div class="row">
+							<div class="container-fluid">
+								<h5 class="modal-title">课程</h5>
+								<form id="view-course-list">
+									<table
+										class="table table-striped table-bordered table-hover table-condensed">
+										<thead>
+											<tr>
+												<th width="60px">序号</th>
+												<th width="360px">课程名称</th>
+												<th width="220px">课程奖励</th>
+												<th width="220px">课程进度</th>
+												<th width="220px">结束时间</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="item in emp.tomCourses.data"
+												ng-class="{'current-focus-tr':item == currHighLightRow}"
+												ng-click="highLightCurrRow(item)" style="cursor: pointer;">
+												<td ng-bind="$index+1"></td>
+												<td ng-bind="item.courseName"></td>
+												<td ng-bind="item.eCurrency"></td>
+												<td ng-bind="item.finishStatus=='Y'?'已完成':'未完成'"></td>
+												<td ng-bind="item.finishTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="pagination pagination-control pull-left"
+										ng-show="emp.tomCourses.length <= 0||emp.tomCourses==null">暂无数据</div>
+									<div class="container-fluid" pagination conf="paginationConf4"></div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div id="page" class="container-fluid overflow-auto">
+						<div class="row">
+							<div class="container-fluid">
+								<form id="view-course-list">
+									<h5 class="modal-title">考试</h5>
+									<table
+										class="table table-striped table-bordered table-hover table-condensed">
+										<thead>
+											<tr>
+												<th width="60px">序号</th>
+												<th width="360px">考试名称</th>
+												<th width="180px">考试时间</th>
+												<th width="">考试地点</th>
+												<th width="90px">是否参加</th>
+												<th width="90px">是否通过</th>
+												<th width="90px">考试成绩</th>
+												<th width="90px">获得奖励</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="item in emp.tomExam.data"
+												ng-class="{'current-focus-tr':item == currHighLightRow}"
+												ng-click="highLightCurrRow(item)" style="cursor: pointer;">
+												<td ng-bind="$index+1"></td>
+												<td ng-bind="item.examName"></td>
+												<td ng-bind="item.beginTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+												<td class="overflow-breakall" ng-bind="item.address"></td>
+												<td ng-bind="item.join"></td>
+												<td ng-show="item.gradeState=='Y'">通过</td>
+												<td ng-show="item.gradeState!='Y'">未通过</td>
+												<td ng-bind="item.totalPoints"></td>
+												<td ng-show="item.gradeState=='Y'" ng-bind="item.examEb"></td>
+												<td ng-show="item.gradeState=='N'" ng-bind="-item.notPassEb"></td>
+												<td ng-show="item.gradeState!='N'&&item.gradeState!='Y'"
+													ng-bind="0"></td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="pagination pagination-control pull-left"
+										ng-show="emp.tomExam.length <= 0||emp.tomExam==null">暂无数据</div>
+									<div class="container-fluid" pagination conf="paginationConf5"></div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" ng-click="doClose()">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-backdrop fade"
+		ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+	<!-- end 模态框（Modal） -->
+</div>

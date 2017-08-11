@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"
+	default-lazy-init="true">
+	<description>API与Cache缓存模块相关配置信息</description>
+	
+	<!-- **************************************** Start-API模块配置信息  ********************************** -->
+	
+	 <bean id="apiInvokerManager" class="com.chinamobo.ue.api.invoke.ApiInvokerManager">
+    	<property name="invokers">
+    		<list>
+    			<ref bean="courseApiInvoker"/><!-- 课程API模块 -->
+    			<ref bean="examApiInvoker"/><!-- 考试API模块 -->
+    			<ref bean="activityApiInvoker"/><!-- 活动API模块 -->
+    			<ref bean="globalApiInvoker"/><!-- 全局首页API模块 -->
+    			<ref bean="commodityApiInvoker"/><!--  -->
+    			<ref bean="qcloudApiInvoker"/><!--  -->
+    			<ref bean="myInfoApiInvoker"/><!-- 个人信息API模块 -->
+    			<ref bean="messageApiInvoker"/><!-- 消息API模块 -->
+    			<ref bean="wechatApiInvoker"/><!--  微信API模块-->
+    			<ref bean="uploadApiInvoker"/><!-- 上传文件API模块 -->
+    			<ref bean="errorApiInvoker"/><!-- 异常API模块 -->
+    		</list>
+    	</property>
+    </bean>
+    <bean id="courseApiInvoker" class="com.chinamobo.ue.api.course.service.CourseApiInvoker"></bean>
+    <bean id="examApiInvoker" class="com.chinamobo.ue.api.exam.service.ExamApiInvoker"></bean>
+    <bean id="activityApiInvoker" class="com.chinamobo.ue.api.activity.service.ActivityApiInvoker"></bean>
+    <bean id="globalApiInvoker" class="com.chinamobo.ue.api.global.service.GlobalApiInvoker"></bean>
+    <bean id="commodityApiInvoker" class="com.chinamobo.ue.api.commodity.service.CommodityApiInvoker"></bean>
+    <bean id="qcloudApiInvoker" class="com.chinamobo.ue.api.qcloud.service.QcloudApiInvoker"></bean>
+    <bean id="myInfoApiInvoker" class="com.chinamobo.ue.api.myInfo.service.MyInfoApiInvoker"></bean>
+    <bean id="messageApiInvoker" class="com.chinamobo.ue.api.message.service.MessageApiInvoker"></bean>
+    <bean id="wechatApiInvoker" class="com.chinamobo.ue.api.weChat.WechatApiInvoker"></bean>
+    <bean id="uploadApiInvoker" class="com.chinamobo.ue.api.upload.UploadApiInvoker"></bean>
+    <bean id="errorApiInvoker" class="com.chinamobo.ue.api.invoke.ErrorApiInvoker"></bean>
+    
+    <!-- **************************************** Start-Cache模块配置信息  ********************************** -->
+    
+    <bean id="redisCacheManager" class="com.chinamobo.ue.cache.redis.RedisCacheManager">
+    	<property name="cachers">
+    		<list>
+    			<ref bean="tomUserLogCacher"/><!-- 用户登录信息缓存模块 -->
+    			<ref bean="tomUserInfoCacher"/><!-- 用户相关信息缓存模块 -->
+    			<ref bean="tomTopicOptionCacher"/><!-- 缓存所有选项信息模块 -->
+    			<ref bean="tomTopicCacher"/><!-- 缓存题目及选项模块 -->
+    			<ref bean="tomRetakingExamCacher"/><!-- 缓存补考信息模块 -->
+    			<ref bean="tomExamScoreCacher"/><!-- 缓存考试成绩信息模块 -->
+    			<ref bean="tomExamQuestionCacher"/><!-- 缓存试卷题库关联表模块 -->
+    			<ref bean="tomExamPaperCacher"/><!-- 缓存考试试卷模块 -->
+    			<ref bean="tomExamCacher"/><!--缓存考试信息模块 -->
+    			<ref bean="tomCourseCacher"/>
+    		</list>
+    	</property>
+    </bean>
+    <bean id="tomUserLogCacher" class="com.chinamobo.ue.cache.cacher.TomUserLogCacher"></bean>
+    <bean id="tomUserInfoCacher" class="com.chinamobo.ue.cache.cacher.TomUserInfoCacher"></bean>
+    <bean id="tomTopicOptionCacher" class="com.chinamobo.ue.cache.cacher.TomTopicOptionCacher"></bean>
+    <bean id="tomTopicCacher" class="com.chinamobo.ue.cache.cacher.TomTopicCacher"></bean>
+    <bean id="tomRetakingExamCacher" class="com.chinamobo.ue.cache.cacher.TomRetakingExamCacher"></bean>
+    <bean id="tomExamScoreCacher" class="com.chinamobo.ue.cache.cacher.TomExamScoreCacher"></bean>
+    <bean id="tomExamQuestionCacher" class="com.chinamobo.ue.cache.cacher.TomExamQuestionCacher"></bean>
+    <bean id="tomExamPaperCacher" class="com.chinamobo.ue.cache.cacher.TomExamPaperCacher"></bean>
+    <bean id="tomExamCacher" class="com.chinamobo.ue.cache.cacher.TomExamCacher"></bean>
+    <bean id="tomCourseCacher" class="com.chinamobo.ue.cache.cacher.TomCourseCacher"></bean>
+    
+</beans>

@@ -1,0 +1,83 @@
+<meta charset="UTF-8">
+<div class="container-fluid overflow-auto" ng-controller="SuperadditionQuestionBankController" id="page">
+	<form name="superadditionQuestionBankForm" novalidate class="form-horizontal"
+			role="form" class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-xs-2 control-label" for="questionName">题库名称：</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="questionBankName" name="questionName" 
+					ng-maxlength="20" ng-model="questionBank.questionBankName" required readonly>
+			</div>
+		</div>
+		 <!-- {{questionBank}} -->
+		<!--上传题库-->
+        <div   uploader="uploader" filters="queueLimit , customFilter" ng-controller="QuestionBankFileUploadController">
+            <!--20170505 xgq add start-->
+            <div class="form-group">
+				<label class="col-xs-2 control-label">添加试题方式:</label>
+				<div class="col-xs-5 width_6"> 
+					<ul class="nav nav-tabs width_1">
+						<li ng-class="{'active': addQuestionByUploadFile}"><a ng-click="byUploadFile()">文件导入试题</a></li>
+						<li ng-class="{'active': !addQuestionByUploadFile}"><a ng-click="byHandActuated()">手动添加试题</a></li>
+					</ul>
+				</div>
+				<!--动态生成隐藏域用于提交课程章节文件地址 -->
+				<input  type="hidden"  name="fileUrl"  ng-model="fileOrQuestionsLength" required-item />
+				<div class="error" ng-show="superadditionQuestionBankForm.fileUrl.$invalid
+						&&superadditionQuestionBankForm.$submitted">
+					<span ng-show="superadditionQuestionBankForm.fileUrl.$error.requiredItem"
+						class="glyphicon glyphicon-exclamation-sign">请上传题库文件或至少添加一道试题</span>
+				</div>
+			</div>
+			<!--20170505 xgq add end-->
+            <div class="form-group" ng-show="addQuestionByUploadFile">
+				<label class="col-xs-2 control-label">文件名称：</label> 
+				<div class="col-xs-5">
+					<input type="text" class="form-control width_1" id="fileName" name="fileName" value="{{uploader.queue[0].file.name}}" readonly>
+					<input type="hidden" id="filePath" name="filePath" value="{{questionBank.fileUrl}}">     
+				</div>
+			</div>
+			<div class="form-group" ng-show="addQuestionByUploadFile">
+             	<label class="col-xs-2 control-label">上传题库文件：</label> 
+				<div class="col-xs-5 width_6">
+					<button class="fileInputBtn btn btn-primary btn-control" >选择文件</button>
+					<input type="file" id="questionBankFileInput" class="fileInput btn btn-control" nv-file-select multiple  uploader="uploader">
+					<div class="inputIntro">(&nbsp;&nbsp;可上传2003版(.xls)&nbsp;&nbsp;/&nbsp;&nbsp;2007版(.xlsx)的Excel表&nbsp;&nbsp;)</div>
+					<div class="" style="margin-top:10px;">
+						<a href="/enterpriseuniversity/services/file/download?filePath=file/ItemBankTemplate/QuestionBank.xlsx&fileName=QuestionBank.xlsx">Excel模板下载</a>
+					</div>
+				</div>
+	        </div>
+	        <!--20170505 xgq add start-->
+	        <div ng-show="!addQuestionByUploadFile">
+				<!-- 添加试题 -->
+				<div class="form-group">
+					<label class="col-xs-2 control-label"></label>
+					<div class="col-xs-10">
+						<a href="javascript:void(0);" class="btn btn-primary" ng-click="addQuestion()">+添加试题</a>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label"></label>
+				<div class="col-xs-5 width_6"> 
+					<div ng-include="'/enterpriseuniversity/views/modalTemplate/handAddQuestionModalTemplate.html'"></div> 
+				</div>
+			</div>
+			<!--20170505 xgq add end-->
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control" ng-click="doSave()">保存</a>
+                <a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+        </div>
+         <div class="modal-backdrop fade" ng-class="{'in':superadditionQuestionBankSubmit,'display-block':superadditionQuestionBankSubmit,'display-none':!superadditionQuestionBankSubmit}"></div>
+	</form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

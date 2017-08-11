@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.exam.dao.TomJoinExamRecordMapper">
+	<resultMap id="BaseResultMap"
+		type="com.chinamobo.ue.exam.entity.TomJoinExamRecord">
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="EXAMID" property="examid" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<insert id="insert" parameterType="com.chinamobo.ue.exam.entity.TomJoinExamRecord">
+		insert into TOM_JOIN_EXAM_RECORD (CODE, EXAMID, CREATE_TIME
+		)
+		values (#{code,jdbcType=VARCHAR}, #{examid,jdbcType=DECIMAL},
+		#{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.chinamobo.ue.exam.entity.TomJoinExamRecord">
+		insert into TOM_JOIN_EXAM_RECORD
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="examid != null">
+				EXAMID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="examid != null">
+				#{examid,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countTotalExams" parameterType="map" resultType="java.lang.Integer">
+		select count(*) from TOM_JOIN_EXAM_RECORD where CREATE_TIME BETWEEN
+		#{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+	</select>
+</mapper>

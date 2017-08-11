@@ -1,0 +1,31 @@
+<div ng-controller="DeptModelController">	
+	<!--列出已勾选的项-->
+    <div ng-show="itemArr.choosedItemArr.length >0" class="form-control-static clearfix choosed-items-container">
+        <label class="checkbox-inline choosed-item" style="cursor: default;" ng-repeat="item in itemArr.choosedItemArr">
+        	{{item.name}}
+            <span class="del-icon" ng-click="itemArr.deleteItem(item)">&nbsp;&nbsp;&times;</span>
+        </label>
+    </div>
+	<!-- 模态框（Modal） start-->
+	<div class="modal fade"
+         ng-class="{'in':openModalDialog,'display-block':openModalDialog}" tabindex="-1" role="dialog" ng-if="openModalDialog">
+        <div class="modal-dialog" ng-style="setStyle_02()">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close  del-icon" ng-click="doClose()">&times;</a>
+                    <h4 class="modal-title">选择所属部门</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="tree-container">
+                        <div id="deptTree" data-angular-checkboxtreeview="true" data-checkboxtree-id="deptTree" data-checkboxtreedept-model="deptList" ></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" ng-click="doClose()">关闭</a>
+                    <a class="btn btn-primary" ng-click="doSure()">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+</div>

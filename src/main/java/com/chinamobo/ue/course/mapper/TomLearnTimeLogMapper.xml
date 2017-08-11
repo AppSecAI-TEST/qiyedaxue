@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.course.dao.TomLearnTimeLogMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.course.entity.TomLearnTimeLog" >
+    <id column="LOG_ID" property="logId" jdbcType="DECIMAL" />
+    <result column="TIME" property="time" jdbcType="DECIMAL" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="COURSE_ID" property="courseId" jdbcType="DECIMAL" />
+    <result column="SECTION_ID" property="sectionId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="USERAGENT" property="useragent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LOG_ID, TIME, CODE, NAME, COURSE_ID, SECTION_ID, CREATE_TIME, USERAGENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TOM_LEARNTIME_LOG
+    where LOG_ID = #{logId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TOM_LEARNTIME_LOG
+    where LOG_ID = #{logId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.chinamobo.ue.course.entity.TomLearnTimeLog" >
+    insert into TOM_LEARNTIME_LOG (LOG_ID, TIME, CODE, 
+      NAME, COURSE_ID, SECTION_ID, 
+      CREATE_TIME, USERAGENT)
+    values (#{logId,jdbcType=DECIMAL}, #{time,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{courseId,jdbcType=DECIMAL}, #{sectionId,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{useragent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.course.entity.TomLearnTimeLog" >
+    insert into TOM_LEARNTIME_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <!-- LOG_ID, -->
+      <if test="time != null" >
+        TIME,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="courseId != null" >
+        COURSE_ID,
+      </if>
+      <if test="sectionId != null" >
+        SECTION_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="useragent != null" >
+        USERAGENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <!-- LEARNTIME_LOG_SEQ.nextval, -->
+      <if test="time != null" >
+        #{time,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=DECIMAL},
+      </if>
+      <if test="sectionId != null" >
+        #{sectionId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useragent != null" >
+        #{useragent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.course.entity.TomLearnTimeLog" >
+    update TOM_LEARNTIME_LOG
+    <set >
+      <if test="time != null" >
+        TIME = #{time,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        COURSE_ID = #{courseId,jdbcType=DECIMAL},
+      </if>
+      <if test="sectionId != null" >
+        SECTION_ID = #{sectionId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useragent != null" >
+        USERAGENT = #{useragent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LOG_ID = #{logId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.course.entity.TomLearnTimeLog" >
+    update TOM_LEARNTIME_LOG
+    set TIME = #{time,jdbcType=DECIMAL},
+      CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      COURSE_ID = #{courseId,jdbcType=DECIMAL},
+      SECTION_ID = #{sectionId,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      USERAGENT = #{useragent,jdbcType=VARCHAR}
+    where LOG_ID = #{logId,jdbcType=DECIMAL}
+  </update>
+</mapper>

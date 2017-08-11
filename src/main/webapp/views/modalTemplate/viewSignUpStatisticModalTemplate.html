@@ -1,0 +1,51 @@
+<div ng-controller="viewSignUpStatisticController">
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}"  role="dialog" ng-if="openModalDialog">
+		<div class="modal-dialog" ng-style="setStyle_02()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close del-icon" ng-click="doClose()">&times;</a>
+					<h4 class="modal-title" ng-bind="'《'+courseName+'》'+'统计'"></h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-striped table-bordered table-hover table-condensed">
+						<thead>
+							<tr>
+			 					<th class="col-xs-1">序号</th>
+			 					<th class="col-xs-2">姓名</th>
+			 					<th class="col-xs-2">工号</th>
+			 					<th class="col-xs-2">部门</th>
+			 					<th class="col-xs-2">一级部门</th>
+			 					<th class="col-xs-1">完成</th>
+			 					<th class="col-xs-2">完成时间</th>
+			 				</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="b in page.data" ng-class="{'current-focus-tr':b.code == currHighLightRow.code}" ng-click="highLightCurrRow(b)" style="cursor:pointer;">
+			 					<td ng-bind="$index+1"></td>
+			 					<td ng-bind="b.name"></td>
+			 					<td ng-bind="b.code"></td>
+			 					<td ng-bind="b.deptName"></td>
+			 					<td ng-bind="b.oneDeptName"></td>
+			 					<td ng-bind="b.attendance"></td>
+			 					<td ng-bind="b.signTime"></td>
+			 				</tr>
+						</tbody>
+					</table>
+					<div class="container-fluid" style="margin-top:20px;" ng-show="page.data.length>0">
+						<div class="row">
+							<a class="btn btn-primary btn-con-trol" href="/enterpriseuniversity/services/attendanceStatistics/downloadAttendanceStatisticsDetailedExcel?pageNum={{page.pageNum}}&pageSize={{page.pageSize}}&activityId={{activityId}}&courseId={{courseId}}">导&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</a>
+						</div>
+					</div>
+					<div>
+                		<div class="container-fluid" pagination conf="paginationConf"></div>
+              		</div>
+				</div>
+				<div class="modal-footer">
+                    <a class="btn btn-default" ng-click="doClose()">关闭</a>
+                </div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+</div>

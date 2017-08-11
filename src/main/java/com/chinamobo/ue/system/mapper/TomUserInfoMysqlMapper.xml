@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.system.dao.TomUserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.system.entity.TomUserInfo" >
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="HEAD_IMG" property="headImg" jdbcType="VARCHAR" />
+    <result column="CONTINUOUS_SIGN_IN_NUMBER" property="continuousSignInNumber" jdbcType="DECIMAL" />
+    <result column="LAST_SIGN_IN_TIME" property="lastSignInTime" jdbcType="TIMESTAMP" />
+    <result column="COURSE_NUMBER" property="courseNumber" jdbcType="VARCHAR" />
+    <result column="LEARNING_TIME" property="learningTime" jdbcType="VARCHAR" />
+    <result column="E_NUMBER" property="eNumber" jdbcType="DECIMAL" />
+    <result column="SUM_SIGN_IN_TIMES" property="sumSignInTimes" jdbcType="DECIMAL" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="ANONYMITY" property="anonymity" jdbcType="VARCHAR" />
+    <result column="ADD_UP_E_NUMBER" property="addUpENumber" jdbcType="DECIMAL" />
+       <result column="ANONYMITY" property="anonymity" jdbcType="VARCHAR" />
+       <result column="PHONE_NUMBER" property="phoneNumber" jdbcType="VARCHAR" />
+       <result column="NAME" property="name" jdbcType="VARCHAR" />
+       <result column="SEX" property="sex" jdbcType="VARCHAR" />
+       <result column="EXPRESS_COMPANY" property="expressCompany" jdbcType="VARCHAR" />
+    <result column="EXPRESS_NUMBER" property="expressNumber" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMapByLog" type="com.chinamobo.ue.system.entity.TomUserInfo" extends="BaseResultMap">
+  <association property="tomUserLog" javaType="TomUserLog">
+   <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+		CODE, HEAD_IMG, CONTINUOUS_SIGN_IN_NUMBER, LAST_SIGN_IN_TIME, COURSE_NUMBER,
+		LEARNING_TIME, E_NUMBER,ADDRESS,
+		SUM_SIGN_IN_TIMES,ADDRESS,ADD_UP_E_NUMBER,ANONYMITY,PHONE_NUMBER,NAME,SEX,STATUS
+	</sql>
+	
+	<!-- 根据Code查详细信息 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tom_user_info
+		where code = #{code,jdbcType=VARCHAR}
+	</select>
+  <!--联合userlog查询  -->
+  <select id="selectByUserLog" resultMap="BaseResultMapByLog"
+		parameterType="java.lang.String">
+		select u.e_number,e.code,e.name,e.email,e.phone,e.status from tom_user_log e,tom_user_info u
+		where
+		u.code=e.code and e.code= #{code,jdbcType=VARCHAR}
+	</select>
+  <insert id="insert" parameterType="com.chinamobo.ue.system.entity.TomUserInfo" >
+    insert into TOM_USER_INFO (CODE, HEAD_IMG, CONTINUOUS_SIGN_IN_NUMBER, 
+      LAST_SIGN_IN_TIME, COURSE_NUMBER, LEARNING_TIME, 
+      E_NUMBER, SUM_SIGN_IN_TIMES, ADDRESS, 
+      ADD_UP_E_NUMBER,ANONYMITY)
+    values (#{code,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR}, #{continuousSignInNumber,jdbcType=DECIMAL}, 
+      #{lastSignInTime,jdbcType=TIMESTAMP}, #{courseNumber,jdbcType=VARCHAR}, #{learningTime,jdbcType=VARCHAR}, 
+      #{eNumber,jdbcType=DECIMAL}, #{sumSignInTimes,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, 
+      #{addUpENumber,jdbcType=DECIMAL},#{anonymity,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.system.entity.TomUserInfo" >
+    insert into TOM_USER_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="headImg != null" >
+        HEAD_IMG,
+      </if>
+      <if test="continuousSignInNumber != null" >
+        CONTINUOUS_SIGN_IN_NUMBER,
+      </if>
+      <if test="lastSignInTime != null" >
+        LAST_SIGN_IN_TIME,
+      </if>
+      <if test="courseNumber != null" >
+        COURSE_NUMBER,
+      </if>
+      <if test="learningTime != null" >
+        LEARNING_TIME,
+      </if>
+      <if test="eNumber != null" >
+        E_NUMBER,
+      </if>
+      <if test="sumSignInTimes != null" >
+        SUM_SIGN_IN_TIMES,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="addUpENumber != null" >
+        ADD_UP_E_NUMBER,
+      </if>
+       <if test="anonymity != null" >
+        ANONYMITY,
+      </if>
+       <if test="phoneNumber != null" >
+        PHONE_NUMBER,
+      </if>
+          <if test="name != null" >
+        NAME,
+      </if>
+          <if test="sex != null" >
+        SEX,
+      </if>
+           <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null" >
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="continuousSignInNumber != null" >
+        #{continuousSignInNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="lastSignInTime != null" >
+        #{lastSignInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseNumber != null" >
+        #{courseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="learningTime != null" >
+        #{learningTime,jdbcType=VARCHAR},
+      </if>
+      <if test="eNumber != null" >
+        #{eNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="sumSignInTimes != null" >
+        #{sumSignInTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="addUpENumber != null" >
+        #{addUpENumber,jdbcType=DECIMAL},
+      </if>
+        <if test="anonymity != null" >
+        #{anonymity,jdbcType=VARCHAR},
+      </if>
+              <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+              <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+              <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+             <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCode" parameterType="com.chinamobo.ue.system.entity.TomUserInfo">
+		update TOM_User_Info
+		<set>
+			<if test="headImg != null">
+				HEAD_IMG = #{headImg,jdbcType=VARCHAR},
+			</if>
+			<if test="continuousSignInNumber != null">
+				CONTINUOUS_SIGN_IN_NUMBER = #{continuousSignInNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="lastSignInTime != null">
+				LAST_SIGN_IN_TIME = #{lastSignInTime,jdbcType=VARCHAR},
+			</if>
+			 <if test="courseNumber != null" >
+			 	 COURSE_NUMBER =  #{courseNumber,jdbcType=VARCHAR},
+			 </if>
+			<if test="eNumber != null">
+				e_Number = #{eNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="sumSignInTimes != null">
+				SUM_SIGN_IN_TIMES = #{sumSignInTimes,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="addUpENumber != null">
+				ADD_UP_E_NUMBER = #{addUpENumber,jdbcType=VARCHAR},
+			</if>
+			<if test="learningTime != null">
+				LEARNING_TIME = #{learningTime,jdbcType=VARCHAR},
+			</if>
+			  <if test="anonymity != null" >
+      ANONYMITY =  #{anonymity,jdbcType=DECIMAL},
+      </if>
+      	  <if test="phoneNumber != null" >
+      PHONE_NUMBER =  #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      	  <if test="name != null" >
+      NAME =  #{name,jdbcType=VARCHAR},
+      </if>
+      	  <if test="sex != null" >
+      SEX =  #{sex,jdbcType=VARCHAR},
+      </if>
+        <if test="status != null" >
+      STATUS =  #{status,jdbcType=VARCHAR},
+      </if>
+		</set>
+		where CODE = #{code,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="selectTopTime" resultMap="BaseResultMap"
+		parameterType="com.chinamobo.ue.system.entity.TomUserInfo">
+		select 
+    <include refid="Base_Column_List" />    
+    FROM TOM_USER_INFO  
+      	 <!-- order by to_number(LEARNING_TIME) desc  -->
+      	 order by cast(LEARNING_TIME as signed integer) desc
+     limit<![CDATA[
+     #{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+	</select>
+	
+	<select id="countByExample" parameterType="com.chinamobo.ue.system.entity.TomUserInfo" resultType="java.lang.Integer">
+   select count(1) from TOM_USER_INFO where 1=1
+    <if test="code != null" >
+        and CODE = #{code,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <select id="countByENumber" resultType="int" parameterType="java.lang.Integer"> 
+	select count(*) from tom_user_info where E_NUMBER > #{eNumber,jdbcType=DECIMAL} 
+</select>  
+<select id="rankByLearnTime" resultType="int" parameterType="java.lang.Integer"> 
+	<!-- select count(*) from tom_user_info where to_number(LEARNING_TIME) >#{learningTime,jdbcType=DECIMAL} -->
+	select count(*) from tom_user_info where cast(LEARNING_TIME as signed integer) >#{learningTime,jdbcType=DECIMAL} 
+</select>  
+	<select id="countByAddUpENumber" resultType="int" parameterType="java.lang.Integer"> 
+	select count(*) from tom_user_info where E_NUMBER = #{0} and ADD_UP_E_NUMBER> #{1} 
+</select> 
+  
+ <!-- E币排行榜 --> 
+ <select id="selectCountByeNumber" resultType="int" >
+ SELECT count(*) FROM TOM_USER_INFO u,Tom_emp s WHERE u.code=s.code 
+ </select>
+ <select id="selectByeNumber" resultType="com.chinamobo.ue.api.commodity.dto.CommodityResult" parameterType="map">
+
+   SELECT
+	u.HEAD_IMG AS headImg,
+  u.name AS name,
+  u.E_NUMBER AS eNumber,
+  u.code AS userId,
+  s.deptname AS deptName,
+  u.ADD_UP_E_NUMBER AS addUpEName
+FROM
+	TOM_USER_INFO u  ,Tom_emp s  WHERE 1=1  AND u.code=s.code ORDER BY E_NUMBER DESC
+	
+		limit<![CDATA[
+        #{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+ </select>
+ 
+  <insert id="insertList" parameterType="ArrayList" >
+    insert into TOM_USER_INFO (CODE, HEAD_IMG, CONTINUOUS_SIGN_IN_NUMBER, LAST_SIGN_IN_TIME, COURSE_NUMBER,
+		LEARNING_TIME, E_NUMBER,
+		SUM_SIGN_IN_TIMES,ADDRESS,ADD_UP_E_NUMBER,ANONYMITY,PHONE_NUMBER,NAME,SEX,STATUS)
+      <foreach collection="list" item="item" index="index"  
+        separator="union all"> 
+   select #{item.code,jdbcType=VARCHAR},#{item.headImg,jdbcType=VARCHAR},#{item.continuousSignInNumber,jdbcType=VARCHAR},#{item.lastSignInTime,jdbcType=VARCHAR},#{item.courseNumber,jdbcType=VARCHAR},
+   #{item.learningTime,jdbcType=VARCHAR},#{item.eNumber,jdbcType=VARCHAR},#{item.sumSignInTimes,jdbcType=VARCHAR},#{item.address,jdbcType=VARCHAR},#{item.addUpENumber,jdbcType=VARCHAR},
+   #{item.anonymity,jdbcType=VARCHAR},#{item.phoneNumber,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},#{item.sex,jdbcType=VARCHAR},#{item.status,jdbcType=VARCHAR} from dual
+          </foreach>
+  </insert>
+  <select id="selectBycode" resultType="com.chinamobo.ue.api.commodity.dto.CommodityResult" parameterType="map">
+  SELECT
+	CODE AS userId,
+  E_NUMBER AS eCoin
+FROM
+	TOM_USER_INFO 
+	where 1=1
+	<if test="code!=null">
+	and CODE=#{code,jdbcType=VARCHAR}
+	</if>
+  </select>
+  <delete id="deleteByCode" parameterType="java.lang.String">
+		delete from
+		TOM_USER_INFO
+		where CODE=#{code,jdbcType=VARCHAR}
+	</delete>
+	<update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.system.entity.TomUserInfo">
+		update TOM_USER_INFO
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNumber != null">
+				PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where CODE = #{code,jdbcType=VARCHAR}
+	</update>
+</mapper>

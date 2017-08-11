@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.system.dao.TomLabelEmpRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.system.entity.TomLabelEmpRelation" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="TAG_ID" property="tagId" jdbcType="VARCHAR" />
+    <result column="TAG_NAME" property="tagName" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CITYNAME" property="cityname" jdbcType="VARCHAR" />
+    <result column="SECRET_EMAIL" property="secretEmail" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="ORGCODE" property="orgcode" jdbcType="VARCHAR" />
+    <result column="ORGNAME" property="orgname" jdbcType="VARCHAR" />
+    <result column="DEPTCODE" property="deptcode" jdbcType="VARCHAR" />
+    <result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+    <result column="ONEDEPTCODE" property="onedeptcode" jdbcType="VARCHAR" />
+    <result column="ONEDEPTNAME" property="onedeptname" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="POSTSTAT" property="poststat" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TAG_ID, TAG_NAME, CODE, NAME, CITYNAME, SECRET_EMAIL, MOBILE, ORGCODE, ORGNAME, 
+    DEPTCODE, DEPTNAME, ONEDEPTCODE, ONEDEPTNAME, SEX, POSTSTAT, CREATE_TIME, UPDATE_TIME, 
+    TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tom_label_emp_relation
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByTagIdCode" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from tom_label_emp_relation
+    where TAG_ID = #{tagId,jdbcType=VARCHAR}
+    AND CODE = #{code,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询标签分类下的人 -->
+  <select id="selectLabelClassEmpList" resultType="com.chinamobo.ue.system.entity.TomLabelEmpRelation" parameterType="java.lang.Integer" >
+  	SELECT
+	*
+	FROM
+	tom_label_class_relation a
+	LEFT JOIN tom_label_emp_relation b ON a.TAG_ID=b.TAG_ID
+	WHERE 1=1
+	AND a.CLASS_ID = #{classId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tom_label_emp_relation
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPrimary" parameterType="java.lang.String" >
+    delete from tom_label_emp_relation
+    where TAG_ID = #{tagId,jdbcType=VARCHAR} AND TYPE IS NULL
+  </delete>
+  <!-- 删除全部微信标签人员关联表 -->
+  <delete id="deleteWxLabelEmpRelation" >
+    delete from tom_label_emp_relation
+    where TYPE='WX'
+  </delete>
+  <insert id="insert" parameterType="com.chinamobo.ue.system.entity.TomLabelEmpRelation" >
+    insert into tom_label_emp_relation (ID, TAG_ID, TAG_NAME, 
+      CODE, NAME, CITYNAME, 
+      SECRET_EMAIL, MOBILE, ORGCODE, 
+      ORGNAME, DEPTCODE, DEPTNAME, 
+      ONEDEPTCODE, ONEDEPTNAME, SEX, 
+      POSTSTAT, CREATE_TIME, UPDATE_TIME, 
+      TYPE)
+    values (#{id,jdbcType=INTEGER}, #{tagId,jdbcType=VARCHAR}, #{tagName,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{cityname,jdbcType=VARCHAR}, 
+      #{secretEmail,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{orgcode,jdbcType=VARCHAR}, 
+      #{orgname,jdbcType=VARCHAR}, #{deptcode,jdbcType=VARCHAR}, #{deptname,jdbcType=VARCHAR}, 
+      #{onedeptcode,jdbcType=VARCHAR}, #{onedeptname,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{poststat,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.system.entity.TomLabelEmpRelation" >
+    insert into tom_label_emp_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="tagId != null" >
+        TAG_ID,
+      </if>
+      <if test="tagName != null" >
+        TAG_NAME,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="cityname != null" >
+        CITYNAME,
+      </if>
+      <if test="secretEmail != null" >
+        SECRET_EMAIL,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="orgcode != null" >
+        ORGCODE,
+      </if>
+      <if test="orgname != null" >
+        ORGNAME,
+      </if>
+      <if test="deptcode != null" >
+        DEPTCODE,
+      </if>
+      <if test="deptname != null" >
+        DEPTNAME,
+      </if>
+      <if test="onedeptcode != null" >
+        ONEDEPTCODE,
+      </if>
+      <if test="onedeptname != null" >
+        ONEDEPTNAME,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="poststat != null" >
+        POSTSTAT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tagId != null" >
+        #{tagId,jdbcType=VARCHAR},
+      </if>
+      <if test="tagName != null" >
+        #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="secretEmail != null" >
+        #{secretEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode != null" >
+        #{orgcode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="deptcode != null" >
+        #{deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null" >
+        #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="onedeptcode != null" >
+        #{onedeptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="onedeptname != null" >
+        #{onedeptname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="poststat != null" >
+        #{poststat,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.system.entity.TomLabelEmpRelation" >
+    update tom_label_emp_relation
+    <set >
+      <if test="tagId != null" >
+        TAG_ID = #{tagId,jdbcType=VARCHAR},
+      </if>
+      <if test="tagName != null" >
+        TAG_NAME = #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        CITYNAME = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="secretEmail != null" >
+        SECRET_EMAIL = #{secretEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode != null" >
+        ORGCODE = #{orgcode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        ORGNAME = #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="deptcode != null" >
+        DEPTCODE = #{deptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null" >
+        DEPTNAME = #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="onedeptcode != null" >
+        ONEDEPTCODE = #{onedeptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="onedeptname != null" >
+        ONEDEPTNAME = #{onedeptname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="poststat != null" >
+        POSTSTAT = #{poststat,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.system.entity.TomLabelEmpRelation" >
+    update tom_label_emp_relation
+    set TAG_ID = #{tagId,jdbcType=VARCHAR},
+      TAG_NAME = #{tagName,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      CITYNAME = #{cityname,jdbcType=VARCHAR},
+      SECRET_EMAIL = #{secretEmail,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      ORGCODE = #{orgcode,jdbcType=VARCHAR},
+      ORGNAME = #{orgname,jdbcType=VARCHAR},
+      DEPTCODE = #{deptcode,jdbcType=VARCHAR},
+      DEPTNAME = #{deptname,jdbcType=VARCHAR},
+      ONEDEPTCODE = #{onedeptcode,jdbcType=VARCHAR},
+      ONEDEPTNAME = #{onedeptname,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      POSTSTAT = #{poststat,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectBytagIdList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT
+  	<include refid="Base_Column_List" />
+  	FROM tom_label_emp_relation
+  	WHERE TAG_ID = #{tagId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectLabelEmpList" resultMap="BaseResultMap" parameterType="map" >
+  	SELECT
+  	a.CODE AS code,a.NAME AS name, a.MOBILE AS mobile, a.DEPTNAME AS deptname, a.TAG_NAME AS  tagName, a.TAG_ID AS tagId, a.TYPE AS  type
+	FROM tom_label_emp_relation a
+	LEFT JOIN tom_label_class_relation b ON a.TAG_ID=b.TAG_ID
+	LEFT JOIN tom_emp c ON a.`CODE`=c.`CODE`
+	WHERE 1=1
+	<if test="tagId != null">
+		AND a.TAG_ID = #{tagId,jdbcType=VARCHAR}
+	</if>
+	<if test="classId != null">
+		AND b.CLASS_ID = #{classId,jdbcType=INTEGER}
+	</if>
+	<if test="type != null">
+		AND a.TYPE = #{type,jdbcType=VARCHAR}
+	</if>
+	<if test="code != null">
+		AND INSTR(c.CODE,#{code,jdbcType=VARCHAR})>0
+	</if>
+	<if test="name != null">
+		AND INSTR(c.NAME,#{name,jdbcType=VARCHAR})>0
+	</if>
+	<if test="sex != null">
+		AND c.SEX = #{sex,jdbcType=VARCHAR}
+	</if>
+	<if test="begindate != null">
+		AND c.BEGINDATE = #{begindate,jdbcType=VARCHAR}
+	</if>
+	<if test="cityname != null">
+		AND INSTR(c.CITYNAME,#{cityname,jdbcType=VARCHAR})>0
+	</if>
+	limit<![CDATA[#{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="map" >
+  	SELECT
+  	COUNT(*)
+	FROM tom_label_emp_relation a
+	LEFT JOIN tom_label_class_relation b ON a.TAG_ID=b.TAG_ID
+	LEFT JOIN tom_emp c ON a.`CODE`=c.`CODE`
+	WHERE 1=1
+	<if test="tagId != null">
+		AND a.TAG_ID = #{tagId,jdbcType=VARCHAR}
+	</if>
+	<if test="classId != null">
+		AND b.CLASS_ID = #{classId,jdbcType=INTEGER}
+	</if>
+	<if test="type != null">
+		AND a.TYPE = #{type,jdbcType=VARCHAR}
+	</if>
+	<if test="code != null">
+		AND INSTR(c.CODE,#{code,jdbcType=VARCHAR})>0
+	</if>
+	<if test="name != null">
+		AND INSTR(c.NAME,#{name,jdbcType=VARCHAR})>0
+	</if>
+	<if test="sex != null">
+		AND c.SEX = #{sex,jdbcType=VARCHAR}
+	</if>
+	<if test="begindate != null">
+		AND c.BEGINDATE = #{begindate,jdbcType=VARCHAR}
+	</if>
+	<if test="cityname != null">
+		AND INSTR(c.CITYNAME,#{cityname,jdbcType=VARCHAR})>0
+	</if>
+  </select>
+</mapper>

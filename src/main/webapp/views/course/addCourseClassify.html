@@ -1,0 +1,76 @@
+<meta charset="utf-8">
+<div id="page" class="container-fluid overflow-auto">
+    <form name="courseClassifyForm" ng-controller="AddCourseClassifyController" class="form-horizontal" role="form" enctype="multipart/form-data" >
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">课程分类名称：</label>
+            <div class="col-xs-5 width_6">
+                <input type="text" class="form-control width_1"  name="classifyName"
+                       ng-model="courseClassify.classifyName"
+                       ng-maxlength="50"
+                       required
+                       placeholder="请输入课程分类名称">(最多输入50个字符)
+            </div>
+            <div class="error" ng-show="courseClassifyForm.classifyName.$dirty&&courseClassifyForm.classifyName.$invalid||courseClassifyForm.$submitted&&courseClassifyForm.classifyName.$invalid" >
+               <span  ng-show="courseClassifyForm.classifyName.$error.required"class="glyphicon glyphicon-exclamation-sign">请填写课程分类名称</span>
+               <span ng-show="courseClassifyForm.classifyName.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">课程分类名称最多50个字符</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">上级课程分类名称：</label>
+            <div class="col-xs-5 width_6">
+            	<div class="input-group width_2">
+                    <input type="text" placeholder="请选择上级课程分类" class="form-control width_1" 
+                    	name="parentClassifyName" 
+                    	readonly 
+                    	ng-model="courseClassify.parentClassifyName">
+                    <span class="input-group-btn">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-control"  ng-click="doOpenRadioCourseClassifyModal()">选择上级课程分类</a>
+                    </span>
+                </div>
+            </div>
+            <div ng-include="'/enterpriseuniversity/views/modalTemplate/radioCourseClassifyModalTemplate.html'"></div>
+        </div>
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">课程分类简介：</label>
+            <div class="col-xs-5 width_6">
+                <textarea type="text" class="form-control width_1" name="classifyIntroduction" rows="6"
+                          ng-model="courseClassify.classifyIntroduction"
+                          ng-maxlength="500" 
+          				  placeholder="请输入课程分类简介" >(最多输入500个字符)
+          				  </textarea>
+            </div>
+            <div class="error" ng-show="courseClassifyForm.classifyIntroduction.$dirty&&courseClassifyForm.classifyIntroduction.$invalid||courseClassifyForm.$submitted&&courseClassifyForm.classifyIntroduction.$invalid" >
+               	<span ng-show="courseClassifyForm.classifyIntroduction.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">分类简介最多500个字符</span>
+            </div>
+        </div>
+        <!-- start选择管理员-->
+        <div class="form-group">
+            <label class="col-xs-2 control-label">课程授权：</label>
+            <div class="col-xs-5 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal" ng-click="doOpenAdminModal()">选择管理员</a>
+		        </div>
+      			<div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+    		</div>
+    		<input type="hidden" name="admins" ng-model="courseClassify.admins" required-admin>
+    		<div class="error" ng-show="courseClassifyForm.admins.$invalid&&courseClassifyForm.$submitted">
+                <span ng-show="courseClassifyForm.admins.$error.requiredAdmin" class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+           	</div>
+        </div>
+        <!-- end 选择管理员 -->
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control"  ng-click="doSave()">保&nbsp;&nbsp;&nbsp;存</a>
+                <a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+        </div>
+        <div class="modal-backdrop fade" ng-class="{'in':addCourseClassifySubmit,'display-block':addCourseClassifySubmit,'display-none':!addCourseClassifySubmit}"></div>
+    </form>
+</div>
+<script type="text/javascript">
+    //监听窗口大小变化，自适应高度
+    $(document).ready(function () {
+    	resizeView();
+    });
+</script>
+ 

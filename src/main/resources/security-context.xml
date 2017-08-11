@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"
+	default-lazy-init="true">
+
+	<description>Shiro安全配置</description>
+	
+	<!-- rememberMe管理器 -->
+	<bean id="rememberMeManager" class="com.chinamobo.ue.ums.shiro.EleCookieRememberMeManager" /> 
+	<bean id="shiroDbRealm" class="com.chinamobo.ue.ums.shiro.realm.EleFormRealm" />
+	<bean id="ueRealm" class="com.chinamobo.ue.ums.shiro.realm.UeRealm"/>
+	<bean id="apiUserRealm" class="com.chinamobo.ue.ums.shiro.realm.ApiUserRealm" />
+	<bean id="ueApiRealm" class="com.chinamobo.ue.ums.shiro.realm.UeApiRealm"></bean>
+	<bean id="eleRealmAuthenticator" class="com.chinamobo.ue.ums.shiro.EleRealmAuthenticator"/>
+	<!-- Shiro's main business-tier object for web-enabled applications -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="rememberMeManager" ref="rememberMeManager"/> 
+		<property name="authenticator" ref="eleRealmAuthenticator"></property>
+		<property name="realms">
+			<list>
+				<!-- 系统用户认证 -->
+				<ref bean="ueRealm"/>
+				<!-- API用户认证 -->
+				<ref bean="ueApiRealm"/>
+			</list>
+		</property>
+		<property name="cacheManager" ref="shiroEhcacheManager" />
+	</bean>
+
+	<!-- ele form filter -->
+	<bean id="eleFormFilter" class="com.chinamobo.ue.ums.shiro.EleFormAuthenticationFilter" />
+	
+	<!-- ele param filter -->
+	<bean id="apiUserFilter" class="com.chinamobo.ue.ums.shiro.ApiUserAuthenticationFilter"/>
+	
+	<!-- ele param filter -->
+	<bean id="eleRoleFilter" class="com.chinamobo.ue.ums.shiro.EleRoleAuthenticationFilter"/>
+	
+	<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+<!-- 		<property name="loginUrl" value="/services/sso/login" /> -->
+			<property name="loginUrl" value="/services/backend/sys/loginpage" />
+<!-- 		<property name="getUserUrl" value="/services/sso/getUser" /> -->
+<!-- 		<property name="logoutUrl" value="/services/sso/logout" /> -->
+		<property name="successUrl" value="/services/menu" />
+	<!-- <property name="unauthorizedUrl" value="/services/menu"/>  -->
+		<property name="filters">
+			<map>
+				<entry key="sysUserAuth" value-ref="eleFormFilter"/>
+				<entry key="apiUserAuth" value-ref="apiUserFilter"/>
+				<entry key="roleUserAuth" value-ref="eleRoleFilter"/> 
+			</map>
+		</property>
+
+		<property name="filterChainDefinitions">
+			<value>
+				/services/api/** = noSessionCreation,apiUserAuth
+		   	     /services/backend/sys/** = anon
+		   	     /services/userFirstLog/** = anon
+				/services/sso/** = anon
+				/services/weChat/**= anon
+<!-- 				/services/sso/logout = anon -->
+<!-- 				/services/sso/getUser = anon -->
+				/services/** = roleUserAuth       
+			</value>
+		</property>
+	</bean>
+
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
+	</bean>
+	
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	
+	<!-- AOP式方法级权限检查  -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"/>
+	</bean>
+</beans>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.course.dao.TomTestMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.course.entity.TomTest" >
+    <id column="test_id" property="testId" jdbcType="INTEGER" />
+    <result column="test_name" property="testName" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="test_user_id" property="testUserId" jdbcType="VARCHAR" />
+    <result column="test_user_name" property="testUserName" jdbcType="VARCHAR" />
+    <result column="test_question_id" property="testQuestionId" jdbcType="INTEGER" />
+    <result column="test_question_name" property="testQuestionName" jdbcType="VARCHAR" />
+    <result column="test_start_time" property="testStartTime" jdbcType="TIMESTAMP" />
+    <result column="test_end_time" property="testEndTime" jdbcType="TIMESTAMP" />
+    <result column="test_user_answer" property="testUserAnswer" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="com.chinamobo.ue.course.dto.TomExportTestDto" id="ExportResultMap">
+    <id column="test_id" property="testId" jdbcType="INTEGER" />
+    <result column="test_name" property="testName" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="test_user_id" property="testUserId" jdbcType="VARCHAR" />
+    <result column="test_user_name" property="testUserName" jdbcType="VARCHAR" />
+    <result column="test_question_id" property="testQuestionId" jdbcType="INTEGER" />
+    <result column="test_question_name" property="testQuestionName" jdbcType="VARCHAR" />
+    <result column="test_start_time" property="testStartTime" jdbcType="TIMESTAMP" />
+    <result column="test_end_time" property="testEndTime" jdbcType="TIMESTAMP" />
+    <result column="test_user_answer" property="testUserAnswer" jdbcType="VARCHAR" />
+    <result column="test_use_time" property="testUseTime" jdbcType="DECIMAL"/>
+  </resultMap>
+  
+  <select id="selectByCourseId" resultMap="ExportResultMap" parameterType="map">
+     select test_user_id,test_user_name,test_id,test_question_id,test_question_name,test_user_answer,test_end_time,TIMESTAMPDIFF(MINUTE,test_start_time,test_end_time) as test_use_time
+     from tom_test where course_id = #{courseId,jdbcType=INTEGER} order by test_user_id,test_question_id
+  </select>
+  <select id="countQuestions" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    select ifnull(count(distinct test_question_id),0) from tom_test where course_id=#{courseId,jdbcType=INTEGER}
+  </select>
+  <select id="countUsers" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+  select ifnull(count(distinct test_user_id),0) from tom_test where course_id=#{courseId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCourseIdEX" resultMap="ExportResultMap" parameterType="java.lang.Integer">
+     select test_user_id,test_user_name,test_id,test_question_id,test_question_name,test_user_answer,test_end_time,TIMESTAMPDIFF(MINUTE,test_start_time,test_end_time) as test_use_time
+     from tom_test where course_id = #{courseId,jdbcType=INTEGER} order by test_user_id,test_question_id
+  </select>
+                                                                                                                                                                             
+  
+  <sql id="Base_Column_List" >
+    test_id, test_name, course_id, test_user_id, test_user_name, test_question_id, test_question_name, 
+    test_start_time, test_end_time, test_user_answer
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tom_test
+    where test_id = #{testId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tom_test
+    where test_id = #{testId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chinamobo.ue.course.entity.TomTest" >
+    insert into tom_test ( test_name, course_id, 
+      test_user_id, test_user_name, test_question_id, 
+      test_question_name, test_start_time, test_end_time, 
+      test_user_answer)
+    values ( #{testName,jdbcType=VARCHAR}, #{courseId,jdbcType=INTEGER}, 
+      #{testUserId,jdbcType=VARCHAR}, #{testUserName,jdbcType=VARCHAR}, #{testQuestionId,jdbcType=INTEGER}, 
+      #{testQuestionName,jdbcType=VARCHAR}, #{testStartTime,jdbcType=TIMESTAMP}, #{testEndTime,jdbcType=TIMESTAMP}, 
+      #{testUserAnswer,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.course.entity.TomTest" >
+    insert into tom_test
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     
+      <if test="testName != null" >
+        test_name,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="testUserId != null" >
+        test_user_id,
+      </if>
+      <if test="testUserName != null" >
+        test_user_name,
+      </if>
+      <if test="testQuestionId != null" >
+        test_question_id,
+      </if>
+      <if test="testQuestionName != null" >
+        test_question_name,
+      </if>
+      <if test="testStartTime != null" >
+        test_start_time,
+      </if>
+      <if test="testEndTime != null" >
+        test_end_time,
+      </if>
+      <if test="testUserAnswer != null" >
+        test_user_answer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      <if test="testName != null" >
+        #{testName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="testUserId != null" >
+        #{testUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="testUserName != null" >
+        #{testUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="testQuestionId != null" >
+        #{testQuestionId,jdbcType=INTEGER},
+      </if>
+      <if test="testQuestionName != null" >
+        #{testQuestionName,jdbcType=VARCHAR},
+      </if>
+      <if test="testStartTime != null" >
+        #{testStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testEndTime != null" >
+        #{testEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testUserAnswer != null" >
+        #{testUserAnswer,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.course.entity.TomTest" >
+    update tom_test
+    <set >
+      <if test="testName != null" >
+        test_name = #{testName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="testUserId != null" >
+        test_user_id = #{testUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="testUserName != null" >
+        test_user_name = #{testUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="testQuestionId != null" >
+        test_question_id = #{testQuestionId,jdbcType=INTEGER},
+      </if>
+      <if test="testQuestionName != null" >
+        test_question_name = #{testQuestionName,jdbcType=VARCHAR},
+      </if>
+      <if test="testStartTime != null" >
+        test_start_time = #{testStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testEndTime != null" >
+        test_end_time = #{testEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testUserAnswer != null" >
+        test_user_answer = #{testUserAnswer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where test_id = #{testId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.course.entity.TomTest" >
+    update tom_test
+    set test_name = #{testName,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=INTEGER},
+      test_user_id = #{testUserId,jdbcType=VARCHAR},
+      test_user_name = #{testUserName,jdbcType=VARCHAR},
+      test_question_id = #{testQuestionId,jdbcType=INTEGER},
+      test_question_name = #{testQuestionName,jdbcType=VARCHAR},
+      test_start_time = #{testStartTime,jdbcType=TIMESTAMP},
+      test_end_time = #{testEndTime,jdbcType=TIMESTAMP},
+      test_user_answer = #{testUserAnswer,jdbcType=VARCHAR}
+    where test_id = #{testId,jdbcType=INTEGER}
+  </update>
+</mapper>

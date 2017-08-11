@@ -1,0 +1,48 @@
+<meta charset="UTF-8" >
+<div id="page"  class="container-fluid overflow-auto">
+    <form name="messageSetForm" ng-controller="SystemMessageSetController" novalidate class="form-horizontal" role="form" >
+         <div class="form-group">
+            <label  class="col-xs-2 control-label">推送规则：</label>
+            <div class="col-xs-8 width_6">
+                 <ul>
+                 	<li>a)报名活动通知推送</li>
+                 	<li>b)调查问卷推送</li>
+                 	<li>c)学习任务提醒</li>
+                 	<li>d)培训结束反馈提醒</li>
+                 	<li>e)任务截止日期前提醒</li>
+                 </ul>
+            </div>
+            </div>
+		<div class="form-group">
+            <label  class="col-xs-2 control-label">推送方式：</label>
+            <div class="col-xs-8 width_6">
+                <label class="checkbox-inline checkbox-control">
+                    <input type="checkbox"  ng-checked="messageSet.sendToApp=='Y'" ng-click="toggleSendToApp()">企业号
+                </label>
+                <label class="checkbox-inline checkbox-control">
+                    <input type="checkbox"  ng-checked="messageSet.sendToEmail=='Y'" ng-click="toggleSendToEmail()">邮件
+                </label>
+                <!-- <label class="checkbox-inline checkbox-control">
+                    <input type="checkbox"  ng-checked="messageSet.sendToPhone=='Y'" ng-click="toggleSendToPhone()">短信
+                </label> -->
+            </div>
+          
+           <!--  <input type="hidden" name="sendWay" ng-model="sendWay" required-sendway>
+            <div class="error" ng-show="messageSetForm.$submitted&&messageSetForm.sendWay.$invalid" >
+                <span ng-show="messageSetForm.sendWay.$error.requiredSendway" class="glyphicon glyphicon-exclamation-sign">请至少选择一种推送方式</span>
+            </div> -->
+    	</div>
+ 		<div class="form-group">
+           <div class="col-xs-offset-2 col-xs-8">
+               <a class="btn btn-primary btn-control" ng-click="doSave()">保&nbsp;&nbsp;&nbsp;存</a>
+               <a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+           </div>
+       </div>
+    </form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

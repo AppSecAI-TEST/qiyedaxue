@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="addCourseApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>添加课程</title>
+    <link href="/enterpriseuniversity/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/enterpriseuniversity/css/page.add.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <form name="addCourseForm" ng-controller="addCourseController" class="form-horizontal" role="form" enctype="multipart/form-data" >
+        <div class="form-group">
+            <label for="courseName" class="col-xs-2 control-label">课程名称：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" id="courseName" name="courseName"
+                       ng-model="course.courseName"
+                       ng-maxlength="50"
+                       required
+                       placeholder="请输入课程名称">(最多输入50个字符)
+            </div>
+            <div class="error col-xs-2" ng-show="addCourseForm.courseName.$dirty&&addCourseForm.courseName.$invalid" >
+                    <span  ng-show="addCourseForm.courseName.$error.required"class="glyphicon glyphicon-exclamation-sign pull-left">
+                        课程名称不能为空
+                    </span>
+                    <span ng-show="addCourseForm.courseName.$error.maxlength" class="glyphicon glyphicon-exclamation-sign pull-left">
+                        课程名称最多50个字符
+                    </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">线下/线上课程：</label>
+            <div class="col-xs-8">
+                <label class="radio-inline">
+                    <input type="radio" class="" name="courseOnline" id="courseOnline1"
+                           value="Y" checked>线上课程
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="courseOnline" id="courseOnline2"
+                           value="N" >线下课程
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label" for="courseSection">上传课程：</label>
+            <div class="col-xs-8">
+                <input type="file" class="fileInput btn btn-control" name="courseSection" id="courseSection" multiple >
+                <button class="fileInputBtn btn btn-primary btn-control">选择文件</button>
+                <div class="fileInputIntro">(可上传H.264编码的MP4、Microsoft Power Point 2003/2007/2010/2013、pdf文件)</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <table class="table table-bordered text-center">
+                    <tr>
+                        <td class="col-xs-4">上传课程文件编号</td>
+                        <td class="col-xs-4">课程文件名称、类型</td>
+                        <td class="col-xs-4">操作</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label" for="courseSection">课程分类：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">
+                    <button class="btn btn-primary  btn-control" data-toggle="modal"
+                            data-target="#cModel">选择课程分类
+                    </button>
+                </div>
+                <div class="form-control-static classifies-container clearfix" style="margin-top: 10px">
+                    <!--<label class="checkbox-inline" ng-repeat="c in courseClassifies">
+                        <input type="checkbox" class="">{{c.classifyName}}
+                    </label>-->
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                </div>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="cModel" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel" aria-hidden="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal" aria-hidden="false">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    选择课程分类
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">关闭
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    提交更改
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div>
+                </div><!-- /.modal -->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="courseName" class="col-xs-2 control-label">课程简介：</label>
+            <div class="col-xs-8">
+                <textarea type="text" class="form-control" id="courseIntroduction" name="courseIntroduction" ng-model="course.courseIntroduction"
+                       placeholder="请输入课程简介" ></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="courseName" class="col-xs-2 control-label">课程积分：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" id="eCurrency" name="eCurrency" ng-model="course.eCurrency"
+                       placeholder="课程奖励积分数量">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label" for="courseSection">课程评价维度：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">
+                    <button class="btn btn-primary  btn-control" data-toggle="modal"
+                            data-target="#cModel">选择课程评价维度
+                    </button>
+                </div>
+                <div class="form-control-static classifies-container clearfix" style="margin-top: 10px">
+                    <!--<label class="checkbox-inline" ng-repeat="c in courseClassifies">
+                        <input type="checkbox" class="">{{c.classifyName}}
+                    </label>-->
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                </div>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="cMode2" tabindex="-1" role="dialog"
+                     aria-labelledby="myModal2Label" aria-hidden="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal" aria-hidden="false">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModal2Label">
+                                    选择课程分类
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">关闭
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    提交更改
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div>
+                </div><!-- /.modal -->
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label" for="courseSection">讲师评价维度：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">
+                    <button class="btn btn-primary  btn-control" data-toggle="modal"
+                            data-target="#cModel">选择讲师评价维度
+                    </button>
+                </div>
+                <div class="form-control-static classifies-container clearfix" style="margin-top: 10px">
+                    <!--<label class="checkbox-inline" ng-repeat="c in courseClassifies">
+                        <input type="checkbox" class="">{{c.classifyName}}
+                    </label>-->
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                </div>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="cMode3" tabindex="-1" role="dialog"
+                     aria-labelledby="myModal3Label" aria-hidden="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal" aria-hidden="false">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModal3Label">
+                                    选择课程分类
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">关闭
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    提交更改
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div>
+                </div><!-- /.modal -->
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label" for="courseSection">课程授权：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">
+                    <button class="btn btn-primary  btn-control" data-toggle="modal"
+                            data-target="#cModel">选择管理员
+                    </button>
+                </div>
+                <div class="form-control-static classifies-container clearfix" style="margin-top: 10px">
+                    <!--<label class="checkbox-inline" ng-repeat="c in courseClassifies">
+                        <input type="checkbox" class="">{{c.classifyName}}
+                    </label>-->
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                </div>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="cMode4" tabindex="-1" role="dialog"
+                     aria-labelledby="myModal4Label" aria-hidden="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal" aria-hidden="false">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModal4Label">
+                                    选择课程分类
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">关闭
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    提交更改
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div>
+                </div><!-- /.modal -->
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label" for="courseSection">授课讲师：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">
+                    <button class="btn btn-primary  btn-control" data-toggle="modal"
+                            data-target="#cModel">选择讲师
+                    </button>
+                </div>
+                <div class="form-control-static classifies-container clearfix" style="margin-top: 10px">
+                    <!--<label class="checkbox-inline" ng-repeat="c in courseClassifies">
+                        <input type="checkbox" class="">{{c.classifyName}}
+                    </label>-->
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                </div>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="cMode5" tabindex="-1" role="dialog"
+                     aria-labelledby="myModal5Label" aria-hidden="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal" aria-hidden="false">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModal5Label">
+                                    选择课程分类
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">关闭
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    提交更改
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div>
+                </div><!-- /.modal -->
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label" for="courseSection">选择可见范围：</label>
+            <div class="col-xs-8">
+                <div class="form-control-static">
+                    <button class="btn btn-primary  btn-control" data-toggle="modal"
+                            data-target="#cModel">公开
+                    </button>
+                    <button class="btn btn-primary  col-xs-offset-1 btn-control" data-toggle="modal"
+                            data-target="#cModel">选择学习人员
+                    </button>
+                </div>
+                <div class="form-control-static classifies-container clearfix" style="margin-top: 10px">
+                    <!--<label class="checkbox-inline" ng-repeat="c in courseClassifies">
+                        <input type="checkbox" class="">{{c.classifyName}}
+                    </label>-->
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="">课程分类
+                    </label>
+                </div>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="cMode6" tabindex="-1" role="dialog"
+                     aria-labelledby="myModal6Label" aria-hidden="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal" aria-hidden="false">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModal6Label">
+                                    选择课程分类
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="">课程分类
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">关闭
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    提交更改
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div>
+                </div><!-- /.modal -->
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label" for="courseImg">上传课程封面：</label>
+            <div class="col-xs-8">
+                <input type="file" class="fileInput btn btn-control" name="courseImg" id="courseImg">
+                <button class="fileInputBtn btn btn-primary btn-control ">上传</button>
+                <div class="fileInputIntro">(1.5:1,&lt;=2M;建议360*240px,&lt;=500kb)</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">课程下载：</label>
+            <div class="col-xs-8">
+                <label class="radio-inline ">
+                    <input type="radio" class="" name="courseDownloadable" id="courseDownloadable1"
+                           value="Y" checked>开启
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="courseDownloadable" id="courseDownloadable2"
+                           value="N" >关闭
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">最佳课程：</label>
+            <div class="col-xs-8">
+                <label class="radio-inline ">
+                    <input type="radio" class="" name="isExcellentCourse" id="isExcellentCourse1"
+                           value="Y" checked>是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="isExcellentCourse" id="isExcellentCourse2"
+                           value="N" >否
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">上架/下架：</label>
+            <div class="col-xs-8">
+                <label class="radio-inline ">
+                    <input type="radio" class="" name="status" id="status1"
+                           value="Y" checked>上架
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="status" id="status2"
+                           value="N" >下架
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-xs-2 control-label">开启评论：</label>
+            <div class="col-xs-8">
+                <label class="radio-inline ">
+                    <input type="radio" class="" name="openComment" id="openComment1"
+                           value="Y" checked>开启
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="openComment" id="openComment2"
+                           value="N" >关闭
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <button class="btn btn-primary col-xs-8">保存</button>
+                <button class="btn btn-link col-xs-2">返&nbsp;&nbsp;&nbsp;回</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/enterpriseuniversity/js/angular.min.js"></script>
+<script type="text/javascript" src="/enterpriseuniversity/js/angular-ui-router.min.js"></script>
+<script>
+    var addCourseApp = angular.module('addCourseApp',[]);
+    addCourseApp.controller('addCourseController',function($scope,$state,$stateParams){
+    	var courseId = $stateParams.courseId;
+    	alert(courseId);
+    });
+
+</script>
+</body>
+</html>

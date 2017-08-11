@@ -1,0 +1,135 @@
+<meta charset="UTF-8">
+<div id="page" class="container-fluid overflow-auto"  ng-controller="AddNewsController">
+	<form name="newsForm" novalidate class="form-horizontal" role="form" class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">资讯标题:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="newsTitle" name="newsTitle" placeholder="请输入资讯标题"
+					ng-model="news.newsTitle" ng-maxlength="50" required >(最多输入50个字符)
+			</div>
+			<div class="error" ng-show="newsForm.newsTitle.$dirty&&newsForm.newsTitle.$invalid ||newsForm.$submitted&&newsForm.newsTitle.$invalid">
+				<span ng-show="newsForm.newsTitle.$error.required" class="glyphicon glyphicon-exclamation-sign" >资讯标题不能为空</span>
+				<span ng-show="newsForm.newsTitle.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">资讯标题最多50个字符</span>
+			</div>
+		</div>
+		<div style="position:relative;" class="form-group" ng-controller="NewsImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+            <label class="col-xs-2 control-label">资讯封面:</label>
+            <div class="col-xs-5 width_6">
+                <a class="fileInputBtn btn btn-primary btn-control">选择图片</a>
+                <input type="file" class="fileInput btn btn-control"  id="newsImgFileInput" nv-file-select  uploader="imgUploader">
+                <div class="inputIntro">(1.5:1,&lt;=2M;建议360*240px,&lt;=500kb)</div>
+            </div>
+            <input type="hidden" name="newsPicture" ng-model="news.newsPicture" require-string>
+            <div class="error" ng-show="newsForm.$submitted&&newsForm.newsPicture.$invalid" >
+                <span ng-show="newsForm.newsPicture.$error.requireString" class="glyphicon glyphicon-exclamation-sign">请上传资讯封面图片</span>
+            </div>
+            <div class="preview-container" ng-show="openPreview">
+		      <div class="thumbnail">
+		         <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+		         <div class="caption">
+		            <p>
+		               <a ng-click="closePreview()" class="btn btn-primary">关闭</a> 
+		            </p>
+		         </div>
+		      </div>
+   			</div>
+            <!-- 新的资讯封面图片列表-->
+            <div style="min-height:0;" class="col-xs-offset-2 col-xs-6 width_10">
+                <table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0"class="table table-bordered text-center">
+                    <tr>
+                        <td class="col-xs-2">资讯封面图片名称</td>
+                        <td class="col-xs-2">大小</td>
+                        <td class="col-xs-2">进度</td>
+                        <td class="col-xs-2">状态</td>
+                        <td class="col-xs-2">操作</td>
+                    </tr>
+                    <tr ng-repeat="item in imgUploader.queue">
+                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+                        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                        <td ng-show="imgUploader.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                        </td>
+                        <td nowrap>
+                            <a class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="glyphicon glyphicon-upload"></span> 上传
+                            </a>
+                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+ <!-- 
+         	<label class="col-xs-2 control-label">资讯内容:</label>
+	        <div class="col-xs-2 width_6">
+				 <div class="ueditor" config="editorConfig" ng-model="news.newsDetails"></div>
+	      	</div> -->
+ 
+        	<label  class="col-xs-2 control-label">资讯内容:</label>
+			<div class="col-xs-5 width_6">
+ 
+				<textarea id="newsEditor"  name="newsEditor" ></textarea>
+<!-- 				<textarea type="text" class="form-control width_1" name="newsDetails" rows="4"  -->
+<!-- 					ng-model="r.newsDetails" ng-maxlength="200"  -->
+<!-- 					placeholder="请输入咨询内容" required> -->
+<!--                 </textarea> -->
+			</div>
+<!-- 			<input type="hidden" class="form-control"  name="newsDetails"  ng-model="news.newsDetails" required> -->
+<!-- 			<div class="error" ng-show="newsForm.$submitted&&newsForm.newsDetails.$invalid"> -->
+<!-- 				<span ng-show="newsForm.newsDetails.$error.required" class="glyphicon glyphicon-exclamation-sign" >资讯内容不能为空</span> -->
+<!-- 			</div>	 -->
+ 
+      	</div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">选择范围:</label>
+	        <div class="col-xs-2 width_6">
+				<select style="line-height: 28px;" class="form-control width_1"  ng-model="news.pkOrg" ng-options="x.pk_org as x.name for x in selectOptions">
+					<option value="" selected>选择范围</option>
+				</select>
+	      	</div>
+	      	<input type="hidden" class="form-control"  name="pkOrg"  ng-model="news.pkOrg" required>	
+			<div class="error" ng-show="newsForm.pkOrg.$invalid&&newsForm.$submitted">
+				<span ng-show="newsForm.pkOrg.$error.required" class="glyphicon glyphicon-exclamation-sign">请选择范围</span>
+			</div>
+      	</div>
+		<div class="form-group">
+            <label class="col-xs-2 control-label">资讯授权:</label>
+            <div class="col-xs-5 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal" ng-click="doOpenAdminModal()">选择管理员</a>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+    		</div>
+    		<input type="hidden" name="admins" ng-model="news.admins" required-admin>
+    		<div class="error" ng-show="newsForm.admins.$invalid&&newsForm.$submitted">
+                <span ng-show="newsForm.admins.$error.requiredAdmin" class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+           	</div>
+        </div>
+		<div class="form-group">
+			<div class="col-xs-offset-2 col-xs-8">
+				<a class="btn btn-primary btn-control" ng-click="doSave()">保存</a>
+				<a class="btn btn-link" ng-click="doReturn()">返回</a>  
+			</div>
+		</div>
+		<div class="modal-backdrop fade" ng-class="{'in':addNews,'display-block':addNews,'display-none':!addNews}"></div>
+	</form>
+</div>
+<script type="text/plain" id="editor"></script>
+<script type="text/javascript">
+//实例化编辑器
+//var ue = UE.getEditor('editor');
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+CKEDITOR.replace('newsEditor');
+</script>

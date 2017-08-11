@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html ng-app="eleApp" id="eleApp" style="overflow-y:hidden;" ng-style="setBodyStyle()" window-resize >
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	 <!-- 不缓存 -->
+	<meta http-equiv="pragma" content="no-cache"> 
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+	<meta http-equiv="expires" content="0">
+	<!-- /不缓存 -->
+	<title>摩博企业大学培训管理系统</title>
+	<base href="/"> 
+	<link href="/enterpriseuniversity/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/enterpriseuniversity/css/animate.css" rel="stylesheet">
+    <link href="/enterpriseuniversity/css/angular.treeview.css" rel="stylesheet">
+	<link href="/enterpriseuniversity/css/angular.checkboxtreeview.css" rel="stylesheet">
+	<link href="/enterpriseuniversity/css/main.css" rel="stylesheet">
+	<link href="/enterpriseuniversity/css/page.list.css" rel="stylesheet"/>	
+	<link href="/enterpriseuniversity/css/page.add.css" rel="stylesheet">	
+	
+	<link href="/enterpriseuniversity/css/summernote.min.css" rel="stylesheet">
+		
+</head>
+<body  ng-style="setBodyStyle()" ng-class="{'overflow-x-hidden':dialog.showDialog,'overflow-x-auto':!dialog.showDialog}" ng-controller="mainController">
+	<!--#top-nav-->
+	<div id="top-nav" class="">
+		<nav class="navbar navbar-static-top" role="navigation">
+			<div class="navbar-header nav-header-img"></div>
+			<ul class="nav navbar-top-links navbar-right">
+				<li><a href="javascript:void(0);" ng-click="sessionService.toPcLearnSys()" ondragstart="return false"><i class="glyphicon glyphicon-to-pc"></i>在线学习</a></li>
+				<!-- <li class="li-user"><i class="glyphicon glyphicon-user"></i><span ng-bind="'&nbsp;欢迎&nbsp;'+sessionService.user.name"></span></li> -->
+				<li class="li-user"><i class="glyphicon glyphicon-user"></i><span>&nbsp;欢迎&nbsp;<strong ng-bind="sessionService.user.name"></strong></span></li>
+				<!-- <li><a href="javascript:void(0)" ng-click="changePwd()"><i class="glyphicon glyphicon-cog"></i>修改密码</a></li> -->
+				<!-- <li><a ng-href="{{sessionService.logoutUrl}}" ondragstart="return false"><i class="glyphicon glyphicon-log-out"></i>退出</a></li> -->
+				<li><a href="javascript:void(0);" ng-click="sessionService.logout()" ondragstart="return false"><i class="glyphicon glyphicon-log-out"></i>退出</a></li>
+			</ul> 
+		</nav>
+	</div>
+	<!--/#top-nav-->
+
+	<!--.navbar-static-side-->
+	<div id="left-nav-container" class="navbar-default navbar-static-side overflow-auto"
+		role="navigation" style="z-index: 0;">
+		<nav id="left-nav" class="sidebar-collapse">
+			<ul id="side-menu" class="nav">
+				<li ng-class="{'active':cm.pmc=='pmc-a'}" ondragstart="return false">
+					<a href="javascript:void(0)">
+						<i class="glyphicon icon icon-course"></i>
+						<span class="nav-label">课程管理</span>
+						<span class="glyphicon icon-chevron glyphicon-chevron-right pull-right"></span>
+					</a>
+					<ul class="nav nav-second-level" ng-class="{'in':cm.pmc=='pmc-a'}">
+						<li ng-class="{'active':cm.cmc=='cmc-a'}"><a ng-click="go('/course/courseClassifyList','courseClassifyList',null)" target="_self" onclick="menu_active(this);">课程分类</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-b'}"><a ng-click="go('/course/lectureList','lectureList',null)" target="_self" onclick="menu_active(this);">讲师管理</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-c'}"><a ng-click="go('/course/gradeDimensionList','gradeDimensionList',null)" target="_self" onclick="menu_active(this);">评分管理</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-d'}"><a ng-click="go('/course/courseList','courseList',null)" target="_self" onclick="menu_active(this);">课程列表</a></li>
+					</ul>
+				</li>
+				<li ng-class="{'active':cm.pmc=='pmc-b'}" ondragstart="return false">
+					<a href="javascript:void(0)"> 
+						<i class="glyphicon icon icon-exam"></i> 
+						<span class="nav-label">试卷管理</span> 
+						<span class="glyphicon icon-chevron glyphicon-chevron-right pull-right"></span>
+					</a>
+					<ul class="nav nav-second-level" ng-class="{'in':cm.pmc=='pmc-b'}">
+						<li ng-class="{'active':cm.cmc=='cmc-ba'}"><a ng-click="go('/exam/questionBankClassifyList','questionBankClassifyList',null)" target="_self" onclick="menu_active(this);">题库分类</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-bb'}"><a ng-click="go('/exam/questionBankList','questionBankList',null)" target="_self" onclick="menu_active(this);">题库列表</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-bc'}"><a ng-click="go('/exam/examPaperList','examPaperList',null)" target="_self" onclick="menu_active(this);">试卷列表</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-bd'}"><a ng-click="go('/exam/examList','examList',null)" target="_self" onclick="menu_active(this);">考试推送</a></li>
+					</ul>
+				</li>
+				<li ng-class="{'active':cm.pmc=='pmc-c'}" ondragstart="return false">
+					<a href="javascript:void(0)"> 
+						<i class="glyphicon icon icon-activity"></i> 
+						<span class="nav-label">活动管理</span>
+						<span class="glyphicon icon-chevron glyphicon-chevron-right pull-right"></span>
+					</a>
+					<ul class="nav nav-second-level" ng-class="{'in':cm.pmc=='pmc-c'}">
+						<li ng-class="{'active':cm.cmc=='cmc-ca'}"><a ng-click="go('/activity/taskPackageList','taskPackageList',null)" target="_self" onclick="menu_active(this);">任务包</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-cb'}"><a ng-click="go('/activity/activityList','activityList',null)" target="_self" onclick="menu_active(this);">培训活动</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-cc'}"><a ng-click="go('/activity/certificateList', 'certificateList',null)" target="_self" onclick="menu_active(this);">证书</a></li>
+					</ul>
+				</li>
+				<li ng-class="{'active':cm.pmc=='pmc-d'}" ondragstart="return false">
+					<a href="javascript:void(0)"> 
+						<i class="glyphicon icon icon-eb"></i> 
+						<span class="nav-label">积分商城</span> 
+						<span class="glyphicon icon-chevron glyphicon-chevron-right pull-right"></span>
+					</a>
+					<ul class="nav nav-second-level" ng-class="{'in':cm.pmc=='pmc-d'}">
+						<li ng-class="{'active':cm.cmc=='cmc-da'}"><a ng-click="go('/EBStore/commodityList','commodityList')" target="_self" onclick="menu_active(this);">商品列表</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-db'}"><a ng-click="go('/EBStore/commodityExchangeList','commodityExchangeList')" target="_self" onclick="menu_active(this);">商品兑换</a></li>
+					</ul>
+				</li>
+				<li ng-class="{'active':cm.pmc=='pmc-e'}" ondragstart="return false">
+					<a href="javascript:void(0)"> 
+						<i class="glyphicon icon icon-statistic"></i> 
+						<span class="nav-label">查询统计</span> 
+						<span class="glyphicon icon-chevron glyphicon-chevron-right pull-right"></span>
+					</a>
+					<ul class="nav nav-second-level" ng-class="{'in':cm.pmc=='pmc-e'}">
+						<li ng-class="{'active':cm.cmc=='cmc-ea'}"><a ng-click="go('/queryStatistic/courseStatisticList','courseStatisticList',null)" target="_self" onclick="menu_active(this);">活动课程</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-ef'}"><a ng-click="go('/queryStatistic/openCourseStatisticList','openCourseStatisticList',null)" target="_self" onclick="menu_active(this);">线上课程</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-eb'}"><a ng-click="go('/queryStatistic/examStatisticList','examStatisticList',null)" target="_self" onclick="menu_active(this);">考试统计</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-ec'}"><a ng-click="go('/queryStatistic/activityStatisticList','activityStatisticList',null)" target="_self" onclick="menu_active(this);">活动统计</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-ed'}"><a ng-click="go('/queryStatistic/feeStatisticList','feeStatisticList',null)" target="_self" onclick="menu_active(this);">费用统计</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-ee'}"><a ng-click="go('/queryStatistic/statisticChart','statisticChart',null)" target="_self" onclick="menu_active(this);">整体统计</a></li>
+					</ul>
+				</li>
+				<li ng-class="{'active':cm.pmc=='pmc-f'}" ondragstart="return false">
+					<a href="javascript:void(0)"> 
+						<i class="glyphicon icon icon-system"></i> 
+						<span class="nav-label">系统管理</span>
+						<span class="glyphicon icon-chevron glyphicon-chevron-right pull-right"></span>
+					</a>
+					<ul class="nav nav-second-level" ng-class="{'in':cm.pmc=='pmc-f'}">
+						<li ng-class="{'active':cm.cmc=='cmc-fa'}"><a ng-click="go('/system/empList','empList',null)" target="_self" onclick="menu_active(this);">组织架构</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-fb'}"><a ng-click="go('/system/roleList','roleList',null)" target="_self" onclick="menu_active(this);">角色管理</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-fc'}"><a ng-click="go('/system/adminList','adminList',null)" target="_self" onclick="menu_active(this);">权限管理</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-fd'}"><a ng-click="go('/system/messageList','messageList',null)" target="_self" onclick="menu_active(this);">消息管理</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-fe'}"><a ng-click="go('/system/bannerList','bannerList',null)" target="_self" onclick="menu_active(this);">轮播图</a></li>
+						<li ng-class="{'active':cm.cmc=='cmc-ff'}"><a ng-click="go('/system/newsList','newsList',null)" target="_self" onclick="menu_active(this);">资讯管理</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</div>
+	<!--/.navbar-static-side-->
+
+	<!--#page-wrapper-->
+	<div id="page-wrapper" class="gray-bg" style="">
+		<!--#page-breadcrumb-->
+		<div id="page-breadcrumb" class="container-fluid">
+			<div class="row">
+				<div id="head-breadcrumb" class="">
+					<ol class="breadcrumb">
+						<li ng-bind="cm.pmn"></li>
+						<li ng-show="cm.cmn!=''&&cm.cmn!=undefined" ng-bind="cm.cmn"></li>
+						<li ng-show="cm.gcmn!=''&&cm.gcmn!=undefined" ng-bind="cm.gcmn"></li>
+					</ol>
+				</div>
+			</div>
+		</div>
+		<!--/#page-breadcrumb-->
+		 
+		<!--#page-main-view-->
+		<div id="page-main-view" class="container-fluid" >
+			<div class="row" style="margin-right: 0">
+				<div ui-view></div>
+			</div>
+		</div>
+		<!--/#page-main-view-->
+
+		<!--#footer-nav-->
+		<div id="footer-nav" class="footer clearfix">
+			<!-- <div class="pull-left">
+				<strong>Copyright</strong> 饿了么培训管理系统 &copy; 2014
+			</div> -->
+		</div>
+		<!--/#footer-nav-->
+	</div>
+	<!-- 加载数据 -->
+	<div style="z-index:1256;" id="loading" class="modal fade"  
+		ng-class="{'in':loadDialog.showDialog,'display-block':loadDialog.showDialog,'display-none':!loadDialog.showDialog}" 
+		ng-show="loadDialog.showDialog">
+		<div id="loading-center">
+			<div id="loading-center-absolute">
+				<img class="loading-img" src="/enterpriseuniversity/images/loader.gif">
+				<h4 class="loading-text">加载中...</h4>
+			</div>
+		</div>
+	</div>
+    <!-- 对话框 -->
+    <div style="z-index:1255;" class="modal fade " 
+    	ng-class="{'in':dialog.showDialog,'display-block':dialog.showDialog,'display-none':!dialog.showDialog}" 
+    	ng-show="dialog.showDialog">
+	  	<div id="dialog_conversation" style="width:425px!important;z-index:1256;" class="modal-dialog" ng-style="setModalDialogStyle()">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #e64c65;heigh:15px;">
+                </div>
+                <div class="modal-body">
+                	<p style="text-align:center;" ng-bind="dialog.content"></p>
+                </div>
+                <div class="modal-footer" ng-if="dialog.showCancelButton||dialog.showSureButton">
+                    <a class="btn btn-default" ng-show="dialog.showCancelButton" ng-click="dialog.cancelButten_click()">取消</a>
+                    <a class="btn btn-primary" ng-show="dialog.showSureButton" ng-click="dialog.sureButten_click()">确定</a>
+                </div>
+            </div>
+     	</div>
+    </div>
+    <!-- 公用遮罩层  保存、加载... -->
+    <div style="z-index:1255;" class="modal-backdrop fade " 
+    	ng-class="{'in':dialog.showDialog||loadDialog.showDialog||saveDialog.showDialog,
+    				'display-block':(dialog.showDialog||loadDialog.showDialog||saveDialog.showDialog),
+    				'display-none':!(dialog.showDialog||loadDialog.showDialog||saveDialog.showDialog)}"></div>
+    <!-- /对话框 -->
+	<!-- Mainly scripts -->
+	<script type="text/javascript" src="/enterpriseuniversity/js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/plugins/metisMenu/metisMenu.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/plugins/hplus/hplus.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/plugins/My97DatePicker/WdatePicker.js"></script>
+	<!-- <script type="text/javascript" src="/enterpriseuniversity/js/plugins/chart/highstock.js"></script> -->
+	<script type="text/javascript" src="/enterpriseuniversity/js/plugins/chart/fusioncharts.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/plugins/chart/fusioncharts.theme.fint.js"></script>
+	 
+	<!-- 富文本编辑 -->
+	<!-- <script type="text/javascript" src="/enterpriseuniversity/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/ueditor/ueditor.all.min.js"></script> -->
+	<!-- ./富文本编辑 -->
+	<script type="text/javascript" src="/enterpriseuniversity/js/plugins/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/plugins/summernote/summernote.min.js"></script> 
+	<script type="text/javascript" src="/enterpriseuniversity/lang/summernote-zh-CN.js"></script> 	
+
+	<script type="text/javascript" src="/enterpriseuniversity/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/angular.min.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/angular-route.min.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/angular-ui-router.min.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/angular-file-upload.min.js"></script>
+	
+	<script type="text/javascript" src="/enterpriseuniversity/js/angular-ueditor.js"></script> 
+	<script type="text/javascript" src="/enterpriseuniversity/js/angular-summernote.min.js"></script> 
+	<script type="text/javascript" src="/enterpriseuniversity/js/angular-drag.min.js"></script> 
+	
+	
+	<script type="text/javascript" src="/enterpriseuniversity/js/directive/angular.treeview.js"></script> 
+	<script type="text/javascript" src="/enterpriseuniversity/js/directive/angular.checkboxtreeview.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/directive/angular.radiotreeview.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/directive/angular.pagination.js"></script>
+
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/menuRouter.js"></script>
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/course/course.js"></script>
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/course/courseClassify.js"></script>
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/course/lecture.js"></script>
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/course/gradeDimension.js"></script>
+    
+	<script type="text/javascript" src="/enterpriseuniversity/js/controller/activity/activity.js"></script>
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/activity/taskPackage.js"></script>
+    
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/exam/examPaper.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/controller/exam/questionBank.js"></script>
+
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/system/orgGroup.js"></script>
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/system/admin.js"></script>
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/system/role.js"></script>
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/system/message.js"></script>
+    
+    <script type="text/javascript" src="/enterpriseuniversity/js/controller/exam/exam.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/controller/exam/examPaper.js"></script>
+	
+	<script type="text/javascript" src="/enterpriseuniversity/js/controller/commodity/commodity.js"></script>
+		 
+	<script type="text/javascript" src="/enterpriseuniversity/js/controller/queryStatistic/statistic.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/controller/system/news.js"></script>
+	<!-- 证书  -->
+	<script type="text/javascript" src="/enterpriseuniversity/js/controller/system/banner.js"></script>
+	
+	<script type="text/javascript" src="/enterpriseuniversity/js/app/app.js"></script> 
+</body>
+</html>

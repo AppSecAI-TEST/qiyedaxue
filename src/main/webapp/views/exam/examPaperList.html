@@ -1,0 +1,80 @@
+<meta charset="UTF-8">
+<div id="page" class="container-fluid overflow-auto" ng-controller="ExamPaperController">
+	<div class="row">
+		<div class="container-fluid top-func-bar">
+			<div class="row">
+				<div class="col-xs-10">
+					<form role="search">
+						<div class="row">
+							<div class="col-xs-6">
+								<div class="input-group" ng-class="{'has-error':examPaperName.length>=20}">
+									<input type="text" placeholder="请输入试卷名称关键字"
+										class="form-control " ng-model="examPaperName" maxlength="20" ng-keydown='autoSearch($event)'> 
+									<span class="input-group-btn">
+										<a class="btn  btn-primary" ng-click="search()">搜索</a>
+									</span>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<select class="form-control" ng-model="selectedType" ng-change="changeSelectOption()"
+									ng-options=" x.value as x.name for x in type">
+									<option value="">--试卷分类--</option>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				 <div class="col-xs-2">
+                    <a type="submit" class="btn btn-primary pull-right" ng-click="add()">+ 添加试卷</a>
+                </div>
+			</div>
+		</div>
+		<div class="container-fluid">
+            <form id="view-examPaper-list">
+                <table class="table table-striped table-bordered table-hover table-condensed table-layout">
+                    <thead>
+                    <tr>
+                        <th width="40px">序号</th>
+                        <th width="110px">试卷编号</th>
+                        <th class="col-xs-2">试卷名称</th>
+                        <th class="col-xs-1">试卷类型</th>
+                        <th class="col-xs-1">题目数量</th>
+                        <th width="123px">添加时间</th>
+                        <th width="100px">创建人</th>
+                        <th width="100px">最后修改人</th>
+                        <th width="110px">最后修改时间</th>
+                        <th width="180px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="c in page.data" ng-class="{'current-focus-tr':c.examPaperId == currHighLightRow.examPaperId}" ng-click="highLightCurrRow(c)" style="cursor:pointer;">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="c.examPaperNumber"></td>
+                        <td ng-bind="c.examPaperName"></td>
+                        <td ng-bind="c.examPaperType"></td>
+                        <td ng-bind="c.testQuestionCount"></td>
+                        <td ng-bind="c.createTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                        <td ng-bind="c.creator"></td>
+                        <td ng-bind="c.lastOperator"></td>
+                        <td ng-bind="c.updateTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                        <td>
+                        	<a class="btn btn-link " ng-click="examine(c)">查看</a>
+                            <a class="btn btn-link  noleftpadding" ng-click="edit(c)">编辑</a>
+                            <a class="btn btn-link  noleftpadding" ng-click="doDelete(c)">删除</a> 
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+           		<div class="container-fluid" pagination conf="paginationConf"></div>
+            </form>
+            <div ng-include="'/enterpriseuniversity/views/modalTemplate/examPaperExaminModalTemplate.html'"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

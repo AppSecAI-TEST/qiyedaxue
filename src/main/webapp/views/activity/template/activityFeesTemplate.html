@@ -1,0 +1,84 @@
+<div ng-controller="ActivityFeesController">	
+	<div class="modal fade" ng-class="{'in':openFeeModalDialog,'display-block':openFeeModalDialog}" role="dialog" 
+		ng-if="openFeeModalDialog">
+        <div class="modal-dialog" ng-style="setStyle_02()">
+            <div class="modal-content">
+	                <div class="modal-header">
+						<a class="close del-icon" ng-click="closeFeeModalDialog()">&times;</a>
+	                    <h4 class="modal-title">项目花费记录表</h4>
+	                </div>
+					<div class="modal-body">
+						<form name="$parent.addFeesForm" ng-show="tomFree.fees.length>0">
+							<table class="table table-striped table-bordered table-hover table-condensed">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th class="width_11">费用名称</th>
+										<th class="width_12">金额（元）</th>
+										<th>创建人</th>
+										<th>修改人</th>
+										<th>修改时间</th>
+										<th class="width_11">备注</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="fee in tomFree.fees" ng-class="{'current-focus-tr':$index == currHighLightRow.index}" ng-click="highLightCurrRow($index)" style="cursor:pointer;">
+										<td ng-bind="$index+1"></td>
+				                        <td ng-if="fee.tip=='1'">
+				                        	<input type="text" class="feeName-input"
+				                        	name="feeName{{$index}}"
+				                        	ng-model="fee.feeName" 
+				                        	ng-maxlength="20" 
+				                        	required
+				                        	placeholder="必填 最多20个字符"/>
+				                        	<span class="error" ng-show="addFeesForm.feeName{{$index}}.$dirty&&addFeesForm.feeName{{$index}}.$invalid||addFeesForm.$submitted&&addFeesForm.feeName{{$index}}.$invalid">非法</span>
+			                        	</td>
+	               						<td ng-if="fee.tip!='1'" ng-bind="fee.feeName"></td>
+				                        <td ng-if="fee.tip=='1'">
+				                        	<input type="text" class="fee-input" 
+				                        	name="fee{{$index}}"
+				                        	ng-model="fee.fee" 
+				                        	ng-pattern ="/^([1-9][\d]{0,5}|0)(\.[\d]{1,2})?$/" 
+				                        	required
+				                        	placeholder="必填 0-999999.99" />
+				                        	<span class="error" ng-show="addFeesForm.fee{{$index}}.$dirty&&addFeesForm.fee{{$index}}.$invalid||addFeesForm.$submitted&&addFeesForm.fee{{$index}}.$invalid">非法</span>
+			                        	</td>
+	               						<td ng-if="fee.tip!='1'" ng-bind="fee.fee"></td>
+				                        <td ng-bind="fee.creator"></td>
+				                        <td ng-bind="fee.operator"></td>
+				                        <td ng-bind="fee.updateTime"></td>
+				                        <td ng-if="fee.tip=='1'">
+				                        	<input type="text" class="feeRemark-input" name="remark{{$index}}" 
+				                        	ng-model="fee.remark" 
+				                        	ng-maxlength="20" 
+				                        	placeholder="备注 最多20个字符"/>
+			                        		<span class="error" ng-show="addFeesForm.remark{{$index}}.$dirty&&addFeesForm.remark{{$index}}.$invalid||addFeesForm.$submitted&&addFeesForm.remark{{$index}}.$invalid">非法</span>
+			                        	</td>
+	               						<td ng-if="fee.tip!='1'" ng-bind="fee.remark"></td>
+				                        <td> 
+				                        	<a class="btn btn-danger" ng-click="deleteFee(fee)" ng-bind="'删除'"></a>
+				                        </td>
+				                    </tr>
+								</tbody>
+							</table>
+						</form>
+						<div ng-if="tomFree.fees.length<1" class="pagination pagination-control">暂无培训活动费用数据</div>
+			  		</div>
+			  		<div class="modal-footer">
+						<div class="row">
+							<div class="col-xs-2">
+								<a class="btn btn-primary btn-control  pull-left" ng-click="addFee()">+添加</a>
+							</div>
+							<div class="col-xs-offset-2 col-xs-8">
+								<a class="btn btn-default pull-right" style="margin-left:10px;" ng-click="closeFeeModalDialog()">返&nbsp;&nbsp;&nbsp;回</a>
+						     	<a class="btn btn-primary btn-control pull-right" ng-show="tomFree.fees.length>0" ng-click="saveFees()">保存</a>
+							</div>
+						</div>
+					</div>
+			  </div>
+		 </div>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':openFeeModalDialog,'display-block':openFeeModalDialog,'display-none':!openFeeModalDialog}"></div>
+</div>
+							

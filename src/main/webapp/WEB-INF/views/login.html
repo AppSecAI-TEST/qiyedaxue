@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html ng-app="loginApp" window-resize>
+<head>
+    <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+    <title>摩博企业培训管理系统登录</title>
+    <link href="/enterpriseuniversity/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/enterpriseuniversity/css/login.css" type="text/css" rel="stylesheet">
+</head>
+<body ng-style="setBodyStyle()" ng-controller="loginFormController">
+	<div class="main-wrap">
+	    <section class="main-section" ng-style="setFormStyle()">
+	    	<div id="main-body-f" class="main-body" ng-class="{'display-block':showLoginForm,'display-none':!showLoginForm}">
+	           	<div class="login-icon"></div>
+	           	<div class="form-header form-width">
+	           		<ul class="clearfix">
+	               		<li ng-class="{'active':isLearnSite}">
+	               			<a href="javascript:void(0);" ng-click="toggleSite('Y')">学习站</a>
+               			</li>
+	                   	<li ng-class="{'active':!isLearnSite}">
+	                   		<a href="javascript:void(0);" ng-click="toggleSite()">管理站</a>
+                   		</li>
+	               	</ul>
+	           	</div>
+	           	<div class="form-body">
+	             	<form name="loginForm" novalidate ng-submit="doLogin()">
+	                     <div class="form-item form-width item-1">
+	                         <div class="pre-icon pull-left">
+	                         	<div class="icon-phone"></div>
+	                         </div>
+	                         <div class="divide-icon pull-left">
+	                         	<div class="icon-divide"></div>
+	                         </div>
+	                         <div class="form-input pull-left">
+	                             <input type="text" class="" id="username" name="userName" placeholder="工号/邮箱/手机号" autocomplete="off" onfocus="this.select()"
+	                             	ng-model="formData.userName" ng-focus="initStatus()" tabindex="1"/>
+	                         </div>
+	                         <div class="suf-icon pull-right" ng-class="{'display-none':!formData.userName}">
+	                         	<a class="icon-del" href="javascript:void(0);" ng-click="resetUserName()"></a>
+	                         </div>
+	                         <div class="form-msg" ng-if="loginForm.$submitted&&errorMessage.invalidUserName!=undefined" >
+	                         	<div class="msg-triangle"></div>
+	                         	<div class="msg-info error" ng-bind="errorMessage.invalidUserName"></div>
+	                         </div>
+	                     </div>
+	                     <div class="form-item form-width item-2">
+	                         <div class="pre-icon pull-left">
+	                         	<div class="icon-password"></div>
+	                         </div>
+	                         <div class="divide-icon pull-left">
+	                         	<div class="icon-divide"></div>
+	                         </div>
+	                         <div class="form-input pull-left">
+	                             <input type="password" class="" id="password" name="password" placeholder="密码" autocomplete="off" onfocus="this.select()" 
+	                             	ng-model="formData.password" ng-focus="initStatus()" tabindex="2"/>
+	                         </div>
+	                         <div class="suf-icon pull-right" ng-class="{'display-none':!formData.password}">
+	                         	<a class="icon-del" href="javascript:void(0);" ng-click="resetPassword()"></a>
+	                         </div>
+	                         <div class="form-msg" ng-if="loginForm.$submitted&&errorMessage.invalidPassword!=undefined" >
+	                         	<div class="msg-triangle"></div>
+	                         	<div class="msg-info error" ng-bind="errorMessage.invalidPassword"></div>
+	                         </div>
+	                         <div class="form-msg-all" ng-if="loginForm.$submitted&&errorMessage.systemError!=undefined" >
+	                         	<div class="msg-triangle"></div>
+	                         	<div class="msg-info error" ng-bind="errorMessage.systemError"></div>
+	                         </div> 
+	                     </div>
+	                     <div class="form-btns form-width item-3">
+	                     	<ul class="clearfix">
+	                 			<li class="new-User">
+	                 				<a href="javascript:void(0);" ng-click="openNewUserLoginForm('newUser')">新用户登录</a>
+	                 			</li>
+	                     		<li class="forget-password">
+	                     			<a href="javascript:void(0);" ng-click="openNewUserLoginForm('changePassword')">忘记密码？</a>
+	                     		</li>
+	                 		</ul>
+	       				</div>
+	                   	<div class="form-btn form-width item-4">
+                            <input type="submit" class="btn btn-primary btn-submit" value="登录" tabindex="3"/>
+	                    </div>
+	               	</form>
+	       		</div>
+	    	</div>
+	    	<div id="main-body-s" class="main-body form-s" style="display:none;" ng-class="{'display-block':!showLoginForm,'display-none':showLoginForm}">
+	           	<div class="login-icon"></div>
+	           	<div class="form-header-s form-width">
+	           		 <p class="form-title" ng-bind="formTitle"></p>
+	           		 <p class="form-tips">为了您的账号安全，需要验证您的手机号并设置登录密码</p>
+	           	</div>
+	           	<div class="form-body">
+	             	<form class="" name="resetPasswordForm" novalidate  ng-submit="submitNewPassword()">
+	                     <div class="form-item form-width item-1">
+	                         <div class="pre-icon pull-left">
+	                         	<div class="icon-phone"></div>
+	                         </div>
+	                         <div class="divide-icon pull-left">
+	                         	<div class="icon-divide"></div>
+	                         </div>
+	                         <!-- ng-pattern="/^1[3|4|5|7|8]\d{9}$/" -->
+	                         <div class="form-input pull-left">
+	                             <input type="text" class="" id="phone" name="phone" placeholder="请输入手机号" autocomplete="off" onfocus="this.select()"
+	                             	ng-model="formData.phone" ng-focus="initStatus()" ng-keyup="checkPhone()"  tabindex="1" />
+	                         </div>
+	                         <div class="suf-icon pull-right" ng-class="{'display-none':!formData.phone}">
+	                         	<a class="icon-del" href="javascript:void(0);" ng-click="resetPhoneNumber()"></a>
+	                         </div>
+	                         <div class="form-msg" ng-if="errorMessage.invalidPhone!=undefined" >
+	                         	<div class="msg-triangle"></div>
+	                         	<div class="msg-info error" ng-bind="errorMessage.invalidPhone"></div>
+	                         </div>
+	                     </div>
+	                     <div class="form-item form-width item-2">
+	                         <div class="form-input pull-left">
+	                             <input type="text" class="" id="identifyCode" name="identifyCode" placeholder="请输入短信验证码" autocomplete="off" onfocus="this.select()"
+	                             	ng-model="formData.captcha" ng-focus="initStatus()" tabindex="2"/>
+	                         </div>
+	                         <div class="suf-btn pull-right">
+	                         	<a class="send-btn" href="javascript:void(0);" ng-click="sendIdentifyCode()">发送验证码</a>
+	                         </div>
+	                         <div class="form-msg" ng-if="errorMessage.invalidCaptcha!=undefined" >
+	                         	<div class="msg-triangle"></div>
+	                         	<div class="msg-info error" ng-bind="errorMessage.invalidCaptcha"></div>
+	                         </div>
+	                         <div class="form-msg" ng-if="successMessage.hasSendedCaptcha!=undefined" >
+	                         	<div class="msg-triangle"></div>
+	                         	<div class="msg-info success" ng-bind="successMessage.hasSendedCaptcha"></div>
+	                         </div>
+	                     </div>
+	                     <div class="form-item form-width item-3">
+	                         <div class="pre-icon pull-left">
+	                         	<div class="icon-password"></div>
+	                         </div>
+	                         <div class="divide-icon pull-left">
+	                         	<div class="icon-divide"></div>
+	                         </div>
+	                         <div class="form-input pull-left">
+	                             <input type="password" class="" id="password" name="password" placeholder="新密码(6-15位字符,区分大小写)" autocomplete="off" 
+	                             	ng-model="formData.password" ng-focus="initStatus()" ng-keyup="checkPassword()" onfocus="this.select()" tabindex="3"/>
+	                         </div>
+	                         <div class="suf-icon pull-right" ng-class="{'display-none':!formData.password}">
+	                         	<a class="icon-del" href="javascript:void(0);" ng-click="resetPassword()"></a>
+	                         </div>
+	                         <div class="form-msg" ng-if="errorMessage.invalidPassword!=undefined" >
+	                         	<div class="msg-triangle"></div>
+	                         	<div class="msg-info error" ng-bind="errorMessage.invalidPassword"></div>
+	                         </div>
+                     	</div>
+	                   	<div class="form-btn form-width item-4">
+	                   		<input type="submit" class="btn btn-primary btn-submit" value="完成" tabindex="4"/>
+	                   		<a class="btn btn-link pull-right link-return" href="javascript:void(0);" ng-click="backLogin();">返回</a>
+	                    </div>
+	               	</form>
+	       		</div>
+	    	</div>
+	    </section>
+	</div>
+	<!-- 提交数据 -->
+	<div style="z-index:1256;" class="modal fade"  
+		ng-class="{'in':isProcessLogin,'display-block':isProcessLogin,'display-none':!isProcessLogin}" 
+		ng-show="isProcessLogin">
+		<div id="loading-center">
+			<div id="loading-center-absolute">
+				<img class="loading-img" src="/enterpriseuniversity/images/loader.gif">
+				<h4 class="loading-text" ng-bind="processMessage"></h4>
+			</div>
+		</div>
+	</div>
+	<div style="z-index:1255;" class="modal-backdrop fade " 
+		ng-class="{'in':isProcessLogin,'display-block':isProcessLogin,'display-none':!isProcessLogin}"></div>
+	<!-- ./提交数据 -->
+	<script type="text/javascript" src="/enterpriseuniversity/js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/angular.min.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/plugins/encrypt/md5.min.js"></script>
+	<script type="text/javascript" src="/enterpriseuniversity/js/app/loginApp.js"></script> 
+
+</body>
+</html>

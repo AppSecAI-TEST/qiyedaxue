@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.system.dao.TomAuthoritiesMapper">
+	<resultMap id="BaseResultMap" type="com.chinamobo.ue.system.entity.TomAuthorities">
+		<id column="AUTHORITY_ID" property="authorityId" jdbcType="DECIMAL" />
+		<result column="AUTHORITY_NAME" property="authorityName"
+			jdbcType="VARCHAR" />
+		<result column="AUTHORITY_TYPE" property="authorityType"
+			jdbcType="VARCHAR" />
+		<result column="AUTHORITY_URL" property="authorityUrl"
+			jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="METHOD" property="method" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		AUTHORITY_ID, AUTHORITY_NAME, AUTHORITY_TYPE,
+		AUTHORITY_URL, STATUS, METHOD,
+		CREATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from TOM_AUTHORITIES
+		where AUTHORITY_ID =
+		#{authorityId,jdbcType=DECIMAL}
+	</select>
+	<!-- 查询全部权限 -->
+	<select id="selectByRoleId" resultMap="BaseResultMap"
+		parameterType="int">
+		select
+		a.*
+		from tom_authorities
+		a,tom_role_authorities ra where a.authority_id=ra.authority_id and
+		ra.role_id=#{roleId,jdbcType=DECIMAL}
+	</select>
+	<!-- 查询所有权限分类 -->
+	<select id="selectAllType" resultMap="BaseResultMap">
+		select
+		AUTHORITY_TYPE
+		from TOM_AUTHORITIES
+		group by authority_type
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		TOM_AUTHORITIES
+		where AUTHORITY_ID = #{authorityId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.chinamobo.ue.system.entity.TomAuthorities">
+		insert into TOM_AUTHORITIES
+		(AUTHORITY_ID, AUTHORITY_NAME,
+		AUTHORITY_TYPE,
+		AUTHORITY_URL, STATUS,
+		METHOD,
+		CREATE_TIME)
+		values (#{authorityId,jdbcType=DECIMAL},
+		#{authorityName,jdbcType=VARCHAR},
+		#{authorityType,jdbcType=VARCHAR},
+		#{authorityUrl,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+		#{method,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.chinamobo.ue.system.entity.TomAuthorities">
+		insert into TOM_AUTHORITIES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="authorityId != null">
+				AUTHORITY_ID,
+			</if>
+			<if test="authorityName != null">
+				AUTHORITY_NAME,
+			</if>
+			<if test="authorityType != null">
+				AUTHORITY_TYPE,
+			</if>
+			<if test="authorityUrl != null">
+				AUTHORITY_URL,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="method != null">
+				METHOD,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="authorityId != null">
+				#{authorityId,jdbcType=DECIMAL},
+			</if>
+			<if test="authorityName != null">
+				#{authorityName,jdbcType=VARCHAR},
+			</if>
+			<if test="authorityType != null">
+				#{authorityType,jdbcType=VARCHAR},
+			</if>
+			<if test="authorityUrl != null">
+				#{authorityUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="method != null">
+				#{method,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.system.entity.TomAuthorities">
+		update TOM_AUTHORITIES
+		<set>
+			<if test="authorityName != null">
+				AUTHORITY_NAME = #{authorityName,jdbcType=VARCHAR},
+			</if>
+			<if test="authorityType != null">
+				AUTHORITY_TYPE = #{authorityType,jdbcType=VARCHAR},
+			</if>
+			<if test="authorityUrl != null">
+				AUTHORITY_URL = #{authorityUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="method != null">
+				METHOD = #{method,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where AUTHORITY_ID = #{authorityId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.system.entity.TomAuthorities">
+		update
+		TOM_AUTHORITIES
+		set AUTHORITY_NAME = #{authorityName,jdbcType=VARCHAR},
+		AUTHORITY_TYPE = #{authorityType,jdbcType=VARCHAR},
+		AUTHORITY_URL =
+		#{authorityUrl,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=VARCHAR},
+		METHOD = #{method,jdbcType=VARCHAR},
+		CREATE_TIME =
+		#{createTime,jdbcType=TIMESTAMP}
+		where AUTHORITY_ID =
+		#{authorityId,jdbcType=DECIMAL}
+	</update>
+	<select id="selectAllAuth" resultMap="BaseResultMap">
+		select * from
+		TOM_AUTHORITIES
+	</select>
+</mapper>

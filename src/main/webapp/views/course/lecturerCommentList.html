@@ -1,0 +1,49 @@
+<title>查看课程评论</title>
+<!-- 选择管理员 模态框（Modal） -->
+<div ng-controller="LecturerCommentListController">
+	<div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}"
+	     tabindex="-1" role="dialog"
+	     ng-if="openModalDialog">
+	    <div class="modal-dialog" ng-style="setStyle_02()">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close del-icon" ng-click="doClose()"> &times;</button>
+	                <h4 class="modal-title">评论详情</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div class="container-fluid">
+	                    <table class="table table-striped table-bordered table-hover table-condensed">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>姓名</th>
+									<th>评论</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="c in page.data" ng-class="{'current-focus-tr':c.courseCommentId == currHighLightRow.courseCommentId}" ng-click="highLightCurrRow(c)" style="cursor:pointer;">
+									<td ng-bind="$index+1"></td>
+									<td ng-bind="c.name"></td>
+									<td ng-bind="c.courseCommentContent"></td>
+									<!-- <td ng-bind="c.createTime| date:'yyyy-MM-dd HH:mm:ss'"></td>
+									<td>
+			                           <a class="btn btn-link " ng-show="c.status=='Y'" ng-click="doDisable(c)">禁用</a>
+			                           <a class="btn btn-link " ng-show="c.status=='N'" ng-click="doDisable(c)">禁用</a>
+			                      	</td> -->
+								</tr>
+							</tbody>
+						</table>
+	                    <!-- 分页 -->
+	                    <div class="container-fluid" pagination conf="paginationConf"></div>
+	                </div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" ng-click="doClose()">关闭</button>
+	            </div>
+	        </div>
+	    </div>
+	    <!-- <div class="modal-backdrop fade in"></div> -->
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+<!-- end 选择管理员 模态框（Modal） -->
+</div>

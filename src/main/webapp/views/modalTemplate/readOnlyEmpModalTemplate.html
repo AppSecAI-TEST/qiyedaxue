@@ -1,0 +1,9 @@
+<div ng-controller="EmpModalController">
+	<!--列出已勾选的项-->
+	<div ng-show="itemArr.choosedItemArr.length >0"
+		class="form-control-static choosed-items-container clearfix">
+		<label class="checkbox-inline choosed-item" ng-repeat="item in itemArr.choosedItemArr">
+			{{item.name}}
+		</label>
+	</div>
+</div>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录异常403</title>
+</head>
+<body onload="getUrlFunction()">
+<h1 id="e_msg">【如果您是学员，请进入学员端】<br>【您暂无用户权限，请联系管理员。】</h1>
+<script>
+	var xmlhttp;
+	//异步请求函数
+	function xmlhttpFunction(url,cfunc){
+		if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+		  	xmlhttp=new XMLHttpRequest();
+		}
+		else{// code for IE6, IE5
+		  	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  	}
+		xmlhttp.onreadystatechange=cfunc;
+		xmlhttp.open("GET",url,true);
+		xmlhttp.send();
+	}
+	function getUrlFunction()
+	{
+		resizeView();
+		//异步请求自动跳转url
+		xmlhttpFunction("/enterpriseuniversity/services/backend/sys/logout",function(){
+			if (xmlhttp.readyState==4 && xmlhttp.status==200){
+				window.setTimeout(function(){
+					if(xmlhttp.responseText!=""){
+						window.location.href = xmlhttp.responseText;
+					}else{
+						alert("获取自动跳转url异常");
+					}
+				},3000);
+			}
+	  	});
+	}
+	function resizeView() {
+		var window_height = window.innerHeight; 
+		var e_msg = document.getElementById("e_msg"); 
+		console.log("window_height",window_height);
+		if(e_msg){
+			e_msg.style.height = "88px";
+			e_msg.style.marginTop = ((window_height - 88) < 0 ? 0 : (window_height - 88)/2)+'px'; 
+			e_msg.style.marginBottom = "0";
+			e_msg.style.textAlign = "center";
+		} 
+		
+		window.onresize = function() {//浏览器窗口大小改变
+			var window_height = window.innerHeight;//窗口内容显示区高度
+			var e_msg = document.getElementById("e_msg"); 
+			if(e_msg){
+				e_msg.style.height = "88px";
+				e_msg.style.marginTop = ((window_height - 88) < 0 ? 0 : (window_height - 88)/2)+'px'; 
+				e_msg.style.marginBottom = "0";
+				e_msg.style.textAlign = "center";
+			} 
+		};
+	}
+</script>
+</body>
+</html>

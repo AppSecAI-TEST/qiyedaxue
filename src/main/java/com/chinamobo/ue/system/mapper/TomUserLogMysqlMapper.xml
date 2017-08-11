@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.system.dao.TomUserLogMapper">
+	<resultMap id="BaseResultMap" type="com.chinamobo.ue.system.entity.TomUserLog">
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="VALIDITY" property="validity" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<!-- 查询基础字段 -->
+	<sql id="Base_Column_List">
+		CODE,
+		NAME,
+		PASSWORD,
+		EMAIL,
+		PHONE,
+		STATUS,
+		TOKEN,
+		VALIDITY
+	</sql>
+	<!-- 更改员工登录信息 -->
+	<update id="updateByCode" parameterType="com.chinamobo.ue.system.entity.TomUserLog">
+		update TOM_User_Log
+		<set>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="token !=null">
+				token = #{token,jdbcType=VARCHAR},
+			</if>
+			<if test="validity != null">
+				VALIDITY = #{validity,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where CODE = #{code,jdbcType=VARCHAR}
+	</update>
+	<!-- 更改员工登录密码 -->
+	<update id="updatePassword" parameterType="com.chinamobo.ue.system.entity.TomUserLog">
+		update TOM_USER_LOG
+		set PASSWORD = #{password,jdbcType=VARCHAR}
+		where PHONE = #{phone,jdbcType=VARCHAR}
+	</update>
+	<insert id="insert" parameterType="com.chinamobo.ue.system.entity.TomUserLog">
+		insert into TOM_USER_LOG
+		(CODE, NAME, PASSWORD,
+		EMAIL, PHONE, STATUS,TOKEN,VALIDITY
+		)
+		values
+		(#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+		#{token,jdbcType=VARCHAR}, #{validity,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.chinamobo.ue.system.entity.TomUserLog">
+		insert into TOM_USER_LOG
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="password != null">
+				PASSWORD,
+			</if>
+			<if test="email != null">
+				EMAIL,
+			</if>
+			<if test="phone != null">
+				PHONE,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="validity != null">
+				VALIDITY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="validity != null">
+				#{validity,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<!-- 根据用户名查找用户 -->
+	<select id="getUserbyName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		TOM_USER_LOG.*
+		from TOM_USER_LOG where NAME =
+		#{name,jdbcType=VARCHAR}
+	</select>
+	<!-- email -->
+	<select id="getUserByEmail" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		TOM_USER_LOG.*
+		from TOM_USER_LOG where EMAIL =
+		#{email,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据用户Code查找用户 -->
+	<select id="getUserByCode" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		TOM_USER_LOG.*
+		from TOM_USER_LOG where CODE =
+		#{code,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据手机号查询用户信息 -->
+	<select id="selectUserByPhone" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		TOM_USER_LOG.*
+		from TOM_USER_LOG
+		where PHONE = #{phone,
+		jdbcType=VARCHAR}
+	</select>
+	<!-- 根据用户CODE、EMAIL、PHONE查找用户 -->
+	<select id="getUserByEMphone" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		TOM_USER_LOG.*
+		from TOM_USER_LOG where EMAIL =
+		#{userName,jdbcType=VARCHAR} or PHONE
+		= #{userName,jdbcType=VARCHAR}
+		or
+		CODE = #{userName,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据token查找用户 -->
+	<select id="getUserByToken" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		TOM_USER_LOG.*
+		from TOM_USER_LOG where TOKEN =
+		#{token,jdbcType=VARCHAR} and
+		status='Y'
+	</select>
+	<select id="selectByLoginName" parameterType="java.lang.String">
+		select * from
+		TOM_USER_LOG
+		where CODE = #{loginName,jdbcType=VARCHAR}
+		or EMAIL =
+		#{loginName,jdbcType=VARCHAR}
+		or PHONE = #{loginName,jdbcType=VARCHAR}
+	</select>
+	<!-- 批量插入 -->
+	 <insert id="insertList" parameterType="ArrayList">
+		insert into TOM_USER_LOG (CODE, NAME,
+		EMAIL, PHONE, STATUS
+		)
+		<foreach collection="list" item="item" index="index"
+			separator="union all">
+			#{item.code,jdbcType=VARCHAR},
+			#{item.name,jdbcType=VARCHAR},
+			#{item.email,jdbcType=VARCHAR},
+			#{item.phone,jdbcType=VARCHAR},
+			#{item.status,jdbcType=VARCHAR} 
+		</foreach>
+	</insert> 
+
+	<delete id="deleteByCode" parameterType="java.lang.String">
+		delete from
+		TOM_USER_LOG
+		where CODE=#{code,jdbcType=VARCHAR}
+	</delete>
+	<select id="countTotalUsers" parameterType="map" resultType="java.lang.Integer">
+		select count(*) from TOM_USER_LOG where TOKEN is not null
+	</select>
+	<update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.system.entity.TomUserLog">
+		update TOM_USER_LOG
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				PHONE = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where CODE = #{code,jdbcType=VARCHAR}
+	</update>
+</mapper>

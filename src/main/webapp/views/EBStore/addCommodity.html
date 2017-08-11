@@ -1,0 +1,182 @@
+<meta charset="UTF-8">
+<div class="container-fluid overflow-auto"  ng-controller="AddCommodityController"   id="page">
+	<form name="commodityForm" novalidate class="form-horizontal"
+		role="form" class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">商品名称:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="commodityName"
+					name="commodityName" ng-model="commodity.commodityName"
+					ng-maxlength="50" required placeholder="请输入商品名称">(最多输入50个字符)
+			</div>
+			<div class="error"
+				ng-show="commodityForm.commodityName.$dirty&&commodityForm.commodityName.$invalid
+				||commodityForm.$submitted&&commodityForm.commodityName.$invalid">
+				<span ng-show="commodityForm.commodityName.$error.required"
+					class="glyphicon glyphicon-exclamation-sign" >商品名称不能为空</span>
+				<span ng-show="commodityForm.commodityName.$error.maxlength"
+					class="glyphicon glyphicon-exclamation-sign">商品名称最多50个字符</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label" >商品价值:</label>
+			<div class="col-xs-5 width_6" >
+				<input type="text" class="form-control width_3"  id="commodityPrice" name="commodityPrice"  ng-model="commodity.commodityPrice" 
+				ng-pattern="/^(1|([1-9]\d{0,7}))$/"  ng-maxlength="20" required placeholder="请输入商品价值">
+				<div class="inputIntro" >积分</div>
+			</div>
+			<div class="error" ng-show="commodityForm.commodityPrice.$dirty&&commodityForm.commodityPrice.$invalid || commodityForm.commodityPrice.$invalid&&commodityForm.$submitted" >
+                <span ng-show="commodityForm.commodityPrice.$error.required" class="glyphicon glyphicon-exclamation-sign">请输入商品价值</span>
+                <span ng-show="commodityForm.commodityPrice.$error.pattern" class="glyphicon glyphicon-exclamation-sign">请输入1-99999999的数字</span>
+            </div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">商品数量:</label>
+			<div class="col-xs-5 width_6" >
+				<input type="text" class="form-control width_3"  id="commodityNumber" name="commodityNumber"  ng-model="commodity.commodityNumber" 
+				ng-pattern="/^(1|([1-9]\d{0,7}))$/"  ng-maxlength="20" required placeholder="请输入商品数量">
+			</div>
+			<div class="error" ng-show="commodityForm.commodityNumber.$dirty&&commodityForm.commodityNumber.$invalid || commodityForm.commodityNumber.$invalid&&commodityForm.$submitted" >
+                <span ng-show="commodityForm.commodityNumber.$error.required" class="glyphicon glyphicon-exclamation-sign">请输入商品数量</span>
+                <span ng-show="commodityForm.commodityNumber.$error.pattern" class="glyphicon glyphicon-exclamation-sign">请输入1-99999999的数字</span>
+            </div>
+		</div>
+		<div style="position:relative;" class="form-group" ng-controller="CommodityImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+            <label class="col-xs-2 control-label">商品图片:</label>
+            <div class="col-xs-5 width_6">
+                <a class="fileInputBtn btn btn-primary btn-control">选择图片</a>
+                <input type="file" class="fileInput btn btn-control"  id="commodityImgFileInput" nv-file-select  uploader="imgUploader">
+                <div class="inputIntro">(1:1,&lt;=2M;建议100*100px,&lt;=500kb)</div>
+            </div>
+            <input type="hidden" name="commodityPicture" ng-model="commodity.commodityPicture" require-string>
+            <div class="error" ng-show="commodityForm.$submitted&&commodityForm.commodityPicture.$invalid" >
+                <span ng-show="commodityForm.commodityPicture.$error.requireString" class="glyphicon glyphicon-exclamation-sign">请上传商品图片</span>
+            </div>
+            <div class="preview-container" ng-show="openPreview">
+		      <div class="thumbnail">
+		         <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+		         <div class="caption">
+		            <p>
+		               <a ng-click="closePreview()" class="btn btn-primary" role="button">关闭</a> 
+		            </p>
+		         </div>
+		      </div>
+   			</div>
+            <!-- 新的课程封面图片列表-->
+            <div style="min-height:0;" class="col-xs-offset-2 col-xs-6 width_10">
+                <table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0"class="table table-bordered text-center">
+                    <tr>
+                        <td class="col-xs-2">商品图片名称</td>
+                        <td class="col-xs-2">大小</td>
+                        <td class="col-xs-2">进度</td>
+                        <td class="col-xs-2">状态</td>
+                        <td class="col-xs-2">操作</td>
+                    </tr>
+                    <tr ng-repeat="item in imgUploader.queue">
+                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+                        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                        <td ng-show="imgUploader.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                        </td>
+                        <td nowrap>
+                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="glyphicon glyphicon-upload"></span> 上传
+                            </a>
+                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+			<label  class="col-xs-2 control-label">商品简介:</label>
+			<div class="col-xs-5 width_6">
+				<textarea type="text" class="form-control width_1" name="commoditySynopsis" rows="4" 
+					ng-model="commodity.commoditySynopsis" ng-maxlength="500" 
+					placeholder="请输入商品简介" required>(最多输入500个字符)
+                </textarea>
+			</div>
+ 			<div class="error" ng-show="commodityForm.commoditySynopsis.$dirty
+ 					&&commodityForm.commoditySynopsis.$invalid
+ 					||commodityForm.$submitted&&commodityForm.commoditySynopsis.$invalid">  
+ 				<span ng-show="commodityForm.commoditySynopsis.$error.required"
+ 					class="glyphicon glyphicon-exclamation-sign">请输入商品简介</span> 
+ 				<span ng-show="commodityForm.commoditySynopsis.$error.maxlength"
+ 					class="glyphicon glyphicon-exclamation-sign">商品简介最多500个字符</span> 
+ 			</div>  
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label"></label>
+            <div class="col-xs-8 width_6">
+                <label class="checkbox-inline checkbox-control">
+                    <input type="checkbox"  name="post"  ng-checked="commodity.post=='Y'"  ng-click="togglePost()">支持邮寄
+                </label>
+                <label class="checkbox-inline checkbox-control">
+                    <input type="checkbox"  name="arayacak"  ng-checked="commodity.arayacak=='Y'"  ng-click="toggleArayacak()">支持自提
+                </label>
+            </div>
+            <input type="hidden" name="supportWays" ng-model="supportWays" required-supportways>
+            <div class="error" ng-show="commodityForm.$submitted&&commodityForm.supportWays.$invalid" >
+                <span ng-show="commodityForm.supportWays.$error.requiredSupportways" class="glyphicon glyphicon-exclamation-sign">请至少选择一种商品配送方式</span>
+            </div>
+        </div>
+		<!-- <div class="form-group">
+			<label class="col-xs-2 control-label"></label>
+            <div class="col-xs-8 width_6">
+                <label class="checkbox-inline checkbox-control">
+                    <input type="checkbox"  name="arayacak"  ng-checked="commodity.arayacak=='Y'"  ng-click="toggleArayacak()">支持自提
+                </label>
+            </div>
+        </div> -->
+        <div class="form-group" ng-if="commodity.arayacak=='Y'" >
+			<label class="col-xs-2 control-label">自提地址:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1"  name=arayacakAddress id="arayacakAddress" ng-model="commodity.arayacakAddress"
+				 ng-maxlength="50" required placeholder="请输入地址">(最多输入50个字符)
+			</div>
+			<div class="error"
+				ng-show="commodityForm.arayacakAddress.$dirty&&commodityForm.arayacakAddress.$invalid
+				||commodityForm.$submitted&&commodityForm.arayacakAddress.$invalid">
+				<span ng-show="commodityForm.arayacakAddress.$error.required"
+					class="glyphicon glyphicon-exclamation-sign" >请输入地址</span>
+				<span ng-show="commodityForm.arayacakAddress.$error.maxlength"
+					class="glyphicon glyphicon-exclamation-sign">地址最多50个字符</span>
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-xs-2 control-label" >商品授权:</label>
+			<div class="col-xs-5 width_6">
+				<div>
+					<a href="javascript:void(0)" class="btn btn-primary  btn-control"
+						data-toggle="modal" ng-click="doOpenAdminModal()">选择管理员</a>
+				</div>
+				<div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+				<input type="hidden" name="admins" ng-model="commodity.admins" require-string>
+			</div>
+			<div class="error" ng-show="commodityForm.admins.$invalid&&commodityForm.$submitted">
+				<span ng-show="commodityForm.admins.$error.requireString" class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-xs-offset-2 col-xs-7">
+				<a class="btn btn-primary btn-control"  ng-click="doSave()">保存</a> 
+				<a class="btn btn-primary btn-control"  style="margin-left:100px" ng-click="saveRelease()">保存并发布</a> 
+			</div>
+		</div>
+		<div class="modal-backdrop fade" ng-class="{'in':addCommodity,'display-block':addCommodity,'display-none':!addCommodity}"></div>
+	</form>
+</div>
+<script type="text/javascript">
+    //监听窗口大小变化，自适应高度
+    $(document).ready(function () {
+    	resizeView();
+    });
+</script>

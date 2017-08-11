@@ -1,0 +1,523 @@
+<meta charset="utf-8">
+<div id="page" class="container-fluid overflow-auto">
+    <form name="activityForm" novalidate ng-controller="AddActivityController" class="form-horizontal" role="form" enctype="multipart/form-data" >
+        <div class="form-group">
+	        <label class="col-xs-2 control-label">一、培训活动基本信息&nbsp;&nbsp;</label>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">活动名称：</label>
+        	<div class="col-xs-5 width_6">
+            	<input type="text" class="form-control width_1" id="activityName" name="activityName" 
+            		ng-maxlength="50" 
+	                required 
+            		ng-model="activity.activityName"  ng-maxlength="20"  placeholder="请输入培训活动名称">(最多输入50个字符)
+            </div>
+            <div class="error" ng-show="activityForm.activityName.$dirty&&activityForm.activityName.$invalid||activityForm.$submitted&&activityForm.activityName.$invalid" >
+                <span ng-show="activityForm.activityName.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写活动名称</span>
+                <span ng-show="activityForm.activityName.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">最多50个字符</span>
+            </div>
+       	</div>
+       	<div class="form-group">
+           <label class="col-xs-2 control-label">培训活动简介：</label>
+           <div class="col-xs-5 width_6">
+               <textarea class="form-control width_1" id="introduction" name="introduction" 
+                ng-maxlength="500" 
+                required 
+               	ng-model="activity.introduction" 
+               	placeholder="请输入培训活动简介" >(最多输入500个字符)
+               	</textarea>
+           </div>
+           <div class="error" ng-show="activityForm.introduction.$dirty&&activityForm.introduction.$invalid||activityForm.$submitted&&activityForm.introduction.$invalid" >
+               <span ng-show="activityForm.introduction.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写培训活动简介</span>
+               <span ng-show="activityForm.introduction.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">最多500个字符</span>
+           </div>
+        </div>
+        <div class="form-group">
+	        <label class="col-xs-2 control-label">培训协议：</label>
+	        <div class="col-xs-5">
+		        <div class="form-control-static">
+		            <label class="checkbox-inline">
+		                <input type="checkbox" ng-checked ="activity.protocol=='Y'" ng-click="toggleProtocol()"/>签订培训协议
+		            </label>
+		        </div>
+	        </div>
+        </div>
+        <div class="form-group" ng-if="activity.protocol=='Y'">
+			<label class="col-xs-2 control-label">协议生效日期：</label>
+			<div class="col-xs-5">
+	       		<input type="text" class="Wdate form-control width_5" id="protocolStartTime" name="protocolStartTime" onFocus="WdatePicker({startDate:'%y-%M-%d 09:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'new Date()'})" readonly/>
+	 		</div>
+	 	</div>
+	 	<div class="form-group" ng-if="activity.protocol=='Y'">
+			<label class="col-xs-2 control-label">协议终止日期：</label>
+			<div class="col-xs-5">
+	       		<input type="text" class="Wdate form-control width_5" id="protocolEndTime" name="protocolEndTime" onFocus="WdatePicker({startDate:'%y-%M-%d 19:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'protocolStartTime\')}'})" readonly/>
+	 		</div>
+	 	</div>
+	 	<div class="form-group" ng-if="activity.protocol=='Y'">
+			<label class="col-xs-2 control-label">培训费用：</label>
+        	<div class="col-xs-5 width_6">
+            	<input type="text" class="form-control width_3" name="trainFee" 
+            		ng-model="activity.trainFee"
+            		required
+            		ng-pattern ="/^([1-9][\d]{0,5}|0)(\.[\d]{1,2})?$/"   
+            		placeholder="请输入培训费用">
+           		<div class="inputIntro">(元)</div>
+            </div>
+            <div class="error" ng-show="activityForm.trainFee.$dirty&&activityForm.trainFee.$invalid||activityForm.$submitted&&activityForm.trainFee.$invalid" >
+                <span ng-show="activityForm.trainFee.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写培训费用</span>
+                <span ng-show="activityForm.trainFee.$error.pattern" class="glyphicon glyphicon-exclamation-sign">费用范围0-999999.99</span>
+            </div>
+		</div>
+        <div class="form-group">
+        	<label  class="col-xs-2 control-label">必修/选修：</label>
+            <div class="col-xs-5">
+                <label class="radio-inline">
+                    <input type="radio" class="" name="needApply" ng-model="activity.needApply" value="N" ng-checked="activity.needApply=='N'">必修活动
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="needApply" ng-model="activity.needApply" value="Y" ng-checked="activity.needApply=='Y'">选修活动
+                </label>
+            </div>
+        </div>
+		<div class="form-group" ng-if="activity.needApply=='Y'">
+			<label class="col-xs-2 control-label">报名人数：</label>
+        	<div class="col-xs-5 width_6">
+            	<input type="text" class="form-control width_5" name="numberOfParticipants" 
+            		ng-model="activity.numberOfParticipants"
+            		required
+            		ng-pattern ="/^(\+?[1-9]\d{0,5}|\+?1000000)$/"   
+            		placeholder="请输入报名人数">
+            </div>
+            <div class="error" ng-show="activityForm.numberOfParticipants.$dirty&&activityForm.numberOfParticipants.$invalid||activityForm.$submitted&&activityForm.numberOfParticipants.$invalid" >
+                <span ng-show="activityForm.numberOfParticipants.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写报名人数</span>
+                <span ng-show="activityForm.numberOfParticipants.$error.pattern" class="glyphicon glyphicon-exclamation-sign">请输入1-1000000的数字</span>
+            </div>
+		</div>
+		<div class="form-group" ng-show="activity.needApply=='Y'">
+        	<label  class="col-xs-2 control-label">报名开始时间： </label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="Wdate form-control width_5" id="applicationStartTime" name="applicationStartTime"  onChange=""  ng-model="activity.applicationStartTime"   onFocus="WdatePicker({startDate:'%y-%M-%d 09:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'new Date()'})" readonly/>
+			</div>
+        </div>
+        <div class="form-group" ng-show="activity.needApply=='Y'">
+            <label class="col-xs-2 control-label">报名结束时间：</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="Wdate form-control width_5" id="applicationDeadline"  name="applicationDeadline" onChange=""  ng-model="activity.applicationDeadline"   onFocus="WdatePicker({startDate:'%y-%M-%d 19:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'applicationStartTime\')}'})" readonly/>
+			</div>
+        </div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">活动开始时间：</label>
+	       	<div class="col-xs-5 width_6">
+	            <input type="text" class="Wdate form-control width_5" id="activityStartTime" name="activityStartTime" onChange=""  ng-model="activity.activityStartTime"  onFocus="WdatePicker({startDate:'%y-%M-%d 09:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'new Date()'})" readonly/>
+	        </div>
+	 	</div>
+	 	<div class="form-group">
+	        <label class="col-xs-2 control-label">活动结束时间：</label>
+	        <div class="col-xs-5 width_6">
+	            <input type="text" class="Wdate form-control width_5" id="activityEndTime" name="activityEndTime" onChange=""  ng-model="activity.activityEndTime" onFocus="WdatePicker({startDate:'%y-%M-%d 19:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'activityStartTime\')}'})" readonly/>
+	        </div>
+	 	</div>
+	 	<!-- 证书start -->
+	 	<div class="form-group">
+	 		<label class="col-xs-2 control-label">认证证书：</label>
+	 		<div class="col-xs-5">
+		        <div class="form-control-static">
+		            <label class="checkbox-inline">
+		                <input type="checkbox" ng-checked ="activity.certificateState=='Y'" ng-click="formData.certificateState == 'Y' ? formData.certificateState = 'N' : formData.certificateState = 'Y'"/>颁发证书
+		            </label>
+		        </div>
+	        </div>
+	 	</div>
+	 	<div class="form-group" ng-show="activity.certificateState=='Y'">
+	 		<label class="col-xs-2 control-label">选择证书：</label>
+			<div class="col-xs-offset-2"" ng-include="'/enterpriseuniversity/views/activity/template/chooseCertificateTemplate.html'"></div>
+	 	</div> 
+	 	<div class="form-group" ng-if="activity.certificateState=='Y'">
+        	<label class="col-xs-2 control-label">领取方式：</label>
+            <div class="col-xs-5">
+                <label class="radio-inline">
+                    <input type="radio" class="" name="receiveState" ng-model="activity.receiveState" value="Y" ng-checked="activity.receiveState=='Y'">线上领取
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="receiveState" ng-model="activity.receiveState" value="N" ng-checked="activity.receiveState=='N'">线下领取
+                </label>
+            </div>
+        </div>
+        <div class="form-group" ng-if="activity.receiveState == 'N'">
+        	<label class="col-xs-2 control-label">领取地址：</label>
+        	<div class="col-xs-5 width_6">
+        		<input type ="text" class="form-control width_5" name="receiveAddress" ng-model="activity.receiveAddress" placeholder="请输入证书领取地址">
+        	</div>
+        </div> 
+        <!-- 证书end -->
+        <div style="position:relative;" class="form-group" ng-controller="ActivtiyImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+	        <label class="col-xs-2 control-label">培训活动封面：</label>
+	        <div class="col-xs-5 width_6">
+        		<a class="fileInputBtn btn btn-primary btn-control">上传图片</a>
+	            <input type="file" class="fileInput btn btn-control" id="activityImg" nv-file-select  uploader="imgUploader">
+	            <div class="inputIntro">(1.5:1,&lt;=2M;建议360*240px,&lt;=500kb)</div>
+	        </div>
+          	<input type="hidden" name="activityImg" ng-model="activity.activityImg" required-img>
+          	<div class="error" ng-show="activityForm.$submitted&&activityForm.activityImg.$invalid" >
+                <span ng-show="activityForm.activityImg.$error.requiredImg" class="glyphicon glyphicon-exclamation-sign">请上传培训活动封面</span>
+            </div>
+         	<div class="preview-container" ng-show="openPreview">
+				<div class="thumbnail">
+				   <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+				   <div class="caption">
+				      <p>
+				         <a ng-click="closePreview()" class="btn btn-primary" role="button">关闭</a> 
+				      </p>
+				   </div>
+				</div>
+			</div>
+	        <div style="min-height:0;" class="col-xs-offset-2 col-xs-8 width_10">
+				<table style="margin-top: 10px;" ng-show="imgUploader.queue.length>0"class="table table-bordered text-center">
+				    <tr>
+				        <td class="col-xs-2">封面图片名称</td>
+				        <td class="col-xs-2">大小</td>
+				        <td class="col-xs-2">进度</td>
+				        <td class="col-xs-2">状态</td>
+				        <td class="col-xs-2">操作</td>
+				    </tr>
+				    <tr ng-repeat="item in imgUploader.queue">
+				        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+				        <td ng-show="imgUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+				        <td ng-show="imgUploader.isHTML5">
+				            <div class="progress" style="margin-bottom: 0;">
+				                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+				            </div>
+				        </td>
+				        <td class="text-center">
+				            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+				            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+				        </td>
+				        <td nowrap>
+				            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+				                <span class="glyphicon glyphicon-upload"></span> 上传
+				            </a>
+				            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+				                <span class="glyphicon glyphicon-trash"></span> 删除
+				            </a>
+				        </td>
+				     </tr>
+				</table>
+	        </div>
+       	</div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">所属部门：</label>
+            <div class="col-xs-5">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" ng-click="doOpenDeptModal()">选择所属部门</a>
+		        </div>
+		       <div class="width_4" ng-include="'/enterpriseuniversity/views/activity/template/deptChoiceTemplate.html'"></div>
+        	</div>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">员工层级：</label>
+            <div class="col-xs-5">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary btn-control" ng-click="doOpenEmployeeGradeModal()">选择员工层级</a>
+		        </div>
+		       <div class="width_4" ng-include="'/enterpriseuniversity/views/activity/template/EmployeeGradeChoiceTemplate.html'"></div>
+        	</div>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">所在城市：</label>
+			<div class="col-xs-5 width_6" >
+				<input type="text" class="form-control width_1" name="city" ng-model="activity.city" ng-maxlength="20"/>
+			</div>
+			<div class="error" ng-show="activityForm.city.$dirty&&activityForm.city.$invalid||activityForm.$submitted&&activityForm.city.$invalid" >
+                <span ng-show="activityForm.city.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">最多20个字符</span>
+            </div>
+        </div>
+        <div class="form-group">
+	        <label class="col-xs-2 control-label">二、任务包信息&nbsp;&nbsp;</label>
+        </div>
+       	<div class="form-group">
+       		<label class="col-xs-2 control-label"></label>
+			<div class="col-xs-5 width_6">
+			    <div class="form-control-static">
+			        <a href="javascript:void(0)" class="btn btn-primary btn-control" ng-click="doOpenTaskPackageModal()">选择任务包</a>
+			    </div>
+    			<!--列出已勾选的项-->
+			    <div class="form-control-static clearfix choosed-items-container">
+		    		<p ng-show="taskPackage.length <=0" style="color:red;">请选择任务包,并配置任务信息</p>
+			    	<div style="padding:15px;" ng-repeat="task in taskPackage">
+			    		<div ng-repeat="item in task.taskCoursesOrExamPapers">
+			    			<div ng-if="item.courseId!=undefined">
+				    			<div class="form-group">
+						            <label class="col-xs-3 width_7 control-label">任务<span ng-bind="$index+1+'：'"></span></label>
+						            <div class="col-xs-7">
+				                 		<span style="display:block;padding-top:7px;margin-bottom:0;" ng-bind="item.courseName"></span>
+						            </div>
+						            <div class="col-xs-2">
+						            	<span ng-if="$index!=task.taskCoursesOrExamPapers.length-1" style="color:#228be0;cursor:pointer;" class="control-label glyphicon glyphicon-arrow-down" ng-click="sortDown(item);"></span>
+						            	&nbsp;&nbsp;
+						            	<span ng-if="$index!=0" style="color:#228be0;cursor:pointer;" class="control-label glyphicon glyphicon-arrow-up" ng-click="sortUp(item);"></span>
+						            </div>
+			        			</div>
+			        			<div class="form-group" ng-if="$index!=0">
+						            <label class="col-xs-3 width_7 control-label">前置任务：</label>
+						            <div class="col-xs-5 width_8">
+							            <div class="input-group">
+						                    <input type="text" placeholder="请选择前置任务" class="form-control width_5" readonly  ng-model="item.preTaskNames">
+						                    <span class="input-group-btn">
+						                        <a href="javascript:void(0)" class="btn btn-primary  btn-control"  ng-click="choosePretask(item,$index)">选择前置任务</a>
+						                    </span>
+		               	 				</div>
+						            </div>
+			        			</div>
+			        			<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">开始时间：</label>
+						            <div class="col-xs-5 width_8">
+						                 <input type="text" class="Wdate form-control width_5" id="courseStartTime{{item.courseNumber}}"  name="courseStartTime{{item.courseNumber}}"  onFocus="WdatePicker({startDate:'%y-%M-%d 09:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'new Date()',onpicked:function(){}})" readonly/>
+						            </div>
+			        			</div>
+			        			<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">结束时间：</label>
+						            <div class="col-xs-5 width_8">
+						                 <input type="text" class="Wdate form-control width_5" id="courseEndTime{{item.courseNumber}}" name="courseEndTime{{item.courseNumber}}"  onFocus="WdatePicker({startDate:'%y-%M-%d 19:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'new Date()',onpicked:function(){}})" readonly/>
+						            </div>
+			        			</div>
+			        			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label class="col-xs-2 width_7 control-label">讲师(单选)：</label>
+						            <div class="col-xs-5 width_8">
+						            	<select class="form-control width_5" style="line-height: 28px;" ng-model="item.lecturerId" ng-options="x.lecturerId as x.lecturerName for x in item.lecturerLists">
+						            		<option selected value="">选择讲师</option>
+						            	</select>
+						            	<input type="hidden" name="lecturerId{{item.courseNumber}}" ng-model="item.lecturerId" required-lecturer/>
+						            </div>
+						            <div class="error width_9" ng-show="activityForm.$submitted&&activityForm.lecturerId{{item.courseNumber}}.$invalid" >
+						                 <span ng-show="activityForm.lecturerId{{item.courseNumber}}.$error.requiredLecturer" class="glyphicon glyphicon-exclamation-sign">请选择讲师</span>
+						            </div>
+	       			 			</div>
+	       			 			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label  class="col-xs-2 width_7 control-label">活动地点：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5" name="courseAddress{{item.courseNumber}}"  
+						            		ng-maxlength="20"  
+						            		ng-model="item.courseAddress"  
+						            		required  
+						            		placeholder="请输入活动地点">
+						            </div>
+						            <div class="error width_9" ng-show="activityForm.courseAddress{{item.courseNumber}}.$dirty&&activityForm.courseAddress{{item.courseNumber}}.$invalid||activityForm.$submitted&&activityForm.courseAddress{{item.courseNumber}}.$invalid" >
+						                 <span ng-show="activityForm.courseAddress{{item.courseNumber}}.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写活动地点</span>
+						                 <span ng-show="activityForm.courseAddress{{item.courseNumber}}.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">最多20个字符</span>
+						            </div>
+	       			 			</div>
+	       			 			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label  class="col-xs-2 width_7 control-label">课程时长：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5" name="courseTime{{item.courseNumber}}"  
+						            		ng-pattern ="/^(\+?[1-9]\d{0,2}|\+?1000)$/"
+						            		ng-model="item.courseTime"  
+						            		required 
+						            		ng-keyup="calculateTotalPrice(item)" 
+						            		placeholder="请输入课程时长">
+						            		<span class="inputIntro">分钟</span> 
+						            </div>
+						            <div class="error width_9" ng-show="activityForm.courseTime{{item.courseNumber}}.$dirty&&activityForm.courseTime{{item.courseNumber}}.$invalid||activityForm.$submitted&&activityForm.courseTime{{item.courseNumber}}.$invalid" >
+						                 <span ng-show="activityForm.courseTime{{item.courseNumber}}.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写课程时长</span>
+						                 <span ng-show="activityForm.courseTime{{item.courseNumber}}.$error.pattern" class="glyphicon glyphicon-exclamation-sign">时长范围1-1000</span>
+						            </div>
+	       			 			</div>
+	       			 			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label  class="col-xs-2 width_7 control-label">课程单价：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5" name="unitPrice{{item.courseNumber}}"  
+						            		ng-model="item.unitPrice"
+						            		ng-pattern ="/^([1-9][\d]{0,5}|0)(\.[\d]{1})?$/"  
+						            		ng-keyup="calculateTotalPrice(item)"
+						            		placeholder="请输入课程单价">
+						            		<span class="inputIntro">元/小时</span> 
+						            </div>
+						            <div class="error width_9" ng-show="activityForm.unitPrice{{item.courseNumber}}.$dirty&&activityForm.unitPrice{{item.courseNumber}}.$invalid||activityForm.$submitted&&activityForm.unitPrice{{item.courseNumber}}.$invalid" >
+						                 <!-- <span ng-show="activityForm.unitPrice{{item.courseNumber}}.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写课程单价</span> -->
+						                 <span ng-show="activityForm.unitPrice{{item.courseNumber}}.$error.pattern" class="glyphicon glyphicon-exclamation-sign">单价范围0-999999.9</span>
+						            </div>
+	       			 			</div>
+	       			 			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label  class="col-xs-2 width_7 control-label">课程总价：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5"  ng-init="item.totalPrice=0" ng-model="item.totalPrice" name="totalPrice"  readonly>
+						            	<span class="inputIntro">元</span> 
+						            </div>
+	       			 			</div>
+			    			</div>
+			    			<div ng-if="item.examPaperId!=undefined">
+			    				<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">任务<span ng-bind="$index+1+'：'"></span></label>
+						            <div class="col-xs-7">
+				                 		<span style="display:block;padding-top:7px;margin-bottom:0;" ng-bind="item.examPaperName"></span>
+						            </div>
+						            <div class="col-xs-2">
+						            	<span ng-if="$index!=task.taskCoursesOrExamPapers.length-1" style="color:#228be0;cursor:pointer;" class="control-label glyphicon glyphicon-arrow-down" ng-click="sortDown(item);"></span>
+						            	&nbsp;&nbsp;
+						            	<span ng-if="$index!=0" style="color:#228be0;cursor:pointer;" class="control-label glyphicon glyphicon-arrow-up" ng-click="sortUp(item);"></span>
+						            </div>
+			        			</div>
+			        			<div class="form-group" ng-if="$index!=0">
+						            <label class="col-xs-2 width_7 control-label">前置任务：</label>
+						            <div class="col-xs-8 width_8">
+							            <div class="input-group">
+						                    <input type="text" placeholder="请选择前置任务" class="form-control width_5" readonly  ng-model="item.preTaskNames">
+						                    <span class="input-group-btn">
+						                        <a href="javascript:void(0)" class="btn btn-primary  btn-control"  ng-click="choosePretask(item,$index)">选择前置任务</a>
+						                    </span>
+		               	 				</div>
+						            </div>
+			        			</div>
+			    				<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">开始时间：</label>
+						            <div class="col-xs-5 width_8">
+						                 <input type="text" class="Wdate form-control width_5" id="examStartTime{{item.examPaperNumber}}" name="examStartTime{{item.examPaperNumber}}"  onFocus="WdatePicker({startDate:'%y-%M-%d 09:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'new Date()'})" readonly/>
+						            </div>
+			        			</div>
+			        			<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">结束时间：</label>
+						            <div class="col-xs-5 width_8">
+						                 <input type="text" class="Wdate form-control width_5" id="examEndTime{{item.examPaperNumber}}" name="examEndTime{{item.examPaperNumber}}"  onFocus="WdatePicker({startDate:'%y-%M-%d 19:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'new Date()'})" readonly/>
+						            </div>
+			        			</div>
+			        			<!-- xxxxxxxxxxxxxxxxxx -->
+			        			<div class="form-group">
+						            <label  class="col-xs-2 width_7 control-label">考试时长：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5" ng-model="item.examTime" readonly >
+						            		<span class="inputIntro">分钟</span> 
+						            </div>
+	       			 			</div>
+	       			 			<!-- xxxxxxxxxxxxxxxxxx -->
+			        			<div class="form-group">
+				        			<label class="col-xs-2 width_7 control-label">考试类型：</label>
+		       				 		<div class="col-xs-5 width_8">
+		       				 			<label class="control-label" style="cursor:pointer;"><input type="checkbox"  style="cursor:pointer;" ng-click="toggleOfflineExam(item);" ng-checked="item.offlineExam=='2'">线下考试</label>
+	       				 			</div>
+			        			</div>
+			        			<div class="form-group" ng-if="item.offlineExam=='2'">
+				        			<label class="col-xs-2 width_7 control-label">考试地址：</label>
+				        			<div class="col-xs-5 width_8">
+				        				<input type="text" class="form-control width_5" id="examAddress{{item.examPaperNumber}}" name="examAddress{{item.examPaperNumber}}" 
+				        					ng-model="item.examAddress"
+				        					ng-maxlength="20" 
+	                						required />
+				        			</div>
+				        			<div class="error width_9" ng-show="activityForm.examAddress{{item.examPaperNumber}}.$dirty&&activityForm.examAddress{{item.examPaperNumber}}.$invalid||activityForm.$submitted&&activityForm.examAddress{{item.examPaperNumber}}.$invalid" >
+						                <span ng-show="activityForm.examAddress{{item.examPaperNumber}}.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写考试地址</span>
+						                <span ng-show="activityForm.examAddress{{item.examPaperNumber}}.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">最多20个字符</span>
+						            </div>
+			        			</div>
+			        			<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">补考次数：</label>
+						            <div class="col-xs-5 width_8">
+						                <input type="text" class="form-control width_5"  id="retakingExamCount{{item.examPaperNumber}}" name="retakingExamCount{{item.examPaperNumber}}" 
+						                	ng-model="item.retakingExamCount" 
+						                	ng-pattern ="/^(\+?[1-9]\d{0,1}|\+?100|0)$/"
+						                	ng-change="createRetaking(item);"
+						                	required>
+						            </div>
+						            <div class="error width_9" ng-show="activityForm.retakingExamCount{{item.examPaperNumber}}.$dirty&&activityForm.retakingExamCount{{item.examPaperNumber}}.$invalid||activityForm.$submitted&&activityForm.retakingExamCount{{item.examPaperNumber}}.$invalid" >
+						                <span ng-show="activityForm.retakingExamCount{{item.examPaperNumber}}.$error.required" class="glyphicon glyphicon-exclamation-sign">请填写补考次数</span>
+						                <span ng-show="activityForm.retakingExamCount{{item.examPaperNumber}}.$error.pattern" class="glyphicon glyphicon-exclamation-sign">请输入0-100数字</span>
+						            </div>
+   		 						</div>
+   		 						<!-- 补考时间 -->
+   		 						<div id="retakingExamTimes{{item.examPaperNumber}}"></div>
+   		 						<!-- 添加时补充补考时间 -->
+   		 						<div ng-repeat="i in item.retakingCountArr">
+   		 							<div class="form-group">
+	   		 							<label class="col-xs-2 width_7 control-label">补考日期{{i}}：</label>
+	   		 							<div class="col-xs-5">
+	   		 								<label>开始时间</label>
+	   		 								<input type="text" class="Wdate form-control width_5" id="retakingStartTime{{item.examPaperNumber+i}}" name="retakingStartTime" onfocus="WdatePicker({startDate:'%y-%M-%d 09:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'new Date()'})" readonly>
+	 									</div>
+   		 							</div>
+   		 							<div class="form-group">
+	   		 							<label class="col-xs-2 width_7 control-label"></label>
+										<div class="col-xs-5">
+											<label>结束时间</label>
+											<input type="text" class="Wdate form-control width_5" id="retakingEndTime{{item.examPaperNumber+i}}" name="retakingEndTime" onfocus="WdatePicker({startDate:'%y-%M-%d 19:00:00',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'new Date()'})" readonly>
+										</div>
+   		 							</div>
+ 								</div>
+			    			</div>
+			    		</div>
+			    	</div>
+		    	</div>
+			</div>
+			<input type="hidden" name="taskPackage" ng-model="taskPackage" required-taskpackage/>
+			<div class="error" ng-show="activityForm.$submitted&&activityForm.taskPackage.$invalid" >
+                <span ng-show="activityForm.taskPackage.$error.requiredTaskpackage" class="glyphicon glyphicon-exclamation-sign">请选择任务包</span>
+            </div> 
+			<div ng-include="'/enterpriseuniversity/views/activity/template/choosePreTaskTemplate.html'"></div>
+       		<div ng-include="'/enterpriseuniversity/views/activity/template/chooseTaskPackageTemplate.html'"></div>
+       	</div>
+       	<div class="form-group">
+	        <label class="col-xs-2 control-label">三、选择学员方式&nbsp;&nbsp;</label>
+        </div>
+        <div class="form-group">
+       		<label class="col-xs-2 control-label"></label>
+       		<div class="col-xs-8 width_6">
+       			<div class="btn-group">
+					<a style="border-radius: 4px;" class="btn btn-primary btn-control" ng-class="{'active':isDept=='N'}" ng-click="doOpenLearnerModal()">指定学习人员</a>
+<!-- 					<a style="margin-left: 25px;border-radius: 4px;" class="btn btn-primary btn-control" ng-class="{'active':isDept=='Y'}" ng-if="activity.needApply=='N'" ng-click="doOpenManagerModal()">推送部门负责人</a> -->
+				</div>
+		        <!--列出已勾选的项-->
+				<div ng-if="choosedEmpsArr.length >0" class="form-control-static choosed-items-container clearfix width_4">
+					<label class="checkbox-inline choosed-item" ng-repeat="item in choosedEmpsArr">
+						{{item.name}}
+						<span class="del-icon" ng-click="deleteEmpItem(item)">&nbsp;&nbsp;&times;</span>
+					</label>
+				</div>
+				<!-- <div ng-if="choosedLabelEmpsArr.length >0" class="form-control-static choosed-items-container clearfix width_4">
+					<label class="checkbox-inline choosed-item" ng-repeat="label in choosedLabelEmpsArr">
+						{{label.name}}
+						<span class="del-icon" ng-click="deleteLabelEmpItem(label)">&nbsp;&nbsp;&times;</span>
+					</label>
+				</div> -->
+				<div ng-if="activity.needApply=='N'&&choosedItemArr.length >0" class="form-control-static choosed-items-container clearfix width_4">
+					<label class="checkbox-inline choosed-item" ng-repeat="item in choosedItemArr" ng-if="item.deptpsncode==item.code">
+						{{item.deptname}}
+						<span class="del-icon" ng-click="deleteDeptHeaderItem(item)">&nbsp;&nbsp;&times;</span>
+					</label>
+				</div>
+		        <div ng-include="'/enterpriseuniversity/views/activity/template/learnerModalTemplate.html'"></div>
+		        <div ng-include="'/enterpriseuniversity/views/activity/template/managerModalTemplate.html'"></div>
+	        </div>
+           	<input type="hidden" name="empIds" ng-model="activity.tempEmps"  required-arr/>
+			<div class="error" ng-show="activityForm.empIds.$invalid&&activityForm.$submitted">
+                <span ng-show="activityForm.empIds.$error.requiredArr"  class="glyphicon glyphicon-exclamation-sign">请选择学习人员</span>
+           	</div>
+        </div>
+        <!-- start选择管理员-->
+        <div class="form-group">
+            <label class="col-xs-2 control-label">培训活动授权：</label>
+            <div class="col-xs-8 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal" ng-click="doOpenAdminModal()">选择管理员</a>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+    		</div>
+    		<input type="hidden" name="admins" ng-model="activity.admins" required-admin>
+    		<div class="error" ng-show="activityForm.admins.$invalid&&activityForm.$submitted">
+                <span ng-show="activityForm.admins.$error.requiredAdmin" class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+           	</div>
+        </div>
+        <!-- end 选择管理员 -->
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control" ng-click="doSave()">保&nbsp;&nbsp;&nbsp;存</a>
+                <a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+        </div>
+        <div class="modal-backdrop fade" ng-class="{'in':addActivitySubmit,'display-block':addActivitySubmit,'display-none':!addActivitySubmit}"></div>
+    </form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

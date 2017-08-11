@@ -1,0 +1,95 @@
+<div >
+	 <!-- 模态框（Modal） -->
+	<div class="modal fade" ng-class="{'in':modalDialog.openScoreModal,'display-block':modalDialog.openScoreModal}" tabindex="-1" 
+     	role="dialog" aria-labelledby="myModalLabel" ng-if="modalDialog.openScoreModal">
+		   <div class="modal-dialog" ng-style="setStyle_02()">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <a class="close del-icon" ng-click="closeExamPaperModal()">&times;</a>
+		            <h4 class="modal-title">考试成绩</h4>
+		         </div>
+		         <div class="modal-body">
+		          	 <table class="table table-striped table-bordered table-hover table-condensed">
+	                    <thead>
+		                    <tr>
+		                        <th width="100px">序号</th>
+		                        <th >姓名</th>
+		                        <th width="150px">员工编号</th>
+		                        <th width="150px">状态</th>
+		                        <th width="150px">考试次数</th>
+		                        <th width="150px">总分</th>
+		                        <th width="150px">操作</th>
+		                    </tr>
+	                    </thead>
+	                    <tbody>
+		                    <tr ng-repeat="s in score.data" ng-class="{'current-focus-tr':s.code == currHighLightRow.code}" ng-click="highLightCurrRow(s)" style="cursor:pointer;">
+		                        <td ng-bind="$index+1"></td>
+		                        <td ng-bind="s.empName"></td>
+		                        <td ng-bind="s.code"></td>
+		                        <td ng-bind="s.gradeState"></td>
+		                        <td ng-bind="s.examCount"></td>
+		                        <td ng-bind="s.totalPoints"></td>
+		                        <td>
+		                        	<a ng-show="scoreExam.offlineExam=='1'" class="btn btn-link" ng-click="toGrade(s)" ng-bind="'评分'"></a>
+		                        </td>
+		                    </tr>
+	                    </tbody>
+                	</table>
+	                <div>
+	                	<div class="container-fluid" pagination conf="paginationConf2"></div>
+	               	</div>	
+               		<input type="hidden" id="examId" value="{{scoreExam.examId}}" >
+			       	<!--导入成绩-->
+			        <div style="position:relative;" class="form-group" ng-controller="ScoreUploadController" uploader="excelUploader" filters="queueLimit, customFilter">
+			            <div class="container-fluid">
+			            <div class="col-xs-8 row">
+			                <a ng-show="scoreExam.offlineExam=='2'" class="fileInputBtn btn btn-primary btn-control">导入</a>
+			                <input type="file" class="fileInput btn btn-control"  id="fileInput" nv-file-select  uploader="excelUploader">
+			                <a ng-show="scoreExam.offlineExam=='2'" href="/enterpriseuniversity/services/examScore/downloadScoreExcel?examId={{scoreExam.examId}}">模板下载</a>
+			                <div class="inputIntro"></div>
+			            </div>
+			            <div style="min-height:0;" class="col-xs-offset-2 col-xs-8">
+			                <table style="margin-top: 10px;" ng-show="excelUploader.queue.length>0"class="table table-bordered text-center">
+			                    <tr>
+			                        <td class="col-xs-2">文件名称</td>
+			                        <td class="col-xs-2">大小</td>
+			                        <td class="col-xs-2">进度</td>
+			                        <td class="col-xs-2">状态</td>
+			                        <td class="col-xs-2">操作</td>
+			                    </tr>
+			                    <tr ng-repeat="item in excelUploader.queue">
+			                        <td class="overflow-breakall"><strong><a ng-click="preview()">{{ item.file.name }}</a></strong></td>
+			                        <td ng-show="excelUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+			                        <td ng-show="excelUploader.isHTML5">
+			                            <div class="progress" style="margin-bottom: 0;">
+			                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+			                            </div>
+			                        </td>
+			                        <td class="text-center">
+			                        	<span ng-show="item.isUploading"><i class="glyphicon loading"></i></span>
+			                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+			                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+			                        </td>
+			                        <td nowrap>
+			                            <a class="btn btn-success btn-xs" ng-click="uploadItem(item)" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+			                                <span class="glyphicon glyphicon-upload"></span> 上传
+			                            </a>
+			                            <a class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+			                                <span class="glyphicon glyphicon-trash"></span> 删除
+			                            </a>
+			                        </td>
+			                    </tr>
+			                </table>
+			            </div>
+			            </div>
+			        </div>
+			        <!--end 导入成绩-->	
+	          	</div>
+		        <div class="modal-footer">
+		            <a class="btn btn-primary" ng-click="closeExamPaperModal()">关闭</a>
+		        </div>
+      		</div>
+		</div>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':modalDialog.openScoreModal,'display-block':modalDialog.openScoreModal,'display-none':!modalDialog.openScoreModal}"></div>
+</div>

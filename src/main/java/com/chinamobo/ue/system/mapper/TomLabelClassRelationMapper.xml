@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.system.dao.TomLabelClassRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.system.entity.TomLabelClassRelation" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CLASS_ID" property="classId" jdbcType="INTEGER" />
+    <result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+    <result column="TAG_ID" property="tagId" jdbcType="VARCHAR" />
+    <result column="TAG_NAME" property="tagName" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="TreeMap" type="com.chinamobo.ue.common.entity.Tree" >
+    <id column="TAG_ID" property="code" jdbcType="VARCHAR" />
+    <result column="TAG_NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CLASS_ID" property="classId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CLASS_ID, CLASS_NAME, TAG_ID, TAG_NAME, UPDATE_TIME, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tom_label_class_relation
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimary" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tom_label_class_relation
+    where TAG_ID = #{tagId,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据标签分类ID查询 -->
+  <select id="selectByLabelClassRelation" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select 
+    <include refid="Base_Column_List" />
+    from tom_label_class_relation
+    where CLASS_ID = #{classId,jdbcType=INTEGER}
+  </select>
+  <select id="countByLabelClass" resultType="int" parameterType="map">
+	select
+	count(*)
+	from tom_label_class_relation
+    where CLASS_ID = #{classId,jdbcType=INTEGER}
+    and TAG_ID = #{tagId,jdbcType=VARCHAR}
+  </select>
+  <select id="countBytagId" resultType="int" parameterType="java.lang.String" >
+    select 
+    COUNT(*)
+    from tom_label_class_relation
+    where TAG_ID = #{tagId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tom_label_class_relation
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPrimary" parameterType="java.lang.Integer" >
+    delete from tom_label_class_relation
+    where CLASS_ID = #{classId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByTagId" parameterType="java.lang.String" >
+    delete from tom_label_class_relation
+    where TAG_ID = #{tagId,jdbcType=VARCHAR} AND CLASS_ID!=1
+  </delete>
+  <!-- 删除全部微信标签分类关联表 -->
+  <delete id="deleteWxLabelClassRelation" >
+    delete from tom_label_class_relation
+    where CLASS_ID=1
+  </delete>
+  <insert id="insert" parameterType="com.chinamobo.ue.system.entity.TomLabelClassRelation" >
+    insert into tom_label_class_relation (ID, CLASS_ID, CLASS_NAME, 
+      TAG_ID, TAG_NAME, UPDATE_TIME, 
+      CREATE_TIME)
+    values (#{id,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR}, 
+      #{tagId,jdbcType=VARCHAR}, #{tagName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.system.entity.TomLabelClassRelation" >
+    insert into tom_label_class_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="className != null" >
+        CLASS_NAME,
+      </if>
+      <if test="tagId != null" >
+        TAG_ID,
+      </if>
+      <if test="tagName != null" >
+        TAG_NAME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="tagId != null" >
+        #{tagId,jdbcType=VARCHAR},
+      </if>
+      <if test="tagName != null" >
+        #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.system.entity.TomLabelClassRelation" >
+    update tom_label_class_relation
+    <set >
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="className != null" >
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="tagId != null" >
+        TAG_ID = #{tagId,jdbcType=VARCHAR},
+      </if>
+      <if test="tagName != null" >
+        TAG_NAME = #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.system.entity.TomLabelClassRelation" >
+    update tom_label_class_relation
+    set CLASS_ID = #{classId,jdbcType=INTEGER},
+      CLASS_NAME = #{className,jdbcType=VARCHAR},
+      TAG_ID = #{tagId,jdbcType=VARCHAR},
+      TAG_NAME = #{tagName,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectLabelAsTree" resultMap="TreeMap" parameterType="java.lang.Integer">
+    select 
+	TAG_ID,TAG_NAME,CLASS_ID
+	from tom_label_class_relation
+	WHERE CLASS_ID = #{classId,jdbcType=INTEGER}
+  </select>
+  <select id="selectLabelClassEmpList" resultType="com.chinamobo.ue.system.entity.TomLabelEmpRelation" parameterType="java.lang.Integer">
+	SELECT
+		*
+	FROM tom_label_emp_relation a
+	WHERE 1=1
+	AND a.TAG_ID IN
+	(SELECT
+		b.TAG_ID
+	FROM tom_label_class_relation b
+	WHERE 1=1
+	AND b.CLASS_ID = #{classId,jdbcType=INTEGER})
+  </select>
+</mapper>

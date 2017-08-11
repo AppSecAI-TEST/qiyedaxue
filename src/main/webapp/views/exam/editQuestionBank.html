@@ -1,0 +1,107 @@
+<meta charset="UTF-8">
+<div id="page" class="container-fluid overflow-auto" ng-controller="EditQuestionBankController">
+	<form name="editQuestionBankForm" novalidate class="form-horizontal" role="form" class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-xs-2 control-label" for="questionName">题库名称:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="questionBankName" name="questionBankName" ng-maxlength="50"
+					ng-model="questionBank.questionBankName" placeholder="请输入题库名称" required>(最多输入50个字符)
+			</div>
+			<div class="error"
+				ng-show="editQuestionBankForm.questionBankName.$dirty&&editQuestionBankForm.questionBankName.$invalid
+				||editQuestionBankForm.$submitted&&editQuestionBankForm.questionBankName.$invalid">
+				<span ng-show="editQuestionBankForm.questionBankName.$error.required"
+					class="glyphicon glyphicon-exclamation-sign">题库名称不能为空</span>
+				<span ng-show="editQuestionBankForm.questionBankName.$error.maxlength"
+					class="glyphicon glyphicon-exclamation-sign">题库名称最多50个字符</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label" for="courseSection">题库分类:</label>
+			<div class="col-xs-5 width_6">
+				<a href="javascript:void(0)" class="btn btn-primary  btn-control"  ng-click="openQuestionClassifyPaperModal()">选择题库分类</a>
+			</div>
+			<div ng-include="'/enterpriseuniversity/views/modalTemplate/selectQuestionClassifyModalTemplate.html'"></div>
+			<input type="hidden" class="form-control"  name="classificationId" ng-model="questionBank.questionClassificationId" required-item>	
+			<div class="error" ng-show="editQuestionBankForm.classificationId.$invalid&&editQuestionBankForm.$submitted">
+				<span ng-show="editQuestionBankForm.classificationId.$error.requiredItem" class="glyphicon glyphicon-exclamation-sign">请选择题库分类</span>
+			</div>
+			<div class="col-xs-offset-2 col-xs-5">
+				 <div ng-show="itemArr.choosedItemArr.length >0"
+			         class="form-control-static classifies-container clearfix choosed-items-container width_4">
+			        <label class="checkbox-inline choosed-item" style="cursor: default;" ng-repeat="item in itemArr.choosedItemArr">
+			        	{{item.questionClassificationName}}
+			            <span class="del-icon" ng-click="itemArr.deleteItem(item)">&nbsp;&nbsp;&times;</span>
+			        </label>
+	    		</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-xs-offset-2 col-xs-8">
+				<div ng-show="questionBank.topics!=undefined"style="max-height: 498px;border: 1px solid #D0D0D0;
+					padding-left:40px; overflow-y: auto; border-radius: 5px;">
+					<h1 style="text-align:center;" ng-bind="questionBank.questionBankName+'题库'"></h1>
+					<table id="topic{{t.topicId}}"  class="col-xs-12" ng-repeat="t in questionBank.topics" >
+						<thead>
+							<tr>
+								<th style="position:relative; width:30px;">
+									<input style="position: absolute; top: 0px;" type="checkbox" ng-click="chooseItem(t)" ng-checked="t.checked">
+								</th>
+								<th ng-bind="$index+1+'、'+t.topicName" class="col-xs-10" style="padding-left:0;"></th>
+								<th style="position:relative;">
+									<a style="position: absolute; top: 0px;" class="btn btn-danger" ng-click="deleteProblems(t)">删除</a>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="o in t.topicOptions" ng-show="o.right=='Y'">
+								<td colspan="3" style="padding:5px 95px 5px 50px;color:#00db00;" ng-bind="o.optionName"></td>
+							</tr>
+							<tr ng-repeat="o in t.topicOptions" ng-show="o.right=='N'">
+								<td colspan="3" style="padding:5px 95px 5px 50px;" ng-bind="o.optionName"></td>
+							</tr>
+						</tbody>
+					</table>
+					<div ng-show="questionBank.topics.length>0" style="float:left;margin: 20px 0;">
+						<span style="padding-left:0;" class="batch-remove-selectAll" ng-click="chooseAllItem()">
+							<input type="checkbox" ng-checked="selectAll">全选
+						</span>
+						<a class="btn btn-danger" ng-click="batchDeleteProblems()">批量删除 </a>
+					</div>
+					<div ng-show="questionBank.topics.length==0" style="float:left;margin: 20px 0;">
+						 <span class="error">提示：题库已无题目,可通过追加题库来补充题目</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">题库授权:</label>
+			<div class="col-xs-5 width_6">
+				<div class="form-control-static">
+					<a href="javascript:void(0)" class="btn btn-primary  btn-control"
+						data-toggle="modal" ng-click="doOpenAdminModal()">选择管理员</a>
+				</div>
+				<div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+				<input type="hidden" name="admins" ng-model="questionBank.admins" required-admin>
+			</div>
+			<div class="error"
+				ng-show="editQuestionBankForm.admins.$invalid&&editQuestionBankForm.$submitted">
+				<span ng-show="editQuestionBankForm.admins.$error.requiredAdmin"
+					class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-xs-offset-2 col-xs-8">
+				<a class="btn btn-primary btn-control" ng-click="doSave()">保存</a> <a
+					class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+			</div>
+		</div>
+		 <div class="modal-backdrop fade" ng-class="{'in':editQuestionBankSubmit,'display-block':editQuestionBankSubmit,'display-none':!editQuestionBankSubmit}"></div>
+	</form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

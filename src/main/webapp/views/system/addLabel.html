@@ -1,0 +1,91 @@
+<!--添加标签 模态框（Modal） -->
+<div ng-controller="AddLabelController">
+	<div ng-include="'/enterpriseuniversity/views/activity/template/learnerModalTemplates.html'"></div>
+	<div class="modal fade"
+		ng-class="{'in':openModalDialog1,'display-block':openModalDialog1}"
+		tabindex="-1" role="dialog" ng-if="openModalDialog1">
+		<div class="modal-dialog" ng-style="setStyle_02()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close del-icon" ng-click="doClose()">&times;</a>
+					<h4 class="modal-title">添加标签</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<form name="$parent.labelForm" novalidate
+							class="form-horizontal" role="form">
+							<div class="row" style="margin-top: 20px;">
+								<div class="form-group">
+									<label class="col-xs-2 control-label">标签名称：</label>
+									<div class="col-xs-5 width_6">
+										<input type="text" class="form-control width_1" id="tagName"
+											name="tagName" ng-model="label.tagName"
+											ng-maxlength="30" required placeholder="请输入标签名称">(最多输入30个字符)
+									</div>
+									<div class="error"
+										ng-show="labelForm.tagName.$dirty&&labelForm.tagName.$invalid||labelForm.$submitted&&labelForm.tagName.$invalid">
+										<span ng-show="labelForm.tagName.$error.required"
+											class="glyphicon glyphicon-exclamation-sign">标签名称不能为空</span>
+										<span ng-show="labelForm.tagName.$error.maxlength"
+											class="glyphicon glyphicon-exclamation-sign">标签名称最多30个字符</span>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="form-group">
+						       		<label class="col-xs-2 control-label">成员：</label>
+						       		<div class="col-xs-8 width_6">
+						       			<div class="btn-group">
+											<a style="border-radius: 4px;" class="btn btn-primary btn-control"  ng-class="{'active':isDept=='N'}" ng-click="doOpenLearnerModal()">添加成员</a>
+										</div>
+								        <!--列出已勾选的项-->
+										<div ng-if="choosedEmpsArr.length >0" class="form-control-static choosed-items-container clearfix width_4">
+											<label class="checkbox-inline choosed-item" ng-repeat="item in choosedEmpsArr">
+												{{item.name}}
+												<span class="del-icon" ng-click="deleteEmpItem(item)">&nbsp;&nbsp;&times;</span>
+											</label>
+										</div>
+							        </div>
+							        <input type="hidden" name="empIds" ng-model="label.empIds"/>
+<!-- 							        <input type="hidden" name="empIds" ng-model="label.empIds" required-activityemps/> -->
+<!-- 							        <div class="error" ng-show="labelForm.emps.$invalid&&labelForm.$submitted"> -->
+<!-- 						                <span ng-show="labelForm.empIds.$error.requiredActivityemps" class="glyphicon glyphicon-exclamation-sign">请选择成员</span> -->
+<!-- 						           	</div> -->
+						        </div>
+								<div class="row" style="margin-top: 20px;">
+									<div class="form-group">
+										<label class="col-xs-2 control-label">所属分类：</label>
+										<div class="col-xs-2">
+				                            <select style="line-height: 28px;" id="classId"  class="form-control" ng-model="label.classId" ng-change="changeSeclectOption()" ng-options=" x.classId as x.className for x in type">
+				                                <option value="" >--无分类--</option>
+				                            </select>
+				                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="form-group">
+									<div class="col-xs-offset-2 col-xs-8">
+										<a class="btn btn-primary btn-control" ng-click="submitLabel()">提交</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-default" ng-click="doClose()">关闭</a>
+				</div>
+			</div>
+		</div>	
+	</div>
+	<div class="modal-backdrop fade"
+		ng-class="{'in':openModalDialog1,'display-block':openModalDialog1,'display-none':!openModalDialog1}"></div>
+</div>
+<script type="text/javascript">
+	//实例化编辑器
+	//监听窗口大小变化，自适应高度
+	$(document).ready(function () {
+	resizeView();
+	});
+</script>

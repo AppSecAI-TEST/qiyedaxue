@@ -1,0 +1,43 @@
+<meta charset="utf-8">
+<div id="page" class="container-fluid overflow-auto" ng-controller="StatisticChartController">
+	<div class="row">
+		<div class="container-fluid top-func-bar">
+			<div class="row">
+				<div class="col-xs-12">
+					<label>统计区间：</label> 
+					<div style="display:inline-block;margin-left:15px;width:540px;">
+						<input type="text" class="Wdate form-control width_5" id="startTime" ng-model="beginTime" onFocus="WdatePicker({onpicked:pickedStartTimeFunc,oncleared:clearStartTimeFunc,startDate:'%y-%M-%d',lang:'zh-cn',dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\')}'})" readonly/> 
+	                    <!-- <input type="text" class="Wdate form-control width_5" id="startTime" ng-model="beginTime" onFocus="WdatePicker({onpicked:pickedStartTimeFunc,oncleared:clearStartTimeFunc,startDate:'%y-%M-%d 00:00:01',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endTime\')}'})" readonly/>  -->
+	               		<label>至</label>
+	               		<input type="text" class="Wdate form-control width_5" id="endTime" ng-model="endTime" onFocus="WdatePicker({onpicked:pickedEndTimeFunc,oncleared:clearEndTimeFunc,startDate:'%y-%M-%d',lang:'zh-cn',dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\')}'})" readonly/>
+	            		<!-- <input type="text" class="Wdate form-control width_5" id="endTime" ng-model="endTime" onFocus="WdatePicker({onpicked:pickedEndTimeFunc,oncleared:clearEndTimeFunc,startDate:'%y-%M-%d 23:59:59',lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'startTime\')}'})" readonly/> -->
+	                	<a class="btn  btn-default pull-right" ng-click="reSetSearchOption()">重置</a>
+	                	<a class="btn  btn-primary pull-right" ng-click="searchData()">查询</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<!-- <highchart id="chart1" config="chartConfig" class="col-xs-12" ></highchart> -->
+				<div id="chart-container" class="col-xs-12" ng-style="setStyle_04()"></div>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="row">
+	    <div fusioncharts
+	       width="600"
+	       height="400"
+	       type="column2d"
+	       dataSource="myDataSource" >
+	    </div>
+	</div> -->
+	
+ 	
+</div> 
+<script>
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

@@ -1,0 +1,45 @@
+<div ng-controller="viewFeeDetailModalController">
+	<!-- 考试选项统计模态框（Modal） -->
+	<div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}"  role="dialog"  ng-if="openModalDialog">
+		<div class="modal-dialog" ng-style="setStyle_02()">
+			 <div class="modal-content">
+			 	<div class="modal-header">
+			 		<a class="close del-icon" ng-click="doClose()">&times;</a>
+			 		<h4 class="modal-title" ng-bind="'《'+activity.activityName+'》'+'费用统计'"></h4>
+			 	</div>
+			 	<div class="modal-body">
+			 		<table class="table table-striped table-bordered table-hover table-condensed">
+			 			<thead>
+			 				<tr>
+			 					<th class="col-xs-1">序号</th>
+			 					<th class="col-xs-2">活动名称</th>
+			 					<th class="col-xs-2">活动总花费</th>
+			 					<th class="col-xs-2">项目名称</th>
+			 					<th class="col-xs-2">项目花费</th>
+			 				</tr>
+			 			</thead>
+			 			<tbody>
+			 				<tr ng-repeat="item in page.data" ng-class="{'current-focus-tr':item == currHighLightRow.item&&$index == currHighLightRow.index}" ng-click="highLightCurrRow(item,$index)" style="cursor:pointer;">
+			 					<td ng-bind="$index+1"></td>
+			 					<td ng-bind="activity.activityName"></td>
+			 					<td ng-bind="activity.allFee"></td>
+			 					<td ng-bind="item.feeName"></td>
+			 					<td ng-bind="item.fee"></td>
+			 				</tr>
+			 			</tbody>
+			 		</table>
+			 		<div class="container-fluid" style="margin-top:20px;" ng-if="page.data.length>0">
+						<div class="row">
+							<a class="btn btn-primary btn-con-trol" href="/enterpriseuniversity/services/feeStatistics/downloadFeeDetailStatisticsExcel?pageNum={{page.pageNum}}&pageSize={{page.pageSize}}&activityId={{activity.actitvtyId}}">导&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</a>
+						</div>
+					</div> 
+               		<div class="container-fluid" pagination conf="paginationConf"></div>
+			 	</div>
+			 	<div class="modal-footer">
+                    <a class="btn btn-default" ng-click="doClose()">关闭</a>
+                </div>
+			 </div>
+		</div>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+</div>

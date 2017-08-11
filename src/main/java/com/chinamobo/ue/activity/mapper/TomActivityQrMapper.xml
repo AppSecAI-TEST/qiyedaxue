@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.activity.dao.TomActivityQrMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.activity.entity.TomActivityQr" >
+    <id column="QR_ID" property="qrId" jdbcType="INTEGER" />
+    <result column="ACTIVITY_ID" property="activityId" jdbcType="INTEGER" />
+    <result column="QR_PATH" property="qrPath" jdbcType="VARCHAR" />
+    <result column="QR_NAME" property="qrName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    QR_ID, ACTIVITY_ID, QR_PATH, QR_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tom_activity_qr
+    where QR_ID = #{qrId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrActivityId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    	<include refid="Base_Column_List" />
+    from tom_activity_qr
+    where ACTIVITY_ID = #{activityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tom_activity_qr
+    where QR_ID = #{qrId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chinamobo.ue.activity.entity.TomActivityQr" >
+    insert into tom_activity_qr ( ACTIVITY_ID, QR_PATH, 
+      QR_NAME)
+    values (#{activityId,jdbcType=INTEGER}, #{qrPath,jdbcType=VARCHAR}, 
+      #{qrName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.activity.entity.TomActivityQr" >
+    insert into tom_activity_qr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      
+      <if test="activityId != null" >
+        ACTIVITY_ID,
+      </if>
+      <if test="qrPath != null" >
+        QR_PATH,
+      </if>
+      <if test="qrName != null" >
+        QR_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      
+      <if test="activityId != null" >
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="qrPath != null" >
+        #{qrPath,jdbcType=VARCHAR},
+      </if>
+      <if test="qrName != null" >
+        #{qrName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.activity.entity.TomActivityQr" >
+    update tom_activity_qr
+    <set >
+      <if test="activityId != null" >
+        ACTIVITY_ID = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="qrPath != null" >
+        QR_PATH = #{qrPath,jdbcType=VARCHAR},
+      </if>
+      <if test="qrName != null" >
+        QR_NAME = #{qrName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where QR_ID = #{qrId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.activity.entity.TomActivityQr" >
+    update tom_activity_qr
+    set ACTIVITY_ID = #{activityId,jdbcType=INTEGER},
+      QR_PATH = #{qrPath,jdbcType=VARCHAR},
+      QR_NAME = #{qrName,jdbcType=VARCHAR}
+    where QR_ID = #{qrId,jdbcType=INTEGER}
+  </update>
+</mapper>

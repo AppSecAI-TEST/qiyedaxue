@@ -1,0 +1,68 @@
+<meta charset="UTF-8" >
+<div id="page" class="container-fluid overflow-auto" ng-controller="AddTaskPackageController">
+    <form name="taskPackageForm" novalidate class="form-horizontal">
+		<div class="form-group">
+			<label for="packageName" class="col-xs-2 control-label">任务包名称：</label>
+			<div class="col-xs-8 width_6">
+				<input type="text" class="form-control width_1" name="packageName"
+					ng-model="taskPackage.packageName" ng-maxlength="50" required
+					placeholder="请输入任务包名称">(最多输入50个字符)
+			</div>
+			<div class="error" ng-show="taskPackageForm.packageName.$dirty&&taskPackageForm.packageName.$invalid||taskPackageForm.$submitted&&taskPackageForm.packageName.$invalid" >
+                <span ng-show="taskPackageForm.packageName.$error.required" class="glyphicon glyphicon-exclamation-sign">任务包名称不能为空</span>
+                <span ng-show="taskPackageForm.packageName.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">任务包名称最多50个字符</span>
+            </div>
+		</div>
+		<div class="form-group">
+		    <label class="col-xs-2 control-label">指定学习内容：</label>
+		    <div class="col-xs-8 width_6">
+		    	<div class="btn-group">
+					<a href="javascript:void(0)" style="border-radius: 4px;" class="btn btn-primary btn-control" ng-click="doOpenCourseModal()">添加课程</a>
+					<a href="javascript:void(0)" style="margin-left: 25px;border-radius: 4px;" class="btn btn-primary btn-control" ng-click="doOpenExamPaperModal()">添加试卷</a>
+				</div>
+		        <div ng-include="'/enterpriseuniversity/views/activity/template/courseChoiceTemplate.html'"></div>
+		        <div ng-include="'/enterpriseuniversity/views/activity/template/examPaperChoiceTemplate.html'"></div>
+	       	  	<div class="form-control-static clearfix choosed-items-container width_4" 
+	       	  		style="margin-top: 15px;border:1px solid #dedede;" ng-show="itemArr.choosedItemArr.length >0">
+		            <table class="table table-layout text-center">
+			           <tr class="choosed-item" style="cursor: default;" ng-repeat="item in itemArr.choosedItemArr">
+			           		<td class="col-xs-2" style="border:none;" ng-bind="'任务'+($index+1)"></td>
+			           		<td class="col-xs-8 overflow-breakall" style="border:none;" ng-bind="item.courseName?item.courseName:item.examPaperName"></td>
+			                <td class="col-xs-2" style="border:none;"><span class="del-icon" ng-click="itemArr.deleteItem(item)">&nbsp;&nbsp;&times;</span></td>
+			           </tr>
+		           	</table>
+	       	  	</div>
+	     	</div>
+		    <input type="hidden" name="coursesAndExamArry" ng-model="itemArr.choosedItemArr.length" required-item>
+    		<div class="error" ng-show="taskPackageForm.coursesAndExamArry.$invalid&&taskPackageForm.$submitted">
+                <span ng-show="taskPackageForm.coursesAndExamArry.$error.requiredItem" class="glyphicon glyphicon-exclamation-sign">请添加学习内容</span>
+           	</div>
+		</div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">任务包授权：</label>
+            <div class="col-xs-8 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal" ng-click="doOpenAdminModal()">选择管理员</a>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+    		</div>
+    		<input type="hidden" name="admins" ng-model="taskPackage.admins" required-admin>
+    		<div class="error" ng-show="taskPackageForm.admins.$invalid&&taskPackageForm.$submitted">
+                <span ng-show="taskPackageForm.admins.$error.requiredAdmin" class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+           	</div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control"  ng-click="doSave()">保&nbsp;&nbsp;&nbsp;存</a>
+                <a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+        </div>
+        <div class="modal-backdrop fade" ng-class="{'in':addTaskPackageSubmit,'display-block':addTaskPackageSubmit,'display-none':!addTaskPackageSubmit}"></div>
+    </form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

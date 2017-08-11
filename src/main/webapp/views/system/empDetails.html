@@ -1,0 +1,77 @@
+<!--员工详情 模态框（Modal） -->
+<div ng-controller="EmpDetailsController">
+	<div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}"  tabindex="-1" role="dialog" 
+		ng-if="openModalDialog">
+	    <div class="modal-dialog" ng-style="setStyle_02()">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <a class="close del-icon" ng-click="doClose()">&times;</a>
+	                <h4 class="modal-title">员工详情</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div class="container-fluid">
+	                     <form name="courseForm"  class="form-horizontal" role="form">
+						 	<div class="form-group">
+					            <label class="col-xs-2 control-label">员工姓名：</label>         
+					            <label class="control-label " ng-bind="emp.name"></label>           
+					        </div>
+				            <div class="form-group">
+					            <label class="col-xs-2 control-label">身份证号：</label>
+					           	<label class="control-label" ng-bind="emp.id"></label>
+				        	</div>
+					        <!-- <div class="form-group">
+					            <label class="col-xs-2 control-label">员工类别：</label>
+					           	<label class="control-label" ng-bind="emp.psnclcname"></label>
+					      	</div> -->
+					        <div class="form-group">
+					       		<label class="col-xs-2 control-label">公司名称：</label>
+					           	<label class="control-label" ng-bind="emp.orgname"></label>
+					        </div>
+				         	<div class="form-group">
+					            <label class="col-xs-2 control-label">部门名称：</label>
+					          	<label class="control-label" ng-bind="emp.deptname"></label>
+				       	 	</div>
+					        <div class="form-group">
+					        	<label class="col-xs-2 control-label">上级部门名称：</label>         
+					           	<label class="control-label" ng-bind="emp.depttopname"></label>        
+					        </div>
+					        <!-- <div class="form-group">
+					        	<label class="col-xs-2 control-label">岗位名称：</label>
+					         	<label class="control-label" ng-bind="emp.postname"></label>
+					        </div>
+					        <div class="form-group">
+					        	<label class="col-xs-2 control-label">上级员工姓名：</label>           
+					        	<label class="control-label" ng-bind="emp.topname"></label>     
+					        </div> -->
+					        <div class="form-group">
+					        	<label class="col-xs-2 control-label">开始日期：</label>
+					        	<label class="control-label" ng-bind="emp.begindate"></label>         
+					        </div>
+					        <div class="form-group">
+					        	<label class="col-xs-2 control-label">邮箱：</label>
+					        	<label class="control-label" ng-bind="emp.secretEmail"></label>
+					        </div>
+					        <div class="form-group">
+					        	<label class="col-xs-2 control-label">手机号码：</label>
+					        	<label class="control-label" ng-bind="emp.mobile"></label>         
+					        </div>
+					       <!--  <div class="form-group">
+					        	<label class="col-xs-2 control-label">是否主岗：</label>
+					        	<label class="control-label" ng-bind="emp.poststat=='N'?'否':'是'"></label>    
+					        </div> -->
+					        <div class="form-group">
+					        	<label class="col-xs-2 control-label">是否离职：</label>
+					        	<label class="control-label" ng-bind="emp.poststat"></label>
+					        </div>
+        				</form>
+	                </div>
+	            </div>
+	            <div class="modal-footer">
+	            	<a  class="btn btn-default" ng-click="doClose()">关闭</a>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+<!-- end 选择管理员 模态框（Modal） -->
+</div>

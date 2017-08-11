@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
+	default-lazy-init="true">
+	<!-- 使用Annotation(注解)自动注册Bean(自注入) ,并检查@Required,@Autowired的属性已被注入 -->
+	<context:component-scan base-package="com.chinamobo.ue">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<context:property-placeholder location="classpath:db.properties" />
+
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${db.driver}"></property>
+		<property name="url" value="${db.url}"></property>
+		<property name="username" value="${db.user}"></property>
+		<property name="password" value="${db.password}"></property>
+		<property name="maxActive" value="100"></property> <property name="maxIdle" 
+			value="30"></property> <property name="maxWait" value="500"></property> <property 
+			name="defaultAutoCommit" value="true"></property>
+	</bean> -->
+	<bean id="dataSource" class="com.chinamobo.ue.ums.DynamicDataSource">
+        <property name="targetDataSources">  
+              <map key-type="java.lang.String">  
+                  <!-- write -->
+                 <entry key="master" value-ref="masterdataSource"/>  
+                 <!-- read -->
+                 <entry key="slave" value-ref="slavedataSource"/>  
+              </map>  
+              
+        </property>  
+        <property name="defaultTargetDataSource" ref="masterdataSource"/>  
+    </bean>
+    <bean id="slavedataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${db.driver}"></property>
+		<property name="url" value="${db.url1}"></property>
+		<property name="username" value="${db.user1}"></property>
+		<property name="password" value="${db.password1}"></property>
+		<!-- <property name="maxActive" value="100"></property> <property name="maxIdle" 
+			value="30"></property> <property name="maxWait" value="500"></property> <property 
+			name="defaultAutoCommit" value="true"></property> -->
+	</bean>
+	<bean id="masterdataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${db.driver}"></property>
+		<property name="url" value="${db.url}"></property>
+		<property name="username" value="${db.user}"></property>
+		<property name="password" value="${db.password}"></property>
+		<!-- <property name="maxActive" value="100"></property> <property name="maxIdle" 
+			value="30"></property> <property name="maxWait" value="500"></property> <property 
+			name="defaultAutoCommit" value="true"></property> -->
+	</bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis.xml"></property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.chinamobo.ue" />
+	</bean>
+	<!-- 事务管理器 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 事务注解驱动，标注@Transactional的类和方法将具有事务性 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+ <bean id="SpringQtzJob" class="com.chinamobo.ue.system.restful.Timer"/>  
+    <bean id="SpringQtzJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    <property name="targetObject">  
+        <ref bean="SpringQtzJob"/>  
+    </property>  
+    <property name="targetMethod"> <!--  要执行的方法名称   -->
+        <value>run</value>  
+    </property>  
+</bean>   
+
+    <bean id="SpringQtzJobMethod2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    <property name="targetObject">  
+        <ref bean="SpringQtzJob"/>  
+    </property>  
+    <property name="targetMethod"> 
+        <value>sendMessage</value>  
+    </property>  
+</bean>     
+
+   <bean id="SpringQtzJobMethod3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    <property name="targetObject">  
+        <ref bean="SpringQtzJob"/>  
+    </property>  
+    <property name="targetMethod"> 
+        <value>initEhr</value>  
+    </property>  
+</bean>
+ <bean id="SpringQtzJobMethod4" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    <property name="targetObject">  
+        <ref bean="SpringQtzJob"/>  
+    </property>  
+    <property name="targetMethod"> 
+        <value>synodeptAndemp</value>  
+    </property>  
+</bean>      
+<!--  从队列中取数据, 执行数据库操作, 更新/删除/插入 -->
+<!-- <bean id="SpringQtzJobMethod5" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    <property name="targetObject">  
+        <ref bean="SpringQtzJob"/>  
+    </property>  
+    <property name="targetMethod"> 
+        <value>executeDataQueue</value>  
+    </property>  
+</bean> -->  
+<!--  ======================== 调度触发器 ========================  -->
+<!--   <bean id="CronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">   -->
+<!--     <property name="jobDetail" ref="SpringQtzJobMethod"></property>   -->
+<!--     <property name="cronExpression" value="0 0 1 * * ?"></property>   -->
+<!--  </bean>      -->
+
+  <bean id="CronTriggerBean2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">   
+    <property name="jobDetail" ref="SpringQtzJobMethod2"></property>   
+     <property name="cronExpression" value="0 0/5 * * * ?"></property>   
+ </bean>  
+<!-- <bean id="CronTriggerBean3" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">   -->
+<!--     <property name="jobDetail" ref="SpringQtzJobMethod3"></property>   -->
+<!--     <property name="cronExpression" value="0 0 3 * * ?"></property>   -->
+<!-- </bean>  -->
+  <bean id="CronTriggerBean4" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">   
+    <property name="jobDetail" ref="SpringQtzJobMethod4"></property>  
+    <property name="cronExpression" value="0 0 5 * * ?"></property>  
+</bean> 
+<!-- <bean id="CronTriggerBean5" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+    <property name="jobDetail" ref="SpringQtzJobMethod5"></property>  
+    <property name="cronExpression" value="0 57 14 28 6 ? 2017"></property>  
+</bean>  -->
+ <!-- ======================== 调度工厂 ========================  -->
+ <bean id="SpringJobSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+    <property name="triggers"> 
+        <list>  
+        	<!-- 同步ehr数据 -->
+			<!-- <ref bean="CronTriggerBean"/> -->
+			<!-- 消息发送定时-->	
+ 			<ref bean="CronTriggerBean2"/> 
+    		<!-- 初始化ehr数据 -->
+			<!-- <ref bean="CronTriggerBean3"/> -->
+			<!-- 扫描所有考试将过期未参加的考试设为不合格 -->
+			<ref bean="CronTriggerBean4"/>
+			<!-- 启动队列 -->
+ 			<!-- <ref bean="CronTriggerBean5"/> -->	 
+        </list>  
+    </property>  
+</bean>
+	<!-- 启用spring对AspectJ注解的支持 -->
+	<aop:aspectj-autoproxy/>
+     <!-- 把切面类交由Spring容器来管理 -->
+    <bean id="apiAspectBean" class="com.chinamobo.ue.common.servise.ApiAspect"/>
+</beans>

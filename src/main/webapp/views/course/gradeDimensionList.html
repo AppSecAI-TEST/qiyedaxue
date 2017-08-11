@@ -1,0 +1,119 @@
+<meta charset="UTF-8">
+<div class="container-fluid overflow-auto" id="page" ng-controller="GradeDimensionController">
+	<div class="row-fluid">
+		<div class="container-fluid">
+			<ul class="nav nav-tabs" style="margin-top:15px;">
+				<li ng-class="{'active':showCourseGradeDimensionList}"><a ng-click="openCourseGradeDimensionList()">课程评分维度</a></li>
+				<li ng-class="{'active':showLectureGradeDimensionList}"><a ng-click="openLectureGradeDimensionList()">讲师评分维度</a></li>
+			</ul>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="container-fluid top-func-bar">
+					<div class="row" ng-show="showCourseGradeDimensionList">
+						<div class="col-xs-10">
+							<form role="search" class="">
+								<div class="row">
+									<div class="col-xs-6">
+										<div class="input-group" ng-class="{'has-error':gradeDimensionName.length>=20}">
+											<input type="text" placeholder="搜索课程评分维度名称关键字" class="form-control " ng-model="gradeDimensionName" maxlength="20" ng-keydown='autoSearch($event)'>
+											<span class="input-group-btn">
+												<a  class="btn  btn-primary"  ng-click="search()">搜索</a>
+											</span>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="col-xs-2 ">
+							<a type="submit" class="btn btn-primary pull-right" ng-click="doAdd()">+ 添加课程评分维度</a>
+						</div>
+					</div>
+					<div class="row" ng-show="showLectureGradeDimensionList" >
+						<div class="col-xs-10">
+							<form role="search">
+								<div class="row">
+									<div class="col-xs-6">
+										<div class="input-group" ng-class="{'has-error':gradeDimensionName.length>=20}">
+											<input type="text" placeholder="搜索讲师评分维度名称关键字"
+												class="form-control " ng-model="gradeDimensionName" maxlength="20" ng-keydown='autoSearch($event)'>
+											<span class="input-group-btn">
+												<a  class="btn  btn-primary" ng-click="search()">搜索</a>
+											</span>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="col-xs-2">
+							<a class="btn btn-primary pull-right" ng-click="doAdd()">+ 添加讲师评分维度</a>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid">
+					<table ng-show="showCourseGradeDimensionList" class="table table-striped table-bordered table-hover table-condensed">
+						<thead>
+							<tr>
+								<th width="40px">序号</th>
+	                            <th width="125px">课程评分维度编号</th>
+	                            <th class="col-xs-3">课程评分维度名称</th>
+	                            <th width="120px">创建人</th>
+	                            <th width="120px">最后修改人</th>
+	                            <th width="150px">最后修改时间</th>
+	                            <th width="100px">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="g in page.data" ng-class="{'current-focus-tr':g.gradeDimensionId == currHighLightRow.gradeDimensionId}" ng-click="highLightCurrRow(g)" style="cursor:pointer;">
+								   <td ng-bind="$index+1"></td>
+		                            <td ng-bind="g.gradeDimensionNumber"></td>
+		                            <td ng-bind="g.gradeDimensionName"></td>
+		                            <td ng-bind="g.creator"></td>
+		                            <td ng-bind="g.operator"></td>
+		                            <td ng-bind="g.updateTime|date:'yyyy-MM-dd HH:mm:ss'"></td>
+		                          
+								<td>
+									<a class="btn btn-link " ng-bind="'编辑'" ng-click="doEdit(g)"></a> 
+									<a class="btn btn-link noleftpadding " ng-bind="'删除'" ng-click="doDelete(g)"></a> 
+							</tr>
+						</tbody>
+					</table>
+					<table ng-show="showLectureGradeDimensionList" class="table table-striped table-bordered table-hover table-condensed">
+							<thead>
+								<tr>
+								<th width="40px">序号</th>
+	                            <th width="125px">讲师评分维度编号</th>
+	                            <th class="col-xs-3">讲师评分维度名称</th>
+	                            <th width="120px">创建人</th>
+	                            <th width="120px">最后修改人</th>
+	                            <th width="150px">最后修改时间</th>
+	                            <th width="100px">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="g in page.data" ng-class="{'current-focus-tr':g.gradeDimensionId == currHighLightRow.gradeDimensionId}" ng-click="highLightCurrRow(g)" style="cursor:pointer;">
+									   <td ng-bind="$index+1"></td>
+			                            <td ng-bind="g.gradeDimensionNumber"></td>
+			                            <td ng-bind="g.gradeDimensionName"></td>
+			                            <td ng-bind="g.creator"></td>
+			                            <td ng-bind="g.operator"></td>
+			                            <td ng-bind="g.updateTime|date:'yyyy-MM-dd HH:mm:ss'"></td>
+			                          
+									<td>
+										<a class="btn btn-link " ng-bind="'编辑'" ng-click="doEdit(g)"></a> 
+										<a class="btn btn-link  noleftpadding" ng-bind="'删除'" ng-click="doDelete(g)"></a> 
+								</tr>
+							</tbody>
+					</table>
+					<div class="container-fluid" pagination conf="paginationConf"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

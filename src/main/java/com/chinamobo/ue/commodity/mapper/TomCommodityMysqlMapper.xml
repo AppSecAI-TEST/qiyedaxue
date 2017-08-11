@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.commodity.dao.TomCommodityMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.commodity.entity.TomCommodity" >
+    <id column="COMMODITY_ID" property="commodityId" jdbcType="DECIMAL" />
+    <result column="COMMODITY_NAME" property="commodityName" jdbcType="VARCHAR" />
+    <result column="COMMODITY_PRICE" property="commodityPrice" jdbcType="DECIMAL" />
+    <result column="COMMODITY_NUMBER" property="commodityNumber" jdbcType="DECIMAL" />
+    <result column="COMMODITY_PICTURE" property="commodityPicture" jdbcType="VARCHAR" />
+    <result column="COMMODITY_SYNOPSIS" property="commoditySynopsis" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ADMINS" property="admins" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="LAST_OPERATOR" property="lastOperator" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="ARAYACAK" property="arayacak" jdbcType="VARCHAR" />
+    <result column="POST" property="post" jdbcType="VARCHAR" />
+    <result column="ARAYACAK_ADDRESS" property="arayacakAddress" jdbcType="VARCHAR" />
+    <result column="COMMODITY_GROUNDING" property="commodityGrounding" jdbcType="VARCHAR" />
+    <result column="CREATOR_ID" property="creatorId" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    COMMODITY_ID, COMMODITY_NAME, COMMODITY_PRICE, COMMODITY_NUMBER, COMMODITY_PICTURE, 
+    COMMODITY_SYNOPSIS, CREATE_TIME, ADMINS, CREATOR, LAST_OPERATOR, UPDATE_TIME, ARAYACAK, 
+    POST, ARAYACAK_ADDRESS, COMMODITY_GROUNDING, CREATOR_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TOM_COMMODITY
+    where COMMODITY_ID = #{commodityId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TOM_COMMODITY
+    where COMMODITY_ID = #{commodityId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.chinamobo.ue.commodity.entity.TomCommodity" >
+    insert into TOM_COMMODITY (COMMODITY_ID, COMMODITY_NAME, COMMODITY_PRICE, 
+      COMMODITY_NUMBER, COMMODITY_PICTURE, COMMODITY_SYNOPSIS, 
+      CREATE_TIME, ADMINS, CREATOR, 
+      LAST_OPERATOR, UPDATE_TIME, ARAYACAK, 
+      POST, ARAYACAK_ADDRESS, COMMODITY_GROUNDING, 
+      CREATOR_ID)
+    values (#{commodityId,jdbcType=DECIMAL}, #{commodityName,jdbcType=VARCHAR}, #{commodityPrice,jdbcType=DECIMAL}, 
+      #{commodityNumber,jdbcType=DECIMAL}, #{commodityPicture,jdbcType=VARCHAR}, #{commoditySynopsis,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{admins,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{lastOperator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{arayacak,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{arayacakAddress,jdbcType=VARCHAR}, #{commodityGrounding,jdbcType=VARCHAR}, 
+      #{creatorId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.commodity.entity.TomCommodity" >
+   <!-- <selectKey resultType="INTEGER" order="BEFORE" keyProperty="commodityId">  
+       SELECT COMMODITY_SEQ.NEXTVAL as commodityId from DUAL
+   </selectKey> --> 
+    insert into TOM_COMMODITY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <!-- COMMODITY_ID, -->
+      <if test="commodityName != null" >
+        COMMODITY_NAME,
+      </if>
+      <if test="commodityPrice != null" >
+        COMMODITY_PRICE,
+      </if>
+      <if test="commodityNumber != null" >
+        COMMODITY_NUMBER,
+      </if>
+      <if test="commodityPicture != null" >
+        COMMODITY_PICTURE,
+      </if>
+      <if test="commoditySynopsis != null" >
+        COMMODITY_SYNOPSIS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="admins != null" >
+        ADMINS,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="lastOperator != null" >
+        LAST_OPERATOR,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="arayacak != null" >
+        ARAYACAK,
+      </if>
+      <if test="post != null" >
+        POST,
+      </if>
+      <if test="arayacakAddress != null" >
+        ARAYACAK_ADDRESS,
+      </if>
+      <if test="commodityGrounding != null" >
+        COMMODITY_GROUNDING,
+      </if>
+      <if test="creatorId != null" >
+        CREATOR_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <!-- #{commodityId,jdbcType=DECIMAL}, -->
+      <if test="commodityName != null" >
+        #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityPrice != null" >
+        #{commodityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityNumber != null" >
+        #{commodityNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityPicture != null" >
+        #{commodityPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="commoditySynopsis != null" >
+        #{commoditySynopsis,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="admins != null" >
+        #{admins,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="lastOperator != null" >
+        #{lastOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arayacak != null" >
+        #{arayacak,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="arayacakAddress != null" >
+        #{arayacakAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityGrounding != null" >
+        #{commodityGrounding,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null" >
+        #{creatorId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.commodity.entity.TomCommodity" >
+    update TOM_COMMODITY
+    <set >
+      <if test="commodityName != null" >
+        COMMODITY_NAME = #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityPrice != null" >
+        COMMODITY_PRICE = #{commodityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityNumber != null" >
+        COMMODITY_NUMBER = #{commodityNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityPicture != null" >
+        COMMODITY_PICTURE = #{commodityPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="commoditySynopsis != null" >
+        COMMODITY_SYNOPSIS = #{commoditySynopsis,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="admins != null" >
+        ADMINS = #{admins,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="lastOperator != null" >
+        LAST_OPERATOR = #{lastOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arayacak != null" >
+        ARAYACAK = #{arayacak,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        POST = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="arayacakAddress != null" >
+        ARAYACAK_ADDRESS = #{arayacakAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityGrounding != null" >
+        COMMODITY_GROUNDING = #{commodityGrounding,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null" >
+        CREATOR_ID = #{creatorId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COMMODITY_ID = #{commodityId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.commodity.entity.TomCommodity" >
+    update TOM_COMMODITY
+    set COMMODITY_NAME = #{commodityName,jdbcType=VARCHAR},
+      COMMODITY_PRICE = #{commodityPrice,jdbcType=DECIMAL},
+      COMMODITY_NUMBER = #{commodityNumber,jdbcType=DECIMAL},
+      COMMODITY_PICTURE = #{commodityPicture,jdbcType=VARCHAR},
+      COMMODITY_SYNOPSIS = #{commoditySynopsis,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      ADMINS = #{admins,jdbcType=VARCHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      LAST_OPERATOR = #{lastOperator,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      ARAYACAK = #{arayacak,jdbcType=VARCHAR},
+      POST = #{post,jdbcType=VARCHAR},
+      ARAYACAK_ADDRESS = #{arayacakAddress,jdbcType=VARCHAR},
+      COMMODITY_GROUNDING = #{commodityGrounding,jdbcType=VARCHAR},
+      CREATOR_ID = #{creatorId,jdbcType=VARCHAR}
+    where COMMODITY_ID = #{commodityId,jdbcType=DECIMAL}
+  </update>
+  <select id="countAll" resultType="java.lang.Integer" parameterType="map" >
+    select count(*) from TOM_COMMODITY
+    where 1=1
+     <if test="commodityName != null" >
+       and INSTR(COMMODITY_NAME,#{commodityName,jdbcType=VARCHAR})>0
+      </if>
+  </select>
+  
+<!--   <select id="countAll" resultType="java.lang.Integer" parameterType="map" > -->
+<!--   select count(*) from TOM_COMMODITY -->
+<!--     where 1=1 -->
+<!--     <if test="code!="></if> -->
+<!--   </select> -->
+  
+  <select id="selectByPage" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />    
+    from TOM_COMMODITY
+    where 1=1
+     <if test="commodityName != null" >
+       and INSTR(COMMODITY_NAME,#{commodityName,jdbcType=VARCHAR})>0
+      </if> 
+      order by isnull(UPDATE_TIME)-1, UPDATE_TIME desc <!-- nulls last --> 
+    limit<![CDATA[
+     #{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+  </select>
+  <!-- E币商品列表的条数和列表SQL -->
+  <select id="countByuserId" resultType="int" parameterType="map">
+SELECT
+	COUNT (*)
+FROM
+	tom_commodity s
+WHERE  s.COMMODITY_GROUNDING='1' 
+	
+  </select>
+  <select id="selectByuserId" resultType="com.chinamobo.ue.api.commodity.dto.CommodityResult" parameterType="map">
+ SELECT
+					s .COMMODITY_ID AS commodityId,
+					s .COMMODITY_NAME AS commodityName,
+					s .COMMODITY_PRICE AS commodityPrice,
+					s .COMMODITY_NUMBER AS commodityNumber,
+						s.COMMODITY_PICTURE AS commodityPicture,
+	s.ARAYACAK AS arayacak,
+	s.POST AS post
+        FROM tom_commodity s
+        WHERE 1=1
+				AND s.COMMODITY_GROUNDING ='1' ORDER BY s.CREATE_TIME DESC
+ 
+		limit<![CDATA[
+        #{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+  </select>
+  
+  <!-- E币商品详情 -->
+  <select id="selectBycommodity" resultType="com.chinamobo.ue.api.commodity.dto.CommodityDetatilResult" parameterType="map">
+     SELECT
+	s.COMMODITY_ID AS commodityId,
+	s.COMMODITY_NAME AS commodityName,
+	s.COMMODITY_PRICE AS commodityPrice,
+	s.COMMODITY_SYNOPSIS AS commoditySynopsis,
+	s.COMMODITY_PICTURE AS commodityPicture,
+	s.ARAYACAK AS arayacak,
+	s.COMMODITY_NUMBER AS commodityNumber,
+	s.POST AS post
+FROM
+	TOM_COMMODITY s
+LEFT JOIN TOM_COMMODITY_EXCHANGE b ON s.COMMODITY_ID = b.COMMODITY_ID
+WHERE
+	1 = 1
+	<if test="commodityId!=null">
+	AND s.COMMODITY_ID =#{commodityId, jdbcType=DECIMAL}
+	</if>
+	
+  </select>
+</mapper>

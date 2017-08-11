@@ -1,0 +1,61 @@
+<div ng-controller="CourseGradeDimensionController">
+    <!--列出已勾选的项-->
+    <div ng-show="itemArr.choosedItemArr.length >0" class="form-control-static choosed-items-container clearfix" style="margin-top: 10px">
+        <label class="checkbox-inline choosed-item" style="cursor: default;"  ng-repeat="item in itemArr.choosedItemArr">
+        	{{item.gradeDimensionName}} 
+        	<span style="cursor: pointer;" ng-click="itemArr.deleteItem(item)">&nbsp;&nbsp;&times;</span>
+        </label>
+    </div>
+    <!-- 课程评价维度 模态框（Modal） -->
+    <div id="courseGradeDimensionModalDialog" class="modal fade"
+         ng-class="{'in':openModalDialog,'display-block':openModalDialog}" tabindex="-1" 
+         role="dialog"  
+         ng-if="openModalDialog">
+        <div  class="modal-dialog" ng-style="setStyle_02()">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close del-icon" ng-click="doClose()">&times;</a>
+                    <h4 class="modal-title">选择课程评分维度<span class="error tip-message" ng-if="showTipMessage">(最多可选择5种评分维度)</span></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                    	<div style="padding-top:0;" class="col-xs-6 input-group inner-padding" ng-class="{'has-error':$parent.gradeDimensionName.length>=20}">
+                            <input type="text" placeholder="请输入课程评分维度名称关键字" class="form-control " ng-model="$parent.gradeDimensionName" maxlength="20">
+                            <span class="input-group-btn">
+                                <a class="btn  btn-primary" ng-click="search()">搜索</a>
+                            </span>
+                        </div>
+                        <table class="table table-striped table-bordered table-hover table-condensed">
+                            <thead>
+	                            <tr>
+	                                <th width="50px">选择</th>
+	                                <th width="60px">序号</th>
+	                                <th width="">课程评分维度编号</th>
+	                                <th width="">课程评分维度名称</th>
+	                                <th width="">状态</th>
+	                            </tr>
+                            </thead>
+                            <tbody>
+	                            <tr ng-repeat="item in page.data" ng-class="{'current-focus-tr':item.checked}" ng-click="itemArr.chooseItem(item)" style="cursor:pointer;">
+	                                <td><input type="checkbox"  id="{{item.gradeDimensionId}}" ng-checked="item.checked" style="cursor:pointer;"/></td>
+	                                <td ng-bind="$index+1"></td>
+	                                <td ng-bind="item.gradeDimensionNumber"></td>
+	                                <td ng-bind="item.gradeDimensionName"></td>
+	                                <td ng-bind="item.status!='Y'&&item.status!='N'?'状态异常':item.status=='Y'?'启用中':'已禁用'"></td>
+	                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- 分页 -->
+                        <div class="container-fluid" pagination conf="paginationConf"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a  class="btn btn-default" ng-click="doClose()">关闭</a>
+                    <a  class="btn btn-primary" ng-click="doSure()">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+    <!-- end 课程评价维度 模态框（Modal） -->
+</div>

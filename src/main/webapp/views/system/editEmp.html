@@ -1,0 +1,130 @@
+<meta charset="UTF-8">
+<div class="container-fluid" ng-controller="EditEmpController" id="page">
+	<form name="editEmpForm" novalidate class="form-horizontal" role="form" class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">员工编号:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1"  id="code" name="code" ng-model="staff.code"
+					ng-maxlength="20" required placeholder="请输入员工编号" readonly>
+			</div>
+			<div class="error" ng-show="editEmpForm.code.$dirty&&editEmpForm.code.$invalid||editEmpForm.$submitted&&editEmpForm.code.$invalid">
+				<span ng-show="editEmpForm.code.$error.required" class="glyphicon glyphicon-exclamation-sign" >员工编号不能为空</span>
+				<span ng-show="editEmpForm.code.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">员工编号最多20个字符</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">人员名称:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="name" name="name" ng-model="staff.name"
+					ng-maxlength="50" required placeholder="请输入人员名称">(最多输入50个字符)
+			</div>
+			<div class="error" ng-show="editEmpForm.name.$dirty&&editEmpForm.name.$invalid||editEmpForm.$submitted&&editEmpForm.name.$invalid">
+				<span ng-show="editEmpForm.name.$error.required" class="glyphicon glyphicon-exclamation-sign" >人员名称不能为空</span>
+				<span ng-show="editEmpForm.name.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">人员名称最多50个字符</span>
+			</div>
+		</div>
+		<div class="form-group">
+            <label  class="col-xs-2 control-label">所属部门:</label>
+            <div class="col-xs-4 width_6">
+            	<div class="input-group width_2">
+                    <input type="text" class="form-control width_1"  id="deptname" name="deptname" ng-model="staff.deptname" required  readonly>
+                    <input type="hidden" class="form-control width_1"  id="deptcode" name="deptcode" ng-model="staff.deptcode" required  readonly>
+                    <span class="input-group-btn">
+                        <a href="javascript:void(0)" class="btn btn-primary  btn-control"  ng-click="doOpenRadioEmpModal()">修改</a>
+                    </span>
+                </div>
+            </div>
+            <div ng-include="'/enterpriseuniversity/views/modalTemplate/radioEmpModalTemplate.html'"></div>
+        </div>
+        <div class="form-group">
+			<label class="col-xs-2 control-label">岗位:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="postname" name="postname" ng-model="staff.postname"
+					ng-maxlength="10" required placeholder="请输入岗位">(最多输入10个字符)
+			</div>
+			<div class="error" ng-show="empForm.postname.$dirty&&empForm.postname.$invalid||empForm.$submitted&&empForm.postname.$invalid">
+				<span ng-show="empForm.postname.$error.required" class="glyphicon glyphicon-exclamation-sign" >岗位不能为空</span>
+				<span ng-show="empForm.postname.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">岗位最多10个字符</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">职位:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="jobname" name="jobname" ng-model="staff.jobname"
+					ng-maxlength="9" required placeholder="请输入职位">(最多输入9个字符)
+			</div>
+			<div class="error" ng-show="empForm.jobname.$dirty&&empForm.jobname.$invalid||empForm.$submitted&&empForm.jobname.$invalid">
+				<span ng-show="empForm.jobname.$error.required" class="glyphicon glyphicon-exclamation-sign" >职位不能为空</span>
+				<span ng-show="empForm.jobname.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">职位最多9个字符</span>
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-xs-2 control-label">身份证号:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="id" name="id" ng-model="staff.id"
+					ng-maxlength="20"  placeholder="请输入身份证号">
+			</div>
+<!-- 			<div class="error" ng-show="editEmpForm.id.$dirty&&editEmpForm.id.$invalid||editEmpForm.$submitted&&editEmpForm.id.$invalid"> -->
+<!-- 				<span ng-show="editEmpForm.id.$error.required" class="glyphicon glyphicon-exclamation-sign" >身份证号不能为空</span> -->
+<!-- 				<span ng-show="editEmpForm.id.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">身份证号最多20个字符</span> -->
+<!-- 			</div> -->
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">手机号码:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="mobile" name="mobile" ng-model="staff.mobile"
+					ng-maxlength="11" required placeholder="请输入手机号码">
+			</div>
+			<div class="error" ng-show="editEmpForm.mobile.$dirty&&editEmpForm.mobile.$invalid||editEmpForm.$submitted&&editEmpForm.mobile.$invalid">
+				<span ng-show="editEmpForm.mobile.$error.required" class="glyphicon glyphicon-exclamation-sign" >手机号码不能为空</span>
+				<span ng-show="editEmpForm.mobile.$error.maxlength" class="glyphicon glyphicon-exclamation-sign">手机号码最多11个字符</span>
+			</div>
+		</div>
+		<div class="form-group">
+            <div class="col-xs-offset-2 col-xs-5">
+                <label class="checkbox-inline">
+                    <input type="checkbox"  ng-checked="moreSettings=='Y'"  ng-click="toggleMoreSettings()">更多设置
+                </label>
+            </div>
+        </div>
+        <div class="form-group" ng-if="moreSettings=='Y'">
+			<label class="col-xs-2 control-label">邮箱:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1"  name="secretEmail" ng-model="staff.secretEmail" required placeholder="请输入邮箱">
+			</div>
+			<div class="error" ng-show="editEmpForm.secretEmail.$dirty&&editEmpForm.secretEmail.$invalid||editEmpForm.$submitted&&editEmpForm.secretEmail.$invalid" >
+                <span ng-show="editEmpForm.secretEmail.$error.required" class="glyphicon glyphicon-exclamation-sign">请输入邮箱</span>
+            </div>
+		</div>
+<!-- 		<div class="form-group" ng-show="staff.moreSettings!='N'" > -->
+<!--         	<label class="col-md-2 control-label">地址:</label>   -->
+<!-- 	            <div class="col-xs-5 width_6"> -->
+<!-- 	                <select required="" class="form-control width_1" ng-model="staff.province"  -->
+<!-- 	                		required ng-options="key as key for (key,value) in division"  ng-change="staff.city='';staff.district='';"> -->
+<!-- 	                    <option value="">省</option> -->
+<!-- 	                </select>   -->
+<!-- 	                <select class="form-control width_1" ng-model="staff.city" ng-options="key as key for (key,value) in division[staff.province]"   -->
+<!-- 	                        required ng-change="staff.district='';"> -->
+<!-- 	                    <option value="">市</option> -->
+<!-- 	                </select>   -->
+<!-- 	                <select class="form-control width_1" ng-model="staff.district"  required ng-options="value as value for value in division[staff.province][staff.city]">   -->
+<!-- 	                    <option value="">区</option> -->
+<!-- 	                </select> -->
+<!-- 	            </div>   -->
+<!--           </div> -->
+          
+		<div class="form-group">
+			<div class="col-xs-offset-2 col-xs-8">
+				<a class="btn btn-primary btn-control" ng-click="saveEmp()">完成</a> 
+				<a class="btn btn-primary btn-control"  ng-click="returnEditStaff()">返回</a>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+//实例化编辑器
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

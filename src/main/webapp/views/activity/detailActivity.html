@@ -1,0 +1,355 @@
+<meta charset="utf-8">
+<div id="page" class="container-fluid overflow-auto">
+    <form name="activityForm" novalidate ng-controller="ViewActivityController" class="form-horizontal" role="form" enctype="multipart/form-data" >
+        <div class="form-group">
+	        <label class="col-xs-2 control-label">一、培训活动基本信息&nbsp;&nbsp;</label>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">活动名称：</label>
+        	<div class="col-xs-8 width_6">
+            	<input type="text" class="form-control width_1" id="activityName" name="activityName" ng-model="activity.activityName" readonly>
+            </div>
+       	</div>
+       	<div class="form-group">
+           <label class="col-xs-2 control-label">培训活动简介：</label>
+           <div class="col-xs-8 width_6">
+               <textarea class="form-control width_1"  id="introduction" name="introduction" ng-model="activity.introduction" readonly></textarea>
+           </div>
+        </div>
+        <div class="form-group">
+	        <label class="col-xs-2 control-label">培训协议：</label>
+	        <div class="col-xs-8 width_6">
+		        <div class="form-control-static">
+		            <label class="checkbox-inline">
+		                <input type="checkbox" style="cursor:default;" ng-checked ="activity.protocol=='Y'" disabled/>签订培训协议
+		            </label>
+		        </div>
+	        </div>
+        </div>
+        <div class="form-group" ng-if="activity.protocol=='Y'">
+			<label class="col-xs-2 control-label">协议生效日期：</label>
+	       	<div class="col-xs-3 width_6">
+	            <input type="text" class="Wdate form-control width_5" id="protocolStartTime" ng-model="activity.protocolStartTime" name="protocolStartTime" readonly/>
+	        </div>
+	 	</div>
+	 	<div class="form-group" ng-if="activity.protocol=='Y'">
+	        <label class="col-xs-2 control-label">协议终止日期：</label>
+	        <div class="col-xs-3 width_6">
+	            <input type="text" class="Wdate form-control width_5" id="protocolEndTime" ng-model="activity.protocolEndTime" name="protocolEndTime" readonly/>
+	        </div>
+	 	</div>
+	 	<div class="form-group" ng-if="activity.protocol=='Y'">
+			<label class="col-xs-2 control-label">培训费用：</label>
+        	<div class="col-xs-6 width_6">
+            	<input type="text" class="form-control width_3" name="trainFee"  ng-model="activity.trainFee" readonly>
+            	<div class="inputIntro">(元)</div>
+            </div>
+		</div>
+        <div class="form-group">
+        	<label  class="col-xs-2 control-label">必修/选修：</label>
+            <div class="col-xs-8 width_6">
+                <label class="radio-inline">
+                    <input type="radio" class="" name="needApply" ng-model="activity.needApply" value="N" ng-checked="activity.needApply=='N'" disabled>必修活动
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="needApply" ng-model="activity.needApply" value="Y" ng-checked="activity.needApply=='Y'" disabled>选修活动
+                </label>
+            </div>
+        </div>
+		<div class="form-group" ng-if="activity.needApply=='Y'">
+			<label class="col-xs-2 control-label">报名人数：</label>
+        	<div class="col-xs-8 width_6">
+            	<input type="text" class="form-control width_5" name="numberOfParticipants" ng-model="activity.numberOfParticipants" readonly>
+            </div>
+		</div>
+		<div class="form-group" ng-if="activity.needApply=='Y'">
+        	<label  class="col-xs-2 control-label">报名开始时间： </label>
+			<div class="col-xs-3 width_6">
+				<input type="text" class="Wdate form-control width_5" id="applicationStartTime" name="applicationStartTime" ng-model="activity.applicationStartTime" readonly/>
+			</div>
+        </div>
+        <div class="form-group" ng-if="activity.needApply=='Y'">
+            <label class="col-xs-2 control-label">报名结束时间：</label>
+			<div class="col-xs-3 width_6">
+				<input type="text" class="Wdate form-control width_5" id="applicationDeadline" name="applicationDeadline" ng-model="activity.applicationDeadline" readonly/>
+			</div>
+        </div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">活动开始时间：</label>
+	       	<div class="col-xs-3 width_6">
+	            <input type="text" class="Wdate form-control width_5" id="activityStartTime" name="activityStartTime" ng-model="activity.activityStartTime" readonly/>
+	        </div>
+	 	</div>
+	 	<div class="form-group">
+	        <label class="col-xs-2 control-label">活动结束时间：</label>
+	        <div class="col-xs-3 width_6">
+	            <input type="text" class="Wdate form-control width_5" id="activityEndTime" name="activityEndTime" ng-model="activity.activityEndTime" readonly/>
+	        </div>
+	 	</div>
+	 	<!-- 证书start -->
+	 	<div class="form-group">
+	 		<label class="col-xs-2 control-label">认证证书：</label>
+	 		<div class="col-xs-5">
+		        <div class="form-control-static">
+		            <label class="checkbox-inline">
+		                <input type="checkbox" ng-checked ="activity.certificateState=='Y'" disabled/>颁发证书
+		            </label>
+		        </div>
+	        </div>
+	 	</div>
+	 	<div class="form-group" ng-show="activity.certificateState=='Y'" ng-init="hideChooseCertBtn = true;">
+	 		<label class="col-xs-2 control-label">选择证书：</label>
+			<div class="col-xs-offset-2"" ng-include="'/enterpriseuniversity/views/activity/template/chooseCertificateTemplate.html'"></div>
+	 	</div>
+	 	<div class="form-group" ng-if="activity.certificateState=='Y'">
+        	<label class="col-xs-2 control-label">领取方式：</label>
+            <div class="col-xs-5">
+                <label class="radio-inline">
+                    <input type="radio" class="" name="receiveState" ng-model="activity.receiveState" value="Y" ng-checked="activity.receiveState=='Y'" disabled>线上领取
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="" name="receiveState" ng-model="activity.receiveState" value="N" ng-checked="activity.receiveState=='N'" disabled>线下领取
+                </label>
+            </div>
+        </div>
+        <div class="form-group" ng-if="activity.receiveState == 'N'">
+        	<label class="col-xs-2 control-label">领取地址：</label>
+        	<div class="col-xs-5 width_6">
+        		<input type ="text" class="form-control width_5" name="receiveAddress" ng-model="activity.receiveAddress" placeholder="请输入证书领取地址" readonly>
+        	</div>
+        </div> 
+        <!-- 证书end -->
+        <div style="position:relative;" class="form-group" ng-controller="ActivtiyImgController" uploader="imgUploader" filters="queueLimit, customFilter">
+	        <label class="col-xs-2 control-label">培训活动封面：</label>
+         	<div class="preview-container" ng-show="openPreview">
+				<div class="thumbnail">
+				   <img width="200px" height="90px" ng-src="{{previewImgUrl}}">
+				   <div class="caption">
+				      <p>
+				         <a ng-click="closePreview()" class="btn btn-primary" role="button">关闭</a> 
+				      </p>
+				   </div>
+				</div>
+			</div>
+		 	<!-- 旧的培训活动封面图片列表 -->
+            <div style="min-height:0;" class="col-xs-8">
+                <table style="margin-top: 10px;" ng-show="currFileUrlQueue.length>0"class="table table-bordered text-center width_4">
+                    <tr>
+                        <td class="col-xs-2">编号</td>
+                        <td class="col-xs-2">预览</td>
+                    </tr>
+                    <tr ng-repeat="fileUrl in currFileUrlQueue">
+                        <td ng-bind="$index+1"></td>
+                        <td><a ng-click="preview()">点击预览</a></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- 旧的培训活动封面图片列表 -->
+       	</div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">所属部门：</label>
+            <div class="col-xs-8 width_6">
+		       <div class="width_4" ng-include="'/enterpriseuniversity/views/activity/template/readonlyDeptChoiceTemplate.html'"></div>
+        	</div>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">员工层级：</label>
+            <div class="col-xs-8 width_6">
+		       <div class="width_4" ng-include="'/enterpriseuniversity/views/activity/template/readonlyEmployeeGradeChoiceTemplate.html'"></div>
+        	</div>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-2 control-label">所在城市：</label>
+			<div class="col-xs-8 width_6">
+				<input type="text" class="form-control width_1" name="city" ng-model="activity.city" readonly/>
+			</div>
+        </div>
+        <div class="form-group">
+	        <label class="col-xs-2 control-label">二、任务包信息&nbsp;&nbsp;</label>
+        </div>
+       	<div class="form-group">
+       		<label class="col-xs-2 control-label"></label>
+			<div class="col-xs-8 width_6">
+    			<!--列出已勾选的项-->
+			    <div class="form-control-static clearfix choosed-items-container">
+			    	<div style="padding:15px;" ng-repeat="task in taskPackage">
+			    		<div ng-repeat="item in task.taskCoursesOrExamPapers">
+			    			<div ng-if="item.courseId!=undefined">
+				    			<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">任务<span ng-bind="$index+1+'：'"></span></label>
+						            <div class="col-xs-7">
+				                 		<span style="display:block;padding-top:7px;margin-bottom:0;" ng-bind="item.courseName"></span>
+						            </div>
+			        			</div>
+			        			<div class="form-group" ng-if="$index!=0">
+						            <label class="col-xs-2 width_7 control-label">前置任务：</label>
+						            <div class="col-xs-5 width_8">
+					                    <input type="text" class="form-control width_5" readonly ng-model="item.preTaskNames">
+						            </div>
+			        			</div>
+			        			<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">开始时间：</label>
+						            <div class="col-xs-5 width_8">
+						                 <input type="text" class="Wdate form-control width_5" ng-model="item.startTime" id="courseStartTime{{item.courseNumber}}"  name="courseStartTime{{item.courseNumber}}" readonly/>
+						            </div>
+			        			</div>
+			        			<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">结束时间：</label>
+						            <div class="col-xs-5 width_8">
+						                 <input type="text" class="Wdate form-control width_5" ng-model="item.endTime" id="courseEndTime{{item.courseNumber}}" name="courseEndTime{{item.courseNumber}}" readonly/>
+						            </div>
+			        			</div>
+			        			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label class="col-xs-2 width_7 control-label">讲师(单选)：</label>
+						            <div class="col-xs-5 width_8">
+						            	<select class="form-control width_5" style="line-height: 28px;" ng-model="item.lecturerId" ng-options="x.lecturerId as x.lecturerName for x in item.lecturerLists" disabled>
+						            	</select>
+						            </div>
+	       			 			</div>
+	       			 			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label  class="col-xs-2 width_7 control-label">活动地点：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5" name="courseAddress{{item.courseNumber}}" ng-model="item.courseAddress" readonly>
+						            </div>
+	       			 			</div>
+	       			 			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label  class="col-xs-2 width_7 control-label">课程时长：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5" name="courseTime{{item.courseNumber}}" ng-model="item.courseTime" readonly>
+						            	<span class="inputIntro">分钟</span>
+						            </div>
+	       			 			</div>
+	       			 			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label  class="col-xs-2 width_7 control-label">课程单价：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5" name="unitPrice{{item.courseNumber}}" ng-model="item.unitPrice" readonly>
+						            	<span class="inputIntro">元/小时</span> 
+						            </div>
+	       			 			</div>
+	       			 			<div class="form-group" ng-if="item.courseOnline!='Y'">
+						            <label  class="col-xs-2 width_7 control-label">课程总价：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5"  ng-model="item.totalPrice" name="totalPrice"  readonly>
+						            	<span class="inputIntro">元</span> 
+						            </div>
+	       			 			</div>
+			    			</div>
+			    			<div ng-if="item.examPaperId!=undefined">
+			    				<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">任务<span ng-bind="$index+1+'：'"></span></label>
+						            <div class="col-xs-7">
+				                 		<span style="display:block;padding-top:7px;margin-bottom:0;" ng-bind="item.examPaperName"></span>
+						            </div>
+			        			</div>
+			        			<div class="form-group" ng-if="$index!=0">
+						            <label class="col-xs-2 width_7 control-label">前置任务：</label>
+						            <div class="col-xs-5 width_8">
+					                    <input type="text" class="form-control width_5" ng-model="item.preTaskNames" readonly>
+						            </div>
+			        			</div>
+			    				<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">开始时间：</label>
+						            <div class="col-xs-5 width_8">
+						                 <input type="text" class="Wdate form-control width_5" ng-model="item.startTime" id="examStartTime{{item.examPaperNumber}}" name="examStartTime{{item.examPaperNumber}}" readonly/>
+						            </div>
+			        			</div>
+			        			<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">结束时间：</label>
+						            <div class="col-xs-5 width_8">
+						                 <input type="text" class="Wdate form-control width_5" ng-model="item.endTime" id="examEndTime{{item.examPaperNumber}}" name="examEndTime{{item.examPaperNumber}}" readonly/>
+						            </div>
+			        			</div>
+			        			<!-- xxxxxxxxxxxxxxxxxx -->
+			        			<div class="form-group">
+						            <label  class="col-xs-2 width_7 control-label">考试时长：</label>
+						            <div class="col-xs-5 width_8">
+						            	<input type="text" class="form-control width_5" ng-model="item.examTime" readonly >
+						            		<span class="inputIntro">分钟</span> 
+						            </div>
+	       			 			</div>
+	       			 			<!-- xxxxxxxxxxxxxxxxxx -->
+			        			<div class="form-group">
+				        			<label class="col-xs-2 width_7 control-label">考试类型：</label>
+		       				 		<div class="col-xs-5 width_8">
+		       				 			<label class="checkbox-inline" style="cursor:default;">
+		       				 				<input type="checkbox"  style="cursor:default;" ng-checked="item.offlineExam=='2'" disabled>线下考试
+	       				 				</label>
+	       				 			</div>
+			        			</div>
+			        			<div class="form-group" ng-if="item.offlineExam=='2'">
+				        			<label class="col-xs-2 width_7 control-label">考试地址：</label>
+				        			<div class="col-xs-5 width_8">
+				        				<input type="text" class="form-control width_5" id="examAddress{{item.examPaperNumber}}" name="examAddress{{item.examPaperNumber}}" ng-model="item.examAddress" readonly/>
+				        			</div>
+			        			</div>
+			        			<div class="form-group">
+						            <label class="col-xs-2 width_7 control-label">补考次数：</label>
+						            <div class="col-xs-5 width_8">
+						                <input type="text" class="form-control width_5"  id="retakingExamCount{{item.examPaperNumber}}" name="retakingExamCount{{item.examPaperNumber}}" ng-model="item.retakingExamCount" readonly>
+						            </div>
+   		 						</div>
+ 								<!-- 编辑页面初始化时补考时间回显 -->
+   		 						<div ng-repeat="r in item.retakingInfo">
+   		 							<div class="form-group">
+	   		 							<label class="col-xs-2 width_7 control-label">补考日期{{$index+1}}：</label>
+	   		 							<div class="col-xs-5">
+	   		 								<label>开始时间</label>
+	   		 								<input type="text" class="Wdate form-control width_5" id="retakingStartTime{{item.examPaperNumber+($index+1)}}" ng-model="r.startTime" readonly>
+	 									</div>
+ 									</div>
+ 									<div class="form-group">
+ 										<label class="col-xs-2 width_7 control-label"></label>
+										<div class="col-xs-5">
+											<label>结束时间</label>
+											<input type="text" class="Wdate form-control width_5" id="retakingEndTime{{item.examPaperNumber+($index+1)}}" ng-model="r.endTime" readonly>
+										</div>
+									</div>
+ 								</div>
+			    			</div>
+			    		</div>
+			    	</div>
+		    	</div>
+			</div>
+			<div ng-include="'/enterpriseuniversity/views/activity/template/choosePreTaskTemplate.html'"></div>
+       		<div ng-include="'/enterpriseuniversity/views/activity/template/chooseTaskPackageTemplate.html'"></div>
+       	</div>
+       	<div class="form-group">
+	        <label class="col-xs-2 control-label">三、选择学员方式&nbsp;&nbsp;</label>
+        </div>
+        <div class="form-group">
+       		<label class="col-xs-2 control-label"></label>
+       		<div class="col-xs-8 width_6">
+		        <!--列出已勾选的项-->
+				<div ng-if="choosedEmpsArr.length >0" class="form-control-static choosed-items-container clearfix width_4">
+					<label class="checkbox-inline choosed-item" ng-repeat="item in choosedEmpsArr" ng-bind="item.name">
+					</label>
+				</div>
+				<div ng-if="activity.needApply=='N'&&choosedItemArr.length >0" class="form-control-static choosed-items-container clearfix width_4">
+					<label class="checkbox-inline choosed-item" ng-repeat="item in choosedItemArr" ng-if="item.deptpsncode==item.code" ng-bind="item.deptname">
+					</label>
+				</div>
+		        <div ng-include="'/enterpriseuniversity/views/activity/template/learnerModalTemplate.html'"></div>
+		        <div ng-include="'/enterpriseuniversity/views/activity/template/managerModalTemplate.html'"></div>
+	        </div>
+        </div>
+        <!-- start选择管理员-->
+        <div class="form-group">
+            <label class="col-xs-2 control-label">培训活动授权：</label>
+            <div class="col-xs-8 width_6">
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/readonlyAdminModalTemplate.html'"></div>
+    		</div>
+        </div>
+        <!-- end 选择管理员 -->
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-8">
+                <a class="btn btn-primary btn-control" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

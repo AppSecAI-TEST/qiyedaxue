@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.system.dao.TomRoleMapper">
+	<resultMap id="BaseResultMap" type="com.chinamobo.ue.system.entity.TomRole">
+		<id column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+		<result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+		<result column="ROLE_TYPE" property="roleType" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="CREATOR_ID" property="creatorId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="BaseResultMap1" type="com.chinamobo.ue.system.entity.TomRole">
+		<id column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+		<result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+		<result column="ROLE_TYPE" property="roleType" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+
+		<association property="tomRoleScopes"
+			javaType="com.chinamobo.ue.system.entity.TomRoleScopes">
+			<result column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+			<result column="ROLE_TYPE" property="roleType" jdbcType="VARCHAR" />
+			<result column="ROLE_SCOPE" property="roleScope" jdbcType="VARCHAR" />
+			<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+			<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+			<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+			<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		</association>
+	</resultMap>
+	<resultMap id="RoleMap1" type="com.chinamobo.ue.system.entity.TomRole"
+		extends="BaseResultMap1">
+		<collection property="tomRoleAuthorities" ofType="TomRoleAuthorities">
+			<result column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+			<result column="AUTHORITY_ID" property="authorityId" jdbcType="DECIMAL" />
+			<result column="STATUS" property="status" jdbcType="VARCHAR" />
+			<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+			<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+			<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+			<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+
+		</collection>
+
+	</resultMap>
+		<resultMap id="BaseResultMap2" type="com.chinamobo.ue.system.entity.TomRole" extends="BaseResultMap">
+		<collection property="adminroles" ofType="TomAdminRoles">
+		 <result column="ADMIN_ID" property="adminId" jdbcType="DECIMAL" />
+    <result column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		ROLE_ID, ROLE_NAME, ROLE_TYPE, STATUS, CREATOR,
+		CREATE_TIME, OPERATOR,
+		UPDATE_TIME,CREATOR_ID
+	</sql>
+	<!-- <sql id='RETAKING_EXAM_SEQ'>RETAKING_EXAM_SEQ.nextval</sql> -->
+
+<!-- 根据Code查详细信息 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from TOM_ROLE
+		where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+	</select>
+	<!-- 查询所有角色 -->
+		<select id="findAll" resultMap="BaseResultMap"
+		>
+		select
+		<include refid="Base_Column_List" />
+		from TOM_ROLE where status='Y' and role_id!=0
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		TOM_ROLE
+		where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.chinamobo.ue.system.entity.TomRole">
+		insert into TOM_ROLE (<!-- ROLE_ID, -->
+		ROLE_NAME, ROLE_TYPE,
+		STATUS, CREATOR, CREATE_TIME,
+		OPERATOR,
+		UPDATE_TIME)
+		values ( <!-- #{roleId,jdbcType=DECIMAL}, -->
+		#{roleName,jdbcType=VARCHAR},
+		#{roleType,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{operator,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<!-- 增加 -->
+	<insert id="insertSelective" parameterType="com.chinamobo.ue.system.entity.TomRole">
+		<!-- <selectKey keyProperty="roleId" resultType="Integer" order="BEFORE">
+			select
+			<include refid="RETAKING_EXAM_SEQ" />
+			from dual
+		</selectKey> -->
+		insert into TOM_ROLE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<!-- <if test="roleId != null">
+				ROLE_ID,
+			</if> -->
+			<if test="roleName != null">
+				ROLE_NAME,
+			</if>
+			<if test="roleType != null">
+				ROLE_TYPE,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="creatorId != null">
+				CREATOR_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<!-- <if test="roleId != null">
+				#{roleId,jdbcType=DECIMAL},
+			</if> -->
+			<if test="roleName != null">
+				#{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="roleType != null">
+				#{roleType,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creatorId != null">
+			#{creatorId,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.system.entity.TomRole">
+		update TOM_ROLE
+		<set>
+			<if test="roleName != null">
+				ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="roleType != null">
+				ROLE_TYPE = #{roleType,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				CREATOR = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+	</update>
+	<!-- 更改状态 -->
+	<update id="updateStatus" parameterType="com.chinamobo.ue.system.entity.TomRole">
+		update TOM_ROLE
+		<set>		
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.system.entity.TomRole">
+		update TOM_ROLE
+		set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+		ROLE_TYPE =
+		#{roleType,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=VARCHAR},
+		CREATOR = #{creator,jdbcType=VARCHAR},
+		CREATE_TIME =
+		#{createTime,jdbcType=TIMESTAMP},
+		OPERATOR =
+		#{operator,jdbcType=VARCHAR},
+		UPDATE_TIME =
+		#{updateTime,jdbcType=TIMESTAMP}
+		where ROLE_ID =
+		#{roleId,jdbcType=DECIMAL}
+	</update>
+
+	<!-- 查询总数 -->
+	<select id="countByExample" parameterType="map" resultType="int">
+		select count(*) from tom_role r ,tom_role_scopes rs
+		  <if test="authority_id!=null">
+			,tom_role_authorities ra
+		</if> 
+		 where
+  r.ROLE_ID=rs.ROLE_ID and r.role_id!=0 
+  	 <if test="authority_id != null">
+			and r.ROLE_ID=ra.ROLE_ID and ra.AUTHORITY_ID=
+			#{authority_id,jdbcType=DECIMAL}
+		</if>
+		<if test="scope != null">
+			and r.ROLE_ID=rs.ROLE_ID and INSTR(rs.role_scope,#{scope,jdbcType=VARCHAR})>0
+		</if> 
+		<if test="role_name != null"> 
+			and INSTR(role_name,#{role_name,jdbcType=VARCHAR})>0
+		</if>
+	</select>
+	<!-- 分页查询所有角色 -->
+	<select id="selectByMany" parameterType="map" resultMap="RoleMap1">
+	   select r.*, rs.role_scope
+		from tom_role r ,tom_role_scopes rs
+		 <if test="authority_id!=null">
+			,tom_role_authorities ra
+		</if> 
+		where r.ROLE_ID=rs.ROLE_ID and r.role_id!=0
+		 <if test="authority_id != null">
+			and r.ROLE_ID=ra.ROLE_ID and ra.AUTHORITY_ID=
+			#{authority_id,jdbcType=DECIMAL}
+		</if>
+		<if test="scope != null">
+			and r.ROLE_ID=rs.ROLE_ID and INSTR(rs.role_scope,#{scope,jdbcType=VARCHAR})>0
+		</if> 
+		<if test="role_name != null">
+			and r.ROLE_ID=rs.ROLE_ID and INSTR(r.role_name,#{role_name,jdbcType=VARCHAR})>0
+		</if> order by r.update_time desc 
+   limit<![CDATA[
+     #{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+	</select>
+	<select id="selectByAdlinRoles" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select r.role_Name from tom_role r,tom_admin_roles ar where r.role_id= ar.role_id
+			and ar.admin_id =#{adminId,jdbcType=DECIMAL}
+	</select>
+	
+	<select id="selectByCreator" resultMap="BaseResultMap" parameterType="string">
+		
+		select
+		<include refid="Base_Column_List" />
+		from TOM_ROLE where status='Y' and creator_id=#{code,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>

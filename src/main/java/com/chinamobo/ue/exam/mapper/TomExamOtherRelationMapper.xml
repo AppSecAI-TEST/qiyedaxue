@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.exam.dao.TomExamOtherRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.exam.entity.TomExamOtherRelation" >
+    <result column="EXAM_ID" property="examId" jdbcType="INTEGER" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectOtherList" resultMap="BaseResultMap" parameterType="map">
+  	SELECT
+  		*
+  	FROM tom_exam_other_relation
+  	WHERE 1=1
+  	<if test="examId != null">
+  		AND EXAM_ID = #{examId,jdbcType=INTEGER}
+  	</if>
+  	<if test="type != null">
+  		AND TYPE = #{type,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  <delete id="deleteByExamId" parameterType="java.lang.Integer">
+		delete from tom_exam_other_relation
+		where EXAM_ID = #{examId,jdbcType=INTEGER}
+	</delete>
+  <insert id="insert" parameterType="com.chinamobo.ue.exam.entity.TomExamOtherRelation" >
+    insert into tom_exam_other_relation (EXAM_ID, CODE, NAME, 
+      CREATE_TIME, TYPE)
+    values (#{examId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.exam.entity.TomExamOtherRelation" >
+    insert into tom_exam_other_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="examId != null" >
+        EXAM_ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="examId != null" >
+        #{examId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

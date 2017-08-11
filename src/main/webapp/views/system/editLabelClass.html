@@ -1,0 +1,69 @@
+<!--编辑标签分类 模态框（Modal） -->
+<div ng-controller="EditLabelClassController">
+	<div class="modal fade"
+		ng-class="{'in':openModalEditLabelClass,'display-block':openModalEditLabelClass}"
+		tabindex="-1" role="dialog" ng-if="openModalEditLabelClass">
+		<div class="modal-dialog" ng-style="setStyle_02()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close del-icon" ng-click="doClose()">&times;</a>
+					<h4 class="modal-title">编辑分类</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<form name="$parent.editLabelClassForm" novalidate
+							class="form-horizontal" role="form">
+							<div class="row" style="margin-top: 20px;">
+								<div class="form-group">
+									<label class="col-xs-2 control-label">分类名称：</label>
+									<div class="col-xs-5 width_6">
+										<input type="text" class="form-control width_1" id="className"
+											name="className" ng-model="labelClass.className"
+											ng-maxlength="30" required placeholder="请输入分类名称">(最多输入30个字符)
+									</div>
+									<div class="error"
+										ng-show="editLabelClassForm.className.$dirty&&editLabelClassForm.className.$invalid||editLabelClassForm.$submitted&&editLabelClassForm.className.$invalid">
+										<span ng-show="editLabelClassForm.className.$error.required"
+											class="glyphicon glyphicon-exclamation-sign">分类名称不能为空</span>
+										<span ng-show="editLabelClassForm.className.$error.maxlength"
+											class="glyphicon glyphicon-exclamation-sign">分类名称最多30个字符</span>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="form-group">
+						        	<label class="col-xs-2 control-label">分类下标签：</label>
+						            <div class="col-xs-5">
+								        <div class="form-control-static">
+								            <a href="javascript:void(0)" class="btn btn-primary  btn-control" ng-click="doOpenSelectTagModal()">选择</a>
+								        </div>
+								       <div class="width_4" ng-include="'/enterpriseuniversity/views/system/selectTag.html'"></div>
+						        	</div>
+						        </div>
+					        </div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="form-group">
+									<div class="col-xs-offset-2 col-xs-8">
+										<a class="btn btn-primary btn-control" ng-click="doSave()">提交</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-default" ng-click="doClose()">关闭</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-backdrop fade"
+		ng-class="{'in':openModalEditLabelClass,'display-block':openModalEditLabelClass,'display-none':!openModalEditLabelClass}"></div>
+</div>
+<script type="text/javascript">
+	//实例化编辑器
+	//监听窗口大小变化，自适应高度
+	$(document).ready(function () {
+	resizeView();
+	});
+</script>

@@ -1,0 +1,265 @@
+<div ng-controller="LearnerModalController">
+	<!-- 选择学习人员 模态框（Modal） -->
+	<div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}" role="dialog" ng-if="openModalDialog">
+		<div class="modal-dialog" ng-style="setStyle_02()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close del-icon" ng-click="doClose()">&times;</a>
+					<h4 class="modal-title">推送学习人员
+						<span class="upload-container" uploader="empUploader" filters="queueLimit , customFilter">
+							<a class="btn btn-primary upload-control">导入员工</a>
+							<input type="file" class="btn upload-input" id="empUploadInput" nv-file-select uploader="empUploader">
+							<a class="download-control" href="/enterpriseuniversity/services/file/download?filePath=file/empTemplate/Emp.xlsx&fileName=Emp.xlsx">Excel模板下载</a>
+						</span>
+						<span class="radio-inline" style="margin-left:20px;font-size:14px;line-height: 1.12857;" ng-click="toggleMergeType('Y')">
+							<input type="radio" name="uploadType" ng-model="$parent.isMerge" value="Y" ng-checked="{{isMerge=='Y'}}" >合并导入
+						</span>
+						<span class="radio-inline" style="font-size:14px;line-height: 1.12857;" ng-click="toggleMergeType('N')">
+							<input type="radio" name="uploadType" ng-model="$parent.isMerge" value="N" ng-checked="{{isMerge=='N'}}" >覆盖导入
+						</span>
+						<span style="display:inline-block;; width: 20%;  position: relative; left: 10px; top: 3px;">
+							<select style="line-height: 28px;" class="form-control" 
+								ng-model="$parent.selectOptionCountry" 
+								ng-change="changeSelectedOption()"
+								ng-options=" option.value as option.name for option in searchOptionCountry">
+							</select>
+						</span>
+					</h4>
+				</div>
+				<div class="modal-body" style="padding: 0;">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-2 inner-content" ng-style="setStyle_03()">
+								<ul class="nav nav-tabs" style="margin-top: 15px;">
+									<li ng-class="{'active':showDeptList}">
+										<a ng-click="deptExchange()">部门</a>
+									</li>
+									<li ng-class="{'active':showLabelList}">
+										<a ng-click="labelExchange()">标签</a>
+									</li>
+								</ul>
+								<div class="tree-container">
+									<div ng-show="showDeptList" data-angular-treeview="true" data-tree-id="epmTree" data-tree-model="empTreeData"></div>
+<!-- 									<div ng-show="showLabelList" ng-click="labelExchange(label)"> -->
+<!-- 										<div ng-repeat="label in labelData"> -->
+<!-- 											<a ng-click="getLabelEmp(label)">{{label.tagName}}</a> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+									<ul id="side-menu" class="nav" ng-show="showLabelList" ng-click="labelExchange(label)" >
+										<li ng-class="{'active':cm.pmc=='pmc-a'}" ondragstart="return false" ng-repeat="labelClass in labelClassData">
+											<a href="javascript:void(0)" ng-click="getlabelData(labelClass)">
+												<span class="nav-label" >{{labelClass.className}}</span>
+											</a>
+											<ul class="nav nav-second-level" ng-class="{'in':cm.pmc=='pmc-a'}">
+												<li ng-class="{'active':cm.cmc=='cmc-a'}" ng-repeat="label in labelData">
+													<a ng-click="getLabelEmp(label)" >&nbsp;&nbsp;&nbsp;&nbsp;{{label.tagName}}</a>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-xs-6 inner-content" ng-style="setStyle_03()"  style="border-left:1px solid #dedede; border-right:1px solid #dedede;padding-left:0; padding-right:0;">
+								<div class="container-fluid" ng-show="showDeptList">
+									<div class="row">
+										<div class="col-xs-5 inner-padding">
+											<select style="line-height: 28px;" class="form-control" 
+												ng-model="$parent.selectedOption" 
+												ng-change="changeSelectedOption()"
+												ng-options=" option.value as option.name for option in searchOption">
+											</select>
+										</div>
+										<div class="col-xs-7 input-group inner-padding" style="padding-right:15px;" ng-class="{'has-error':$parent.optionValue.length>=20}">
+											<input type="text" placeholder="请输入查询关键字" class="form-control" ng-model="$parent.optionValue" maxlength="20"> 
+											<span class="input-group-btn">
+												<a class="btn  btn-primary"  ng-click="search()">搜索</a>
+											</span>
+										</div>
+									</div>
+									<div class="row" ng-if="currNode!=undefined">
+										<div class="col-xs-7">
+											<div class="form-group">
+												<div class="col-xs-12">
+													<div class="input-group">
+														<input type="text" class="form-control" readonly ng-model="$parent.tomPackage.packageName">
+														<span class="input-group-btn">
+							                        		<a href="javascript:void(0)" class="btn btn-primary"  ng-click="doOpenTaskPackageForEmpModal()">选择任务包</a>
+							                    		</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-5" ng-if="$parent.tomPackage.packageId">
+											<select style="line-height: 28px;" class="form-control" ng-model="$parent.tomPackage.taskState" ng-change="changeSelectedTaskState()">
+												<option value="">全部</option>
+												<option value="N">未通过</option>
+												<option value="Y">已通过</option>
+											</select>
+										</div>
+									</div>
+									<table class="table table-striped table-bordered table-hover table-condensed">
+										<thead>
+											<tr>
+												<th width="50px"><input type="checkbox" ng-checked="chooseAllItem" ng-click="itemArr.chooseAllItem()"/></th>
+												<th width="50px">序号</th>
+												<th>员工编号</th>
+												<th>员工姓名</th>
+												<th>部门</th>
+												<th>所在城市</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="item in page.data" ng-class="{'current-focus-tr':item.checked}" ng-click="itemArr.chooseItem(item)" style="cursor:pointer;">
+												<td>
+													<input type="checkbox"  ng-checked="item.checked" style="cursor:pointer;" />
+												</td>
+												<td ng-bind="$index+1"></td>
+												<td ng-bind="item.code"></td>
+												<td ng-bind="item.name"></td>
+												<td ng-bind="item.deptname"></td>
+												<td ng-bind="item.cityname"></td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- 分页 -->
+									<div class="container-fluid" pagination conf="paginationConf"></div>
+								</div>
+								
+								<!-- 标签 -->
+								<div class="container-fluid" ng-show="showLabelList">
+									<div class="row" ng-show="labelEmpData.data.length>0" >
+										<div class="col-xs-5 inner-padding">
+											<select style="line-height: 28px;" class="form-control" 
+												ng-model="$parent.selectedOption" 
+												ng-change="changeSelectedOption()"
+												ng-options=" option.value as option.name for option in searchOption">
+											</select>
+										</div>
+										<div class="col-xs-7 input-group inner-padding" style="padding-right:15px;" ng-class="{'has-error':$parent.optionValue.length>=20}">
+											<input type="text" placeholder="请输入查询关键字" class="form-control" ng-model="$parent.optionValue" maxlength="20"> 
+											<span class="input-group-btn">
+												<a class="btn  btn-primary"  ng-click="search()">搜索</a>
+											</span>
+										</div>
+									</div>
+									<div class="row" ng-if="currNode!=undefined" ng-show="labelEmpData.data.length>0" >
+										<div class="col-xs-7">
+											<div class="form-group">
+												<div class="col-xs-12">
+													<div class="input-group">
+														<input type="text" class="form-control" readonly ng-model="$parent.tomPackage.packageName">
+														<span class="input-group-btn">
+							                        		<a href="javascript:void(0)" class="btn btn-primary"  ng-click="doOpenTaskPackageForEmpModal()">选择任务包</a>
+							                    		</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-5" ng-if="$parent.tomPackage.packageId">
+											<select style="line-height: 28px;" class="form-control" ng-model="$parent.tomPackage.taskState" ng-change="changeSelectedTaskState()">
+												<option value="">全部</option>
+												<option value="N">未通过</option>
+												<option value="Y">已通过</option>
+											</select>
+										</div>
+									</div>
+									<table class="table table-striped table-bordered table-hover table-condensed" ng-show="labelEmpData.data.length>0" >
+										<thead>
+											<tr>
+												<th width="50px"><input type="checkbox" ng-checked="chooseAllItem" ng-click="labelArr.chooseAllItem()"/></th>
+												<th width="50px">序号</th>
+												<th>员工编号</th>
+												<th>员工姓名</th>
+												<th>部门</th>
+												<th>所在城市</th>
+											</tr>
+										</thead>
+										<tbody>
+<!-- 										ng-class="{'current-focus-tr':labelEmp.code == labelEmpRow.code}"  -->
+<!-- 											ng-click="labelEmpCodeRow(labelEmp)"  -->
+											<tr ng-repeat="labelEmp in labelEmpData.data"  ng-class="{'current-focus-tr':labelEmp.checked}" ng-click="labelArr.chooseItem(labelEmp)" style="cursor:pointer;">
+												<td ng-click="chooseCurrPageAllItem()">
+													<input type="checkbox"  ng-checked="labelEmp.checked" style="cursor:pointer;"/>
+												</td>
+												<td ng-bind="$index+1"></td>
+												<td ng-bind="labelEmp.code"></td>
+												<td ng-bind="labelEmp.name"></td>
+												<td ng-bind="labelEmp.deptname"></td>
+												<td ng-bind="labelEmp.cityname"></td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- 分页 -->
+									<div class="container-fluid" ng-show="labelEmpData.data.length>0"  pagination conf="paginationConf"></div>
+								</div>
+								
+							</div>
+							<div class="col-xs-4 inner-content inner-padding" ng-style="setStyle_03()" ng-show="showDeptList">
+								<table class="table table-striped table-bordered table-hover table-condensed ">
+									<thead>
+										<tr>
+											<th width="50px">序号</th>
+											<th>员工编号</th>
+											<th>员工姓名</th>
+											<th>部门</th>
+											<th>所在城市</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="item in itemArr.currChoosedItemArr">
+											<td ng-bind="$index+1"></td>
+											<td ng-bind="item.code"></td>
+											<td ng-bind="item.name"></td>
+											<td ng-bind="item.deptname"></td>
+											<td ng-bind="item.cityname"></td>
+											<td>
+												<a class="btn btn-link" ng-click="itemArr.tempDeleteItem(item)">删除</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+							<!-- 标签 -->
+							<div class="col-xs-4 inner-content inner-padding" ng-style="setStyle_03()" ng-show="showLabelList">
+								<table class="table table-striped table-bordered table-hover table-condensed ">
+									<thead>
+										<tr>
+											<th width="50px">序号</th>
+											<th>员工编号</th>
+											<th>员工姓名</th>
+											<th>部门</th>
+											<th>所在城市</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="label in labelArr.currChoosedItemArr">
+											<td ng-bind="$index+1"></td>
+											<td ng-bind="label.code"></td>
+											<td ng-bind="label.name"></td>
+											<td ng-bind="label.deptname"></td>
+											<td ng-bind="label.cityname"></td>
+											<td>
+												<a class="btn btn-link" ng-click="labelArr.tempDeleteItem(label)">删除</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-default" ng-click="doClose()">关闭</a>
+                    <a class="btn btn-primary" ng-click="doSure()">确定</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-include="'/enterpriseuniversity/views/activity/template/chooseTaskPackageForEmpChoiceTemplate.html'"></div>
+	<!-- end 选择学习人员 模态框（Modal） -->
+	<div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+</div>

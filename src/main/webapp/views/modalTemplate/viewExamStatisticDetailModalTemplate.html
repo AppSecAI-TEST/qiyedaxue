@@ -1,0 +1,55 @@
+<div ng-controller="viewExamStatisticDetailController">
+	<!-- 考试详细信息-->
+	<div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}"  role="dialog"  ng-if="openModalDialog">
+		<div class="modal-dialog" ng-style="setStyle_02()">
+			 <div class="modal-content">
+			 	<div class="modal-header">
+			 		<a class="close del-icon" ng-click="doClose()">&times;</a>
+			 		<h4 class="modal-title" ng-bind="'《'+examName+'》'+'统计'"></h4>
+			 	</div>
+			 	<div class="modal-body">
+			 		<table class="table table-striped table-bordered table-hover table-condensed">
+			 			<thead>
+			 				<tr>
+			 					<th width="40px">序号</th>
+			 					<th width="120px">姓名</th>
+			 					<th width="120px">手机</th>
+			 					<th width="120px">邮箱</th>
+			 					<th width="120px">一级部门</th>
+			 					<th width="120px">当前部门</th>
+			 					<th width="120px">得分</th>
+			 					<th width="120px">通过</th>
+			 					<th width="120px">考试次数</th>
+			 				</tr>
+			 			</thead>
+			 			<tbody>
+			 				<tr ng-repeat="a in page.data" ng-class="{'current-focus-tr':a.code == currHighLightRow.code}" ng-click="highLightCurrRow(a)" style="cursor:pointer;">
+			 					<td ng-bind="$index+1"></td>
+			 					<td ng-bind="a.empName"></td>
+			 					<td ng-bind="a.mobile"></td>
+			 					<td ng-bind="a.email"></td>
+			 					<td ng-bind="a.onedeptname"></td>
+			 					<td ng-bind="a.deptname"></td>
+			 					<td ng-bind="a.totalPoints"></td>
+			 					<td ng-bind="a.gradeState"></td>
+			 					<td ng-bind="a.examCount"></td>
+			 				</tr>
+			 			</tbody>
+			 		</table>
+			 		<div class="container-fluid" style="margin-top:20px;" ng-show="page.data.length>0">
+			 			<div class="row">
+			 				<a class="btn btn-primary btn-con-trol" href="/enterpriseuniversity/services/examStatistics/downloadExamEmployeeStatisticsExcel?pageNum={{page.pageNum}}&pageSize={{page.pageSize}}&examId={{examId}}">导&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</a>
+			 			</div>
+					</div>
+			 		<div>
+                		<div class="container-fluid" pagination conf="paginationConf"></div>
+              		</div>
+			 	</div>
+			 	<div class="modal-footer">
+                    <a class="btn btn-default" ng-click="doClose()">关闭</a>
+                </div>
+			 </div>
+		</div>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+</div>

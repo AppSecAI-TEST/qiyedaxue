@@ -1,0 +1,67 @@
+<meta charset="UTF-8" >
+<link href="/enterpriseuniversity/css/angular.checkboxtreeview.css" rel="stylesheet">
+<div id="page" class="container-fluid overflow-auto">
+	<div class="container-fluid" >
+	    <form name="editRoleForm" ng-controller="EditRoleController" class="form-horizontal" role="form" >
+	       <div class="form-group">
+	            <label for="roleName" class="col-xs-2 control-label">角色名称：</label>
+	            <div class="col-xs-5">
+	                <input type="text" class="form-control width_1" id="roleName" name="roleName"
+	                       ng-model="role.roleName"
+	                       ng-maxlength="50"
+	                       required
+	                       placeholder="请输入角色名">(最多输入50个字符)
+	            </div>
+	             <div class="error col-xs-2" ng-show="editRoleForm.roleName.$dirty&&editRoleForm.roleName.$invalid||editRoleForm.$submitted&&editRoleForm.roleName.$invalid" >
+	                <span ng-show="editRoleForm.roleName.$error.required" class="glyphicon glyphicon-exclamation-sign pull-left">请填写角色名称</span>
+	                <span ng-show="editRoleForm.roleName.$error.maxlength" class="glyphicon glyphicon-exclamation-sign pull-left">角色名最多50个字符</span>
+	            </div>
+	        </div>
+	        <div class="form-group">
+	            <label class="col-xs-2 control-label">角色类型：</label>
+	            <div class="col-xs-5">
+	                <select class="form-control width_1" name="roleType"  ng-model="role.roleType" ng-change="switchData()">   
+	                    <option  value="1">公司级</option>
+	                    <option  value="2">部门级</option>
+	                </select>
+	            </div>
+	        </div>
+	        <div class="form-group" ng-show="dataList">
+	            <label class="col-xs-2 control-label" >角色范围：</label>
+	            <div class="col-xs-8" >
+	                 <div class="tree-container">
+		                 <div id="scopetree" data-angular-checkboxtreeview="true" data-checkboxtree-id="scopetree" data-checkboxtreetwo-model="dataList"></div>
+	            	</div>
+	            </div>
+	            <input type="hidden" name="roleScope" ng-model="role.roleScope"  required-rolescope>
+			 	<div class="error col-xs-2" ng-show="editRoleForm.$submitted&&editRoleForm.roleScope.$invalid" >
+	                <span ng-show="editRoleForm.roleScope.$error.requiredRolescope" class="glyphicon glyphicon-exclamation-sign pull-left">请选择角色范围</span>
+	            </div>
+	        </div>
+	        <div class="form-group" ng-show="authorityList">
+	            <label class="col-xs-2 control-label">角色权限：</label>
+	            <div class="col-xs-8">
+	                 <div class="tree-container">
+		                 <div id="authoritytree" data-angular-checkboxtreeview="true" data-checkboxtree-id="authoritytree"  data-checkboxauthoritytree-model="authorityList"></div>
+	            	</div>
+	            </div>
+	            <input type="hidden" name="roleAuthority" ng-model="role.roleAuthority"  required-roleauthority>
+			 	<div class="error col-xs-2" ng-show="editRoleForm.$submitted&&editRoleForm.roleAuthority.$invalid" >
+	                <span ng-show="editRoleForm.roleAuthority.$error.requiredRoleauthority" class="glyphicon glyphicon-exclamation-sign pull-left">请选择角色权限</span>
+	            </div>
+	        </div>
+	       	<div class="form-group">
+	           <div class="col-xs-offset-2 col-xs-8">
+	               <a class="btn btn-primary btn-control" ng-click="doSave()">保&nbsp;&nbsp;&nbsp;存</a>
+	               <a class="btn btn-link " ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+	           </div>
+	       	</div>
+	    </form>
+	</div>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.activity.dao.TomCertificateMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.activity.dto.TomCertificateDto" >
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="address" property="address" jdbcType="VARCHAR"/>
+    <result column="is_enable" property="isEnable" jdbcType="VARCHAR"/>
+    <result column="is_base" property="isBase" jdbcType="VARCHAR"/>
+    <result column="attribute" property="attribute" jdbcType="VARCHAR"/>
+    <result column="image_width" property="imageWidth" jdbcType="INTEGER"/>
+    <result column="image_height" property="imageHeight" jdbcType="INTEGER"/>
+    
+    <result column="multiple" property="multiple" jdbcType="INTEGER"/>
+    <result column="afour_address" property="afourAddress" jdbcType="VARCHAR"/>
+    <result column="afour_attribute" property="afourAttribute" jdbcType="VARCHAR"/>
+    <result column="afour_image_width" property="afourImageWidth" jdbcType="INTEGER"/>
+    <result column="afour_image_height" property="afourImageHeight" jdbcType="INTEGER"/>
+    
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="update_time" property="UpdateTime" jdbcType="TIMESTAMP"/>
+  </resultMap>
+
+  <sql id="field">
+     id,name,address,is_enable isEnable,is_base isBase,attribute,
+     image_width imageWidth,image_height imageHeight,multiple,
+     afour_address afourAddress,afour_attribute afourAttribute,
+     afour_image_width afourImageWidth,afour_image_height afourImageHeight,
+     create_user_id createUserId,
+     update_user_id updateUserId,
+     create_time createTime,
+     update_time UpdateTime
+     
+  </sql>
+  <sql id="fieldByInsert">
+    name,address,is_enable,is_base,attribute,
+    image_width,image_height,multiple,
+    afour_address,afour_attribute,
+    afour_image_width,afour_image_height,
+    create_user_id,
+    create_time
+    
+  </sql>
+  <!-- 分页查询 -->
+  <select id="listTomCertificate" parameterType="map" resultMap="BaseResultMap">
+    select * from tom_certificate where 1=1
+    and is_enable='Y' 
+    <if test="startNum!=null and startNum!='' and endNum!=null and endNum!=''">
+        limit #{startNum,jdbcType=INTEGER},#{endNum,jdbcType=INTEGER}
+    </if>
+  </select>
+ <select id="findListCount" resultType="java.lang.Integer">
+    select count(*) from tom_certificate where is_enable='Y'
+ </select>
+  <!-- 根据id查询 -->
+  <select id="findOne" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from tom_certificate where 1=1 
+    and id=#{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.chinamobo.ue.activity.dto.TomCertificateDto" 
+    useGeneratedKeys="true" keyProperty="id">
+    insert into tom_certificate (<include refid="fieldByInsert"></include>)
+    VALUES(
+        #{name,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{isEnable,jdbcType=VARCHAR},#{isBase,jdbcType=VARCHAR},#{attribute,jdbcType=VARCHAR},
+        #{imageWidth,jdbcType=INTEGER},#{imageHeight,jdbcType=INTEGER},#{multiple,jdbcType=INTEGER},
+        #{afourAddress,jdbcType=VARCHAR}, #{afourAttribute,jdbcType=VARCHAR},
+        #{afourImageWidth,jdbcType=INTEGER},#{afourImageHeight,jdbcType=INTEGER},
+        #{createUserId,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <update id="update" parameterType="com.chinamobo.ue.activity.dto.TomCertificateDto" >
+    update tom_certificate set
+        name=#{name,jdbcType=VARCHAR},address=#{address,jdbcType=VARCHAR},
+        is_enable=#{isEnable,jdbcType=VARCHAR},is_base=#{isBase,jdbcType=VARCHAR},attribute=#{attribute,jdbcType=VARCHAR},
+        image_width=#{imageWidth,jdbcType=INTEGER},image_height=#{imageHeight,jdbcType=INTEGER},multiple=#{multiple,jdbcType=INTEGER},
+        afour_address=#{afourAddress,jdbcType=VARCHAR},afour_attribute=#{afourAttribute,jdbcType=VARCHAR},
+        afour_image_width=#{afourImageWidth,jdbcType=INTEGER},afour_image_height=#{afourImageHeight,jdbcType=INTEGER},
+        update_user_id=#{updateUserId,jdbcType=VARCHAR},
+        update_time=#{updateTime,jdbcType=TIMESTAMP}
+        where id=#{id,jdbcType=INTEGER}
+  </update>
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from tom_certificate where id=#{id,jdbcType=INTEGER} and is_base='N'
+  </delete>
+  <select id="selectByAct" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	SELECT a.* from tom_certificate a, tom_activity b 
+	where a.id = b.certificate_id 
+	and b.ACTIVITY_ID = #{activityId,jdbcType=DECIMAL}
+  </select>
+</mapper>

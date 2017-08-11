@@ -1,0 +1,232 @@
+.top-func-bar {
+    margin: 20px 0;
+}
+
+.top-func-bar .btn + .btn {
+	margin-right:15px;
+}
+
+.table > thead >tr>th {
+    background-color: #e64c65;
+    color: #FFF;
+}
+
+.btn + .btn.noleftpadding{
+    padding-left: 0;
+}
+
+.btn.btn-narrow {
+	padding: 6px 4px;
+}
+
+.table > thead >tr>th,
+.table > tbody >tr>td,
+.table > tfoot >tr>td{
+    vertical-align: middle;
+    text-align: center;
+}
+
+.current-focus-tr {
+	background-color: rgb(181, 218, 248) !important;
+}
+
+.table-layout {
+	table-layout: fixed;
+}
+
+.table-overflow-format {
+	white-space: nowrap; 
+	overflow: hidden; 
+	text-overflow: ellipsis;
+	-moz-text-overflow: ellipsis;
+}
+
+.overflow-breakall {
+	word-break: break-all;
+}
+
+.page-left-container {
+    padding-left: 0;
+    border-right: 1px solid #dedede;
+}
+
+.page-right-container .container-fluid {
+    padding-left:0;
+    padding-right: 0;
+}
+
+.pagination-container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.batch-remove-selectAll {
+	display: inline-block;
+	vertical-align: middle;
+	padding-left: 3.5px;
+	padding-right: 10px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.batch-remove-selectAll input {
+	cursor: pointer;
+}
+
+.pagination > li > a, .pagination > li > span {
+	cursor:pointer;
+}
+
+.pagination > .active > a, 
+.pagination > .active > a:focus, 
+.pagination > .active > a:hover,
+.pagination > .active > span, 
+.pagination > .active > span:focus, 
+.pagination > .active > span:hover {
+	cursor:pointer;
+}
+
+.pagination-control {
+	position: relative;
+	padding: 3px 12px;
+	margin-left: 10px;
+	line-height: 1.42857143;
+}
+
+.pagination-control input,
+.pagination-control select {
+	width: 50px;
+	height: 27px;
+	margin: 0 5px;
+	line-height: 1.42857143;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.pagination-control select {
+	padding:2px;
+	width: 60px;
+}
+/*.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #09bbc9;
+    border-color: #09bbc9;
+}*/
+.nav-tabs > li > a {
+	color: #555;
+}
+
+.nav-tabs > li.active > a, 
+.nav-tabs > li.active > a:focus, 
+.nav-tabs > li.active > a:hover {
+	color: #337ab7;	
+}
+
+.has-background .nav-tabs > li.active > a, 
+.has-background .nav-tabs > li.active > a:focus, 
+.has-background .nav-tabs > li.active > a:hover {
+	color: #ffffff;	
+	background-color: #337ab7;	
+}
+
+@media (max-width: 1360px) {
+	th.width_01 {
+		width:245px;
+	}
+}
+
+@media (min-width:1360px) and (max-width:1475px) {
+	th.width_01 {
+		width:277px;
+	} 
+}
+
+@media (min-width:1475px) and (max-width:1590px) {
+	th.width_01 {
+		width:258px;
+	} 
+}
+
+@media (min-width:1590px) and (max-width:1705px) {
+	th.width_01 {
+		width:239px;
+	}  
+} 
+
+@media (min-width:1705px) and (max-width:1820px) {
+	th.width_01 {
+		width:220px;
+	}  
+}
+
+@media (min-width: 1820px) {
+	th.width_01 {
+		width:220px;
+	}
+}
+
+/* 
+#alertMsg {
+    display: none;
+    width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px black;
+    padding: 10px;
+    font-size: 12px;
+    position: absolute;
+    text-align: center;
+    background: #fff;
+    z-index: 100000;
+} 
+
+#alertMsg_info {
+    margin: 0;
+	line-height: 1.42857143;
+}
+
+#alertMsg_btn1 {
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #2e6da4;
+} 
+
+#alertMsg_btn2 {
+	margin-bottom: 0;
+	margin-left: 5px;
+    color: #333;
+	background-color: #fff;
+	border-color: #ccc;
+}
+
+#alertMsg_btn1, #alertMsg_btn2 {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+} */

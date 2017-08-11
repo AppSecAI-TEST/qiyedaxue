@@ -1,0 +1,1688 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.system.dao.TomEmpMapper">
+	<resultMap id="BaseResultMap" type="com.chinamobo.ue.system.entity.TomEmp">
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="PK_PSNCL" property="pkPsncl" jdbcType="VARCHAR" />
+		<result column="PSNCLCODE" property="psnclcode" jdbcType="VARCHAR" />
+		<result column="PSNCLCNAME" property="psnclcname" jdbcType="VARCHAR" />
+		<result column="SHORTNAME" property="shortname" jdbcType="VARCHAR" />
+		<result column="JOBGLBDEF17" property="jobglbdef17" jdbcType="VARCHAR" />
+		<result column="TOPCODE" property="topcode" jdbcType="VARCHAR" />
+		<result column="TOPNAME" property="topname" jdbcType="VARCHAR" />
+		<result column="MODIFIEDTIME" property="modifiedtime" jdbcType="VARCHAR" />
+		<result column="BEGINDATE" property="begindate" jdbcType="VARCHAR" />
+		<result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+		<result column="SECRET_EMAIL" property="secretEmail" jdbcType="VARCHAR" />
+		<result column="OFFICEPHONE" property="officephone" jdbcType="VARCHAR" />
+		<result column="ORGCODE" property="orgcode" jdbcType="VARCHAR" />
+		<result column="ORGNAME" property="orgname" jdbcType="VARCHAR" />
+		<result column="DEPTCODE" property="deptcode" jdbcType="VARCHAR" />
+		<result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+		<result column="DEPTTOPCODE" property="depttopcode" jdbcType="VARCHAR" />
+		<result column="DEPTTOPNAME" property="depttopname" jdbcType="VARCHAR" />
+		<result column="CITYCODE" property="citycode" jdbcType="VARCHAR" />
+		<result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
+		<result column="POSTNAME" property="postname" jdbcType="VARCHAR" />
+		<result column="BANKCODE" property="bankcode" jdbcType="VARCHAR" />
+		<result column="BANKNAME" property="bankname" jdbcType="VARCHAR" />
+		<result column="BANKTYPECODE" property="banktypecode" jdbcType="VARCHAR" />
+		<result column="BANKTYPENAME" property="banktypename" jdbcType="VARCHAR" />
+		<result column="ISMAINJOB" property="ismainjob" jdbcType="VARCHAR" />
+		<result column="CREATIONTIME" property="creationtime" jdbcType="VARCHAR" />
+		<result column="BIRTHDATE" property="birthdate" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="IDTYPE" property="idtype" jdbcType="VARCHAR" />
+		<result column="PK_POST" property="pkPost" jdbcType="VARCHAR" />
+		<result column="JOBCODE" property="jobcode" jdbcType="VARCHAR" />
+		<result column="JOBNAME" property="jobname" jdbcType="VARCHAR" />
+		<result column="POSTSTAT" property="poststat" jdbcType="VARCHAR" />
+		<result column="HIENDFLAG" property="hiendflag" jdbcType="VARCHAR" />
+		<result column="PK_PSNJOB" property="pkPsnjob" jdbcType="VARCHAR" />
+		<result column="PK_BASPOST" property="pkBaspost" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="ORGENDFLAG" property="orgendflag" jdbcType="VARCHAR" />
+		<result column="PK_DEPTPSN" property="pkDeptpsn" jdbcType="VARCHAR" />
+		<result column="DEPTPSNCODE" property="deptpsncode" jdbcType="VARCHAR" />
+		<result column="DEPTPSNNAME" property="deptpsnname" jdbcType="VARCHAR" />
+		<result column="PK_PSNDOC" property="pkPsndoc" jdbcType="VARCHAR" />
+		<result column="ONEDEPTCODE" property="onedeptcode" jdbcType="VARCHAR" />
+		<result column="ONEDEPTNAME" property="onedeptname" jdbcType="VARCHAR" />
+		<result column="CITYNAME" property="cityname" jdbcType="VARCHAR" />
+		<result column="JOBLASTFLAG" property="joblastflag" jdbcType="VARCHAR" />
+		<result column="ORGLASTFLAG" property="orglastflag" jdbcType="VARCHAR" />
+		<result column="JOBGLBDEF10" property="jobglbdef10" jdbcType="VARCHAR" />
+		<result column="PK_ORG" property="pkOrg" jdbcType="VARCHAR" />
+		<result column="PK_DEPT" property="pkDept" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF20" property="jobglbdef20" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF21" property="jobglbdef21" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF22" property="jobglbdef22" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF23" property="jobglbdef23" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF24" property="jobglbdef24" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF25" property="jobglbdef25" jdbcType="VARCHAR" />
+		<result column="PK_JOBRANK" property="pkJobrank" jdbcType="VARCHAR" />
+		<result column="PK_JOBGRADE" property="pkJobgrade" jdbcType="VARCHAR" />
+		<result column="JOBENDFLAG" property="joblastflag" jdbcType="VARCHAR" />
+		<result column="GLBDEF24" property="glbdef24" jdbcType="VARCHAR" />
+		<result column="ORGBEGINDATE" property="orgbegindate" jdbcType="VARCHAR" />
+		<result column="ORGENDDATE" property="orgenddate" jdbcType="VARCHAR" />
+		<result column="ONE_DEPT_PK" property="oneDeptPk" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="OneToOne" type="com.chinamobo.ue.system.entity.TomEmp">
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="PK_PSNCL" property="pkPsncl" jdbcType="VARCHAR" />
+		<result column="PSNCLCODE" property="psnclcode" jdbcType="VARCHAR" />
+		<result column="PSNCLCNAME" property="psnclcname" jdbcType="VARCHAR" />
+		<result column="SHORTNAME" property="shortname" jdbcType="VARCHAR" />
+		<result column="JOBGLBDEF17" property="jobglbdef17" jdbcType="VARCHAR" />
+		<result column="TOPCODE" property="topcode" jdbcType="VARCHAR" />
+		<result column="TOPNAME" property="topname" jdbcType="VARCHAR" />
+		<result column="MODIFIEDTIME" property="modifiedtime" jdbcType="VARCHAR" />
+		<result column="BEGINDATE" property="begindate" jdbcType="VARCHAR" />
+		<result column="ENDDATE" property="enddate" jdbcType="VARCHAR" />
+		<result column="SECRET_EMAIL" property="secretEmail" jdbcType="VARCHAR" />
+		<result column="OFFICEPHONE" property="officephone" jdbcType="VARCHAR" />
+		<result column="ORGCODE" property="orgcode" jdbcType="VARCHAR" />
+		<result column="ORGNAME" property="orgname" jdbcType="VARCHAR" />
+		<result column="DEPTCODE" property="deptcode" jdbcType="VARCHAR" />
+		<result column="DEPTNAME" property="deptname" jdbcType="VARCHAR" />
+		<result column="DEPTTOPCODE" property="depttopcode" jdbcType="VARCHAR" />
+		<result column="DEPTTOPNAME" property="depttopname" jdbcType="VARCHAR" />
+		<result column="CITYCODE" property="citycode" jdbcType="VARCHAR" />
+		<result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
+		<result column="POSTNAME" property="postname" jdbcType="VARCHAR" />
+		<result column="BANKCODE" property="bankcode" jdbcType="VARCHAR" />
+		<result column="BANKNAME" property="bankname" jdbcType="VARCHAR" />
+		<result column="BANKTYPECODE" property="banktypecode" jdbcType="VARCHAR" />
+		<result column="BANKTYPENAME" property="banktypename" jdbcType="VARCHAR" />
+		<result column="ISMAINJOB" property="ismainjob" jdbcType="VARCHAR" />
+		<result column="CREATIONTIME" property="creationtime" jdbcType="VARCHAR" />
+		<result column="BIRTHDATE" property="birthdate" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="IDTYPE" property="idtype" jdbcType="VARCHAR" />
+		<result column="PK_POST" property="pkPost" jdbcType="VARCHAR" />
+		<result column="JOBCODE" property="jobcode" jdbcType="VARCHAR" />
+		<result column="JOBNAME" property="jobname" jdbcType="VARCHAR" />
+		<result column="POSTSTAT" property="poststat" jdbcType="VARCHAR" />
+		<result column="HIENDFLAG" property="hiendflag" jdbcType="VARCHAR" />
+		<result column="PK_PSNJOB" property="pkPsnjob" jdbcType="VARCHAR" />
+		<result column="PK_BASPOST" property="pkBaspost" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="ORGENDFLAG" property="orgendflag" jdbcType="VARCHAR" />
+		<result column="PK_DEPTPSN" property="pkDeptpsn" jdbcType="VARCHAR" />
+		<result column="DEPTPSNCODE" property="deptpsncode" jdbcType="VARCHAR" />
+		<result column="DEPTPSNNAME" property="deptpsnname" jdbcType="VARCHAR" />
+		<result column="PK_PSNDOC" property="pkPsndoc" jdbcType="VARCHAR" />
+		<result column="ONEDEPTCODE" property="onedeptcode" jdbcType="VARCHAR" />
+		<result column="ONEDEPTNAME" property="onedeptname" jdbcType="VARCHAR" />
+		<result column="CITYNAME" property="cityname" jdbcType="VARCHAR" />
+		<result column="JOBLASTFLAG" property="joblastflag" jdbcType="VARCHAR" />
+		<result column="ORGLASTFLAG" property="orglastflag" jdbcType="VARCHAR" />
+		<result column="JOBGLBDEF10" property="jobglbdef10" jdbcType="VARCHAR" />
+		<result column="PK_ORG" property="pkOrg" jdbcType="VARCHAR" />
+		<result column="PK_DEPT" property="pkDept" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF20" property="jobglbdef20" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF21" property="jobglbdef21" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF22" property="jobglbdef22" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF23" property="jobglbdef23" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF24" property="jobglbdef24" jdbcType="VARCHAR" />
+		<result column="JOBG1BDEF25" property="jobglbdef25" jdbcType="VARCHAR" />
+		<result column="PK_JOBRANK" property="pkJobrank" jdbcType="VARCHAR" />
+		<result column="PK_JOBGRADE" property="pkJobgrade" jdbcType="VARCHAR" />
+		<result column="JOBENDFLAG" property="joblastflag" jdbcType="VARCHAR" />
+		<result column="GLBDEF24" property="glbdef24" jdbcType="VARCHAR" />
+		<result column="ORGBEGINDATE" property="orgbegindate" jdbcType="VARCHAR" />
+		<result column="ORGENDDATE" property="orgenddate" jdbcType="VARCHAR" />
+		<result column="ONE_DEPT_PK" property="oneDeptPk" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<association property="tomUserInfo"
+			javaType="com.chinamobo.ue.system.entity.TomUserInfo">
+			<result column="CODE" property="code" jdbcType="VARCHAR" />
+			<result column="HEAD_IMG" property="headImg" jdbcType="VARCHAR" />
+			<result column="CONTINUOUS_SIGN_IN_NUMBER" property="continuousSignInNumber"
+				jdbcType="DECIMAL" />
+			<result column="LAST_SIGN_IN_TIME" property="lastSignInTime"
+				jdbcType="TIMESTAMP" />
+			<result column="COURSE_NUMBER" property="courseNumber"
+				jdbcType="VARCHAR" />
+			<result column="LEARNING_TIME" property="learningTime"
+				jdbcType="VARCHAR" />
+			<result column="E_NUMBER" property="eNumber" jdbcType="DECIMAL" />
+			<result column="SUM_SIGN_IN_TIMES" property="sumSignInTimes"
+				jdbcType="DECIMAL" />
+			<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+			<result column="ADD_UP_E_NUMBER" property="addUpENumber"
+				jdbcType="DECIMAL" />
+		</association>
+	</resultMap>
+	<resultMap id="EmpActivityMap" type="com.chinamobo.ue.system.entity.TomEmp"
+		extends="BaseResultMap">
+		<collection property="tomActivity" ofType="TomActivity">
+			<id column="ACTIVITY_ID" property="activityId" jdbcType="DECIMAL" />
+			<result column="ACTIVITY_NUMBER" property="activityNumber"
+				jdbcType="VARCHAR" />
+			<result column="ACTIVITY_NAME" property="activityName"
+				jdbcType="VARCHAR" />
+			<result column="INTRODUCTION" property="introduction"
+				jdbcType="VARCHAR" />
+			<result column="PROTOCOL" property="protocol" jdbcType="VARCHAR" />
+			<result column="PROTOCOL_START_TIME" property="protocolStartTime"
+				jdbcType="TIMESTAMP" />
+			<result column="PROTOCOL_END_TIME" property="protocolEndTime"
+				jdbcType="TIMESTAMP" />
+			<result column="TRAIN_FEE" property="trainFee" jdbcType="DECIMAL" />
+			<result column="NEED_APPLY" property="needApply" jdbcType="VARCHAR" />
+			<result column="NUMBER_OF_PARTICIPANTS" property="numberOfParticipants"
+				jdbcType="DECIMAL" />
+			<result column="STAFF_LEVELS" property="staffLevels" jdbcType="VARCHAR" />
+			<result column="CITY" property="city" jdbcType="VARCHAR" />
+			<result column="ADMINS" property="admins" jdbcType="VARCHAR" />
+			<result column="APPLICATION_START_TIME" property="applicationStartTime"
+				jdbcType="TIMESTAMP" />
+			<result column="APPLICATION_DEADLINE" property="applicationDeadline"
+				jdbcType="TIMESTAMP" />
+			<result column="ACTIVITY_START_TIME" property="activityStartTime"
+				jdbcType="TIMESTAMP" />
+			<result column="ACTIVITY_END_TIME" property="activityEndTime"
+				jdbcType="TIMESTAMP" />
+			<result column="DEPTS" property="depts" jdbcType="VARCHAR" />
+			<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+			<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+			<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+			<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		</collection>
+	</resultMap>
+	<resultMap id="EmpCoursesMap" type="com.chinamobo.ue.system.dto.TomEmpDto">
+		<result column="COURSE_Id" property="courseId" jdbcType="DECIMAL" />
+		<result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR" />
+		<result column="E_CURRENCY" property="eCurrency" jdbcType="DECIMAL" />
+		<result column="FINISH_STATUS" property="finishStatus"
+			jdbcType="VARCHAR" />
+		<result column="FINISH_TIME" property="finishTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="EmpExamMap" type="com.chinamobo.ue.system.dto.TomEmpDto">
+		<result column="EXAM_ID" property="examId" jdbcType="DECIMAL" />
+		<result column="EXAM_NAME" property="examName" jdbcType="VARCHAR" />
+		<result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
+		<result column="exam_address" property="address" jdbcType="VARCHAR" />
+		<result column="grade_state" property="gradeState" jdbcType="VARCHAR" />
+		<result column="total_points" property="totalPoints" jdbcType="VARCHAR" />
+		<result column="pass_eb" property="examEb" jdbcType="DECIMAL" />
+		<result column="not_pass_eb" property="notPassEb" jdbcType="DECIMAL" />
+	</resultMap>
+	<resultMap id="EmpUserLog" type="com.chinamobo.ue.system.entity.TomEmp"
+		extends="BaseResultMap">
+		<association property="tomUserLog" javaType="TomUserLog">
+			<result column="CODE" property="code" jdbcType="VARCHAR" />
+			<result column="NAME" property="name" jdbcType="VARCHAR" />
+			<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+			<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+			<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+			<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<sql id="Base_Column_List">
+		CODE, NAME, ID, PK_PSNCL, PSNCLCODE, PSNCLCNAME, SHORTNAME,
+		JOBGLBDEF17,
+		TOPCODE,
+		TOPNAME, MODIFIEDTIME, BEGINDATE, ENDDATE,
+		SECRET_EMAIL, OFFICEPHONE, ORGCODE,
+		ORGNAME,
+		DEPTCODE, DEPTNAME,
+		DEPTTOPCODE, DEPTTOPNAME, CITYCODE, POSTCODE, POSTNAME,
+		BANKCODE,
+		BANKNAME, BANKTYPECODE, BANKTYPENAME, ISMAINJOB, CREATIONTIME,
+		BIRTHDATE, SEX,
+		IDTYPE,
+		PK_POST, JOBCODE, JOBNAME, POSTSTAT, HIENDFLAG,
+		PK_PSNJOB, PK_BASPOST, MOBILE,
+		ORGENDFLAG,
+		PK_DEPTPSN, DEPTPSNCODE,
+		DEPTPSNNAME, PK_PSNDOC, ONEDEPTCODE, ONEDEPTNAME,
+		CITYNAME,
+		JOBENDFLAG,
+		JOBLASTFLAG, ORGLASTFLAG,
+		JOBGLBDEF10,PK_ORG,PK_DEPT,ONE_DEPT_PK,CREATE_TIME,UPDATE_TIME
+	</sql>
+	<!-- 批量插入 -->
+	<insert id="insertList" parameterType="java.util.List">
+		insert into tom_emp (CODE,
+		NAME, ID,
+		PK_PSNCL, PSNCLCODE, PSNCLCNAME,
+		SHORTNAME, JOBGLBDEF17,
+		TOPCODE,
+		TOPNAME, MODIFIEDTIME, BEGINDATE,
+		ENDDATE, SECRET_EMAIL,
+		OFFICEPHONE,
+		ORGCODE, ORGNAME, DEPTCODE,
+		DEPTNAME, DEPTTOPCODE,
+		DEPTTOPNAME,
+		CITYCODE, POSTCODE, POSTNAME,
+		BANKCODE, BANKNAME,
+		BANKTYPECODE,
+		BANKTYPENAME, ISMAINJOB, CREATIONTIME,
+		BIRTHDATE, SEX,
+		IDTYPE,
+		PK_POST, JOBCODE, JOBNAME,
+		POSTSTAT, HIENDFLAG,
+		PK_PSNJOB,
+		PK_BASPOST, MOBILE, ORGENDFLAG,
+		PK_DEPTPSN, DEPTPSNCODE,
+		DEPTPSNNAME,
+		PK_PSNDOC, ONEDEPTCODE, ONEDEPTNAME,
+		CITYNAME, JOBLASTFLAG,
+		ORGLASTFLAG,
+		JOBGLBDEF10,PK_ORG,PK_DEPT,ONE_DEPT_PK,JOBG1BDEF20,JOBG1BDEF21,JOBG1BDEF22,JOBG1BDEF23,JOBG1BDEF24,
+		JOBG1BDEF25,PK_JOBRANK,PK_JOBGRADE,JOBENDFLAG,GLBDEF24,ORGBEGINDATE,ORGENDDATE,CREATE_TIME,UPDATE_TIME)
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+		    #{item.code,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR},
+			#{item.id,jdbcType=VARCHAR},#{item.pkPsncl,jdbcType=VARCHAR},
+			#{item.psnclcode,jdbcType=VARCHAR},
+			#{item.psnclcname,jdbcType=VARCHAR},
+			#{item.shortname,jdbcType=VARCHAR},
+			#{item.jobglbdef17,jdbcType=VARCHAR},
+			#{item.topcode,jdbcType=VARCHAR},#{item.topname,jdbcType=VARCHAR},
+			#{item.modifiedtime,jdbcType=VARCHAR},
+			#{item.begindate,jdbcType=VARCHAR},
+			#{item.enddate,jdbcType=VARCHAR}, #{item.secretEmail,jdbcType=VARCHAR},
+			#{item.officephone,jdbcType=VARCHAR},#{item.orgcode,jdbcType=VARCHAR},
+			#{item.orgname,jdbcType=VARCHAR}, #{item.deptcode,jdbcType=VARCHAR},
+			#{item.deptname,jdbcType=VARCHAR},
+			#{item.depttopcode,jdbcType=VARCHAR},
+			#{item.depttopname,jdbcType=VARCHAR},#{item.citycode,jdbcType=VARCHAR},
+			#{item.postcode,jdbcType=VARCHAR}, #{item.postname,jdbcType=VARCHAR},
+			#{item.bankcode,jdbcType=VARCHAR}, #{item.bankname,jdbcType=VARCHAR},
+			#{item.banktypecode,jdbcType=VARCHAR},#{item.banktypename,jdbcType=VARCHAR},
+			#{item.ismainjob,jdbcType=VARCHAR},
+			#{item.creationtime,jdbcType=VARCHAR},
+			#{item.birthdate,jdbcType=VARCHAR}, #{item.sex,jdbcType=VARCHAR},
+			#{item.idtype,jdbcType=VARCHAR},#{item.pkPost,jdbcType=VARCHAR},
+			#{item.jobcode,jdbcType=VARCHAR}, #{item.jobname,jdbcType=VARCHAR},
+			#{item.poststat,jdbcType=VARCHAR},
+			#{item.hiendflag,jdbcType=VARCHAR},
+			#{item.pkPsnjob,jdbcType=VARCHAR},#{item.pkBaspost,jdbcType=VARCHAR},
+			#{item.mobile,jdbcType=VARCHAR}, #{item.orgendflag,jdbcType=VARCHAR},
+			#{item.pkDeptpsn,jdbcType=VARCHAR},
+			#{item.deptpsncode,jdbcType=VARCHAR},
+			#{item.deptpsnname,jdbcType=VARCHAR},#{item.pkPsndoc,jdbcType=VARCHAR},
+			#{item.onedeptcode,jdbcType=VARCHAR},
+			#{item.onedeptname,jdbcType=VARCHAR},
+			#{item.cityname,jdbcType=VARCHAR},
+			#{item.joblastflag,jdbcType=VARCHAR},
+			#{item.orglastflag,jdbcType=VARCHAR},
+			#{item.jobglbdef10,jdbcType=VARCHAR},
+			#{item.pkOrg,jdbcType=VARCHAR}, #{item.pkDept,jdbcType=VARCHAR},
+			#{item.onedeptpk,jdbcType=VARCHAR},#{item.jobglbdef20,jdbcType=VARCHAR},
+			#{item.jobglbdef21,jdbcType=VARCHAR},#{item.jobglbdef22,jdbcType=VARCHAR},
+			#{item.jobglbdef23,jdbcType=VARCHAR},#{item.jobglbdef24,jdbcType=VARCHAR},
+			#{item.jobglbdef25,jdbcType=VARCHAR},#{item.pkJobrank,jdbcType=VARCHAR},
+			#{item.pkJobgrade,jdbcType=VARCHAR},#{item.jobendflag,jdbcType=VARCHAR},
+			#{item.glbdef24,jdbcType=VARCHAR},#{item.orgbegindate,jdbcType=VARCHAR},
+			#{item.orgenddate,jdbcType=VARCHAR},
+			#{item.createTime,jdbcType=TIMESTAMP},#{item.updateTime,jdbcType=TIMESTAMP}
+			
+		</foreach>
+	</insert>
+	<!-- 根据员工CODE查询详细资料 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from TOM_EMP
+		where CODE = #{code,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByPrimaryKeys" resultType="com.chinamobo.ue.system.entity.TomEmpOne"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from TOM_EMP
+		where CODE = #{code,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据员工CODE查询用户信息 -->
+	<select id="selectByCodeOnetoOne" resultMap="OneToOne"
+		parameterType="java.lang.String">
+		select u.*, e.* from tom_emp e,tom_user_info u
+		where
+		u.code=e.code and e.code= #{code,jdbcType=VARCHAR}
+	</select>
+	<!-- email -->
+	<select id="selectByEmail" resultType="com.chinamobo.ue.system.entity.TomEmp"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from TOM_EMP
+		where SECRET_EMAIL = #{email,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据员工CODE查询用户和活动信息 -->
+	<select id="selectByEmpActivity" resultType="com.chinamobo.ue.activity.entity.TomActivity"
+		parameterType="map">
+		select a.* from tom_emp e
+		join
+		tom_activity_emps_relation aer on
+		e.code=aer.code
+		left join
+		tom_activity a on
+		aer.activity_id=a.activity_id
+		where aer.apply_status='Y' and e.code=
+		#{code,jdbcType=VARCHAR} order by a.create_time desc
+		limit <![CDATA[#{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+	</select>
+	<!-- 活动数 -->
+	<select id="CountByEmpActivity" resultType="int" parameterType="map">
+		select count(*) from tom_emp e
+		join
+		tom_activity_emps_relation aer on
+		e.code=aer.code
+		left join
+		tom_activity a on
+		aer.activity_id=a.activity_id
+		where aer.apply_status='Y' and e.code=
+		#{code,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据员工CODE查询用户和考试信息 -->
+	<select id="selectByEmpExam" resultMap="EmpExamMap"
+		parameterType="map">
+		select
+		a.exam_id,a.exam_name,a.begin_time,a.exam_address,es.grade_state,es.total_points,ep.pass_eb,ep.not_pass_eb
+		from
+		tom_exam a join tom_exam_score es on a.exam_id = es.exam_id join
+		tom_exam_paper ep on ep.exam_paper_id = a.exam_paper_id
+		where es.code=
+		#{code,jdbcType=VARCHAR} order by a.create_time desc
+		limit <![CDATA[#{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+	</select>
+	<!-- 根据员工CODE查询用户和考试数 -->
+	<select id="countByEmpExam" resultType="int" parameterType="map">
+		select count(*) from
+		tom_exam a join tom_exam_score es on a.exam_id = es.exam_id join
+		tom_exam_paper ep on ep.exam_paper_id = a.exam_paper_id
+		where es.code=
+		#{code,jdbcType=VARCHAR} order by a.create_time desc
+	</select>
+	<!-- 根据员工CODE查询用户和课程信息 -->
+	<select id="selectByEmpCourses" resultMap="EmpCoursesMap"
+		parameterType="map">
+		select t.* from (select c.create_time, c.course_id,
+		c.course_name,c.e_currency from tom_courses
+		c,tom_course_learning_record lr where c.course_id=lr.course_id and
+		lr.code=#{code,jdbcType=VARCHAR} union
+		select c.create_time, c.course_id,c.course_name,c.e_currency from
+		tom_courses c,tom_activity_property ap,tom_activity_emps_relation aer
+		where aer.activity_id = ap.activity_id and ap.course_id=c.course_id
+		and aer.apply_status='Y' and c.status='Y' and
+		aer.code=#{code,jdbcType=VARCHAR}) t
+		order by t.create_time desc
+		limit <![CDATA[#{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+	</select>
+	<!-- 根据员工CODE查询用户和课程信息 -->
+	<select id="countByEmpCourses" resultType="int" parameterType="map">
+		select count(*) from (select c.create_time, c.course_id,
+		c.course_name,c.e_currency from tom_courses
+		c,tom_course_learning_record lr where c.course_id=lr.course_id and
+		lr.code=#{code,jdbcType=VARCHAR} union
+		select c.create_time, c.course_id,c.course_name,c.e_currency from
+		tom_courses c,tom_activity_property ap,tom_activity_emps_relation aer
+		where aer.activity_id = ap.activity_id and ap.course_id=c.course_id
+		and aer.apply_status='Y' and c.status='Y' and
+		aer.code=#{code,jdbcType=VARCHAR}) t
+		order by t.create_time desc
+	</select>
+	<delete id="deleteByAdminId" parameterType="Integer">
+		delete from
+		tom_admin_roles
+		where admin_id = #{adminid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.chinamobo.ue.system.entity.TomEmp">
+		insert into TOM_EMP (CODE,
+		NAME, ID,
+		PK_PSNCL, PSNCLCODE, PSNCLCNAME,
+		SHORTNAME, JOBGLBDEF17,
+		TOPCODE,
+		TOPNAME, MODIFIEDTIME, BEGINDATE,
+		ENDDATE, SECRET_EMAIL,
+		OFFICEPHONE,
+		ORGCODE, ORGNAME, DEPTCODE,
+		DEPTNAME, DEPTTOPCODE,
+		DEPTTOPNAME,
+		CITYCODE, POSTCODE, POSTNAME,
+		BANKCODE, BANKNAME,
+		BANKTYPECODE,
+		BANKTYPENAME, ISMAINJOB, CREATIONTIME,
+		BIRTHDATE, SEX,
+		IDTYPE,
+		PK_POST, JOBCODE, JOBNAME,
+		POSTSTAT, HIENDFLAG, PK_PSNJOB,
+		PK_BASPOST, MOBILE, ORGENDFLAG,
+		PK_DEPTPSN, DEPTPSNCODE, DEPTPSNNAME,
+		PK_PSNDOC, ONEDEPTCODE, ONEDEPTNAME,
+		CITYNAME, JOBENDFLAG, JOBLASTFLAG,
+		ORGLASTFLAG, ORGENDFLAG1, JOBGLBDEF10
+		)
+		values
+		(#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+		#{id,jdbcType=VARCHAR},
+		#{pkPsncl,jdbcType=VARCHAR},
+		#{psnclcode,jdbcType=VARCHAR}, #{psnclcname,jdbcType=VARCHAR},
+		#{shortname,jdbcType=VARCHAR}, #{jobglbdef17,jdbcType=VARCHAR},
+		#{topcode,jdbcType=VARCHAR},
+		#{topname,jdbcType=VARCHAR},
+		#{modifiedtime,jdbcType=VARCHAR}, #{begindate,jdbcType=VARCHAR},
+		#{enddate,jdbcType=VARCHAR}, #{secretEmail,jdbcType=VARCHAR},
+		#{officephone,jdbcType=VARCHAR},
+		#{orgcode,jdbcType=VARCHAR},
+		#{orgname,jdbcType=VARCHAR}, #{deptcode,jdbcType=VARCHAR},
+		#{deptname,jdbcType=VARCHAR}, #{depttopcode,jdbcType=VARCHAR},
+		#{depttopname,jdbcType=VARCHAR},
+		#{citycode,jdbcType=VARCHAR},
+		#{postcode,jdbcType=VARCHAR}, #{postname,jdbcType=VARCHAR},
+		#{bankcode,jdbcType=VARCHAR}, #{bankname,jdbcType=VARCHAR},
+		#{banktypecode,jdbcType=VARCHAR},
+		#{banktypename,jdbcType=VARCHAR},
+		#{ismainjob,jdbcType=VARCHAR}, #{creationtime,jdbcType=VARCHAR},
+		#{birthdate,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+		#{idtype,jdbcType=VARCHAR},
+		#{pkPost,jdbcType=VARCHAR},
+		#{jobcode,jdbcType=VARCHAR}, #{jobname,jdbcType=VARCHAR},
+		#{poststat,jdbcType=VARCHAR}, #{hiendflag,jdbcType=VARCHAR},
+		#{pkPsnjob,jdbcType=VARCHAR},
+		#{pkBaspost,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR}, #{orgendflag,jdbcType=VARCHAR},
+		#{pkDeptpsn,jdbcType=VARCHAR}, #{deptpsncode,jdbcType=VARCHAR},
+		#{deptpsnname,jdbcType=VARCHAR},
+		#{pkPsndoc,jdbcType=VARCHAR},
+		#{onedeptcode,jdbcType=VARCHAR}, #{onedeptname,jdbcType=VARCHAR},
+		#{cityname,jdbcType=VARCHAR}, #{jobendflag,jdbcType=VARCHAR},
+		#{joblastflag,jdbcType=VARCHAR},
+		#{orglastflag,jdbcType=VARCHAR},
+		#{orgendflag1,jdbcType=VARCHAR}, #{jobglbdef10,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.chinamobo.ue.system.entity.TomEmpOne">
+		insert into TOM_EMP
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="pkPsncl != null">
+				PK_PSNCL,
+			</if>
+			<if test="psnclcode != null">
+				PSNCLCODE,
+			</if>
+			<if test="psnclcname != null">
+				PSNCLCNAME,
+			</if>
+			<if test="shortname != null">
+				SHORTNAME,
+			</if>
+			<if test="jobglbdef17 != null">
+				JOBGLBDEF17,
+			</if>
+			<if test="topcode != null">
+				TOPCODE,
+			</if>
+			<if test="topname != null">
+				TOPNAME,
+			</if>
+			<if test="modifiedtime != null">
+				MODIFIEDTIME,
+			</if>
+			<if test="begindate != null">
+				BEGINDATE,
+			</if>
+			<if test="enddate != null">
+				ENDDATE,
+			</if>
+			<if test="secretEmail != null">
+				SECRET_EMAIL,
+			</if>
+			<if test="officephone != null">
+				OFFICEPHONE,
+			</if>
+			<if test="orgcode != null">
+				ORGCODE,
+			</if>
+			<if test="orgname != null">
+				ORGNAME,
+			</if>
+			<if test="deptcode != null">
+				DEPTCODE,
+			</if>
+			<if test="deptname != null">
+				DEPTNAME,
+			</if>
+			<if test="depttopcode != null">
+				DEPTTOPCODE,
+			</if>
+			<if test="depttopname != null">
+				DEPTTOPNAME,
+			</if>
+			<if test="citycode != null">
+				CITYCODE,
+			</if>
+			<if test="postcode != null">
+				POSTCODE,
+			</if>
+			<if test="postname != null">
+				POSTNAME,
+			</if>
+			<if test="bankcode != null">
+				BANKCODE,
+			</if>
+			<if test="bankname != null">
+				BANKNAME,
+			</if>
+			<if test="banktypecode != null">
+				BANKTYPECODE,
+			</if>
+			<if test="banktypename != null">
+				BANKTYPENAME,
+			</if>
+			<if test="ismainjob != null">
+				ISMAINJOB,
+			</if>
+			<if test="creationtime != null">
+				CREATIONTIME,
+			</if>
+			<if test="birthdate != null">
+				BIRTHDATE,
+			</if>
+			<if test="sex != null">
+				SEX,
+			</if>
+			<if test="idtype != null">
+				IDTYPE,
+			</if>
+			<if test="pkPost != null">
+				PK_POST,
+			</if>
+			<if test="jobcode != null">
+				JOBCODE,
+			</if>
+			<if test="jobname != null">
+				JOBNAME,
+			</if>
+			<if test="poststat != null">
+				POSTSTAT,
+			</if>
+			<if test="hiendflag != null">
+				HIENDFLAG,
+			</if>
+			<if test="pkPsnjob != null">
+				PK_PSNJOB,
+			</if>
+			<if test="pkBaspost != null">
+				PK_BASPOST,
+			</if>
+			<if test="mobile != null">
+				MOBILE,
+			</if>
+			<if test="orgendflag != null">
+				ORGENDFLAG,
+			</if>
+			<if test="pkDeptpsn != null">
+				PK_DEPTPSN,
+			</if>
+			<if test="deptpsncode != null">
+				DEPTPSNCODE,
+			</if>
+			<if test="deptpsnname != null">
+				DEPTPSNNAME,
+			</if>
+			<if test="pkPsndoc != null">
+				PK_PSNDOC,
+			</if>
+			<if test="onedeptcode != null">
+				ONEDEPTCODE,
+			</if>
+			<if test="onedeptname != null">
+				ONEDEPTNAME,
+			</if>
+			<if test="cityname != null">
+				CITYNAME,
+			</if>
+			<if test="jobendflag != null">
+				JOBENDFLAG,
+			</if>
+			<if test="joblastflag != null">
+				JOBLASTFLAG,
+			</if>
+			<if test="orglastflag != null">
+				ORGLASTFLAG,
+			</if>
+			<if test="jobglbdef10 != null">
+				JOBGLBDEF10,
+			</if>
+			<if test="pkOrg != null">
+				PK_ORG,
+			</if>
+			<if test="pkDept != null">
+				PK_DEPT,
+			</if>
+			<if test="onedeptpk!= null">
+				ONE_DEPT_PK,
+			</if>
+			<if test="createTime !=null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="pkPsncl != null">
+				#{pkPsncl,jdbcType=VARCHAR},
+			</if>
+			<if test="psnclcode != null">
+				#{psnclcode,jdbcType=VARCHAR},
+			</if>
+			<if test="psnclcname != null">
+				#{psnclcname,jdbcType=VARCHAR},
+			</if>
+			<if test="shortname != null">
+				#{shortname,jdbcType=VARCHAR},
+			</if>
+			<if test="jobglbdef17 != null">
+				#{jobglbdef17,jdbcType=VARCHAR},
+			</if>
+			<if test="topcode != null">
+				#{topcode,jdbcType=VARCHAR},
+			</if>
+			<if test="topname != null">
+				#{topname,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedtime != null">
+				#{modifiedtime,jdbcType=VARCHAR},
+			</if>
+			<if test="begindate != null">
+				#{begindate,jdbcType=VARCHAR},
+			</if>
+			<if test="enddate != null">
+				#{enddate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="secretEmail != null">
+				#{secretEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="officephone != null">
+				#{officephone,jdbcType=VARCHAR},
+			</if>
+			<if test="orgcode != null">
+				#{orgcode,jdbcType=VARCHAR},
+			</if>
+			<if test="orgname != null">
+				#{orgname,jdbcType=VARCHAR},
+			</if>
+			<if test="deptcode != null">
+				#{deptcode,jdbcType=VARCHAR},
+			</if>
+			<if test="deptname != null">
+				#{deptname,jdbcType=VARCHAR},
+			</if>
+			<if test="depttopcode != null">
+				#{depttopcode,jdbcType=VARCHAR},
+			</if>
+			<if test="depttopname != null">
+				#{depttopname,jdbcType=VARCHAR},
+			</if>
+			<if test="citycode != null">
+				#{citycode,jdbcType=VARCHAR},
+			</if>
+			<if test="postcode != null">
+				#{postcode,jdbcType=VARCHAR},
+			</if>
+			<if test="postname != null">
+				#{postname,jdbcType=VARCHAR},
+			</if>
+			<if test="bankcode != null">
+				#{bankcode,jdbcType=VARCHAR},
+			</if>
+			<if test="bankname != null">
+				#{bankname,jdbcType=VARCHAR},
+			</if>
+			<if test="banktypecode != null">
+				#{banktypecode,jdbcType=VARCHAR},
+			</if>
+			<if test="banktypename != null">
+				#{banktypename,jdbcType=VARCHAR},
+			</if>
+			<if test="ismainjob != null">
+				#{ismainjob,jdbcType=VARCHAR},
+			</if>
+			<if test="creationtime != null">
+				#{creationtime,jdbcType=VARCHAR},
+			</if>
+			<if test="birthdate != null">
+				#{birthdate,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="idtype != null">
+				#{idtype,jdbcType=VARCHAR},
+			</if>
+			<if test="pkPost != null">
+				#{pkPost,jdbcType=VARCHAR},
+			</if>
+			<if test="jobcode != null">
+				#{jobcode,jdbcType=VARCHAR},
+			</if>
+			<if test="jobname != null">
+				#{jobname,jdbcType=VARCHAR},
+			</if>
+			<if test="poststat != null">
+				#{poststat,jdbcType=VARCHAR},
+			</if>
+			<if test="hiendflag != null">
+				#{hiendflag,jdbcType=VARCHAR},
+			</if>
+			<if test="pkPsnjob != null">
+				#{pkPsnjob,jdbcType=VARCHAR},
+			</if>
+			<if test="pkBaspost != null">
+				#{pkBaspost,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="orgendflag != null">
+				#{orgendflag,jdbcType=VARCHAR},
+			</if>
+			<if test="pkDeptpsn != null">
+				#{pkDeptpsn,jdbcType=VARCHAR},
+			</if>
+			<if test="deptpsncode != null">
+				#{deptpsncode,jdbcType=VARCHAR},
+			</if>
+			<if test="deptpsnname != null">
+				#{deptpsnname,jdbcType=VARCHAR},
+			</if>
+			<if test="pkPsndoc != null">
+				#{pkPsndoc,jdbcType=VARCHAR},
+			</if>
+			<if test="onedeptcode != null">
+				#{onedeptcode,jdbcType=VARCHAR},
+			</if>
+			<if test="onedeptname != null">
+				#{onedeptname,jdbcType=VARCHAR},
+			</if>
+			<if test="cityname != null">
+				#{cityname,jdbcType=VARCHAR},
+			</if>
+			<if test="jobendflag != null">
+				#{jobendflag,jdbcType=VARCHAR},
+			</if>
+			<if test="joblastflag != null">
+				#{joblastflag,jdbcType=VARCHAR},
+			</if>
+			<if test="orglastflag != null">
+				#{orglastflag,jdbcType=VARCHAR},
+			</if>
+			<if test="jobglbdef10 != null">
+				#{jobglbdef10,jdbcType=VARCHAR},
+			</if>
+			<if test="pkOrg != null">
+				#{pkOrg,jdbcType=VARCHAR},
+			</if>
+			<if test="pkDept != null">
+				#{pkDept,jdbcType=VARCHAR},
+			</if>
+			<if test="onedeptpk != null">
+				#{onedeptpk,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.chinamobo.ue.system.entity.TomEmpOne">
+		update TOM_EMP
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="id != null">
+				ID = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="pkPsncl != null">
+				PK_PSNCL = #{pkPsncl,jdbcType=VARCHAR},
+			</if>
+			<if test="psnclcode != null">
+				PSNCLCODE = #{psnclcode,jdbcType=VARCHAR},
+			</if>
+			<if test="psnclcname != null">
+				PSNCLCNAME = #{psnclcname,jdbcType=VARCHAR},
+			</if>
+			<if test="shortname != null">
+				SHORTNAME = #{shortname,jdbcType=VARCHAR},
+			</if>
+			<if test="jobglbdef17 != null">
+				JOBGLBDEF17 = #{jobglbdef17,jdbcType=VARCHAR},
+			</if>
+			<if test="topcode != null">
+				TOPCODE = #{topcode,jdbcType=VARCHAR},
+			</if>
+			<if test="topname != null">
+				TOPNAME = #{topname,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedtime != null">
+				MODIFIEDTIME = #{modifiedtime,jdbcType=VARCHAR},
+			</if>
+			<if test="begindate != null">
+				BEGINDATE = #{begindate,jdbcType=VARCHAR},
+			</if>
+			<if test="enddate != null">
+				ENDDATE = #{enddate,jdbcType=VARCHAR},
+			</if>
+			<if test="secretEmail != null">
+				SECRET_EMAIL = #{secretEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="officephone != null">
+				OFFICEPHONE = #{officephone,jdbcType=VARCHAR},
+			</if>
+			<if test="orgcode != null">
+				ORGCODE = #{orgcode,jdbcType=VARCHAR},
+			</if>
+			<if test="orgname != null">
+				ORGNAME = #{orgname,jdbcType=VARCHAR},
+			</if>
+			<if test="deptcode != null">
+				DEPTCODE = #{deptcode,jdbcType=VARCHAR},
+			</if>
+			<if test="deptname != null">
+				DEPTNAME = #{deptname,jdbcType=VARCHAR},
+			</if>
+			<if test="depttopcode != null">
+				DEPTTOPCODE = #{depttopcode,jdbcType=VARCHAR},
+			</if>
+			<if test="depttopname != null">
+				DEPTTOPNAME = #{depttopname,jdbcType=VARCHAR},
+			</if>
+			<if test="citycode != null">
+				CITYCODE = #{citycode,jdbcType=VARCHAR},
+			</if>
+			<if test="postcode != null">
+				POSTCODE = #{postcode,jdbcType=VARCHAR},
+			</if>
+			<if test="postname != null">
+				POSTNAME = #{postname,jdbcType=VARCHAR},
+			</if>
+			<if test="bankcode != null">
+				BANKCODE = #{bankcode,jdbcType=VARCHAR},
+			</if>
+			<if test="bankname != null">
+				BANKNAME = #{bankname,jdbcType=VARCHAR},
+			</if>
+			<if test="banktypecode != null">
+				BANKTYPECODE = #{banktypecode,jdbcType=VARCHAR},
+			</if>
+			<if test="banktypename != null">
+				BANKTYPENAME = #{banktypename,jdbcType=VARCHAR},
+			</if>
+			<if test="ismainjob != null">
+				ISMAINJOB = #{ismainjob,jdbcType=VARCHAR},
+			</if>
+			<if test="creationtime != null">
+				CREATIONTIME = #{creationtime,jdbcType=VARCHAR},
+			</if>
+			<if test="birthdate != null">
+				BIRTHDATE = #{birthdate,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				SEX = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="idtype != null">
+				IDTYPE = #{idtype,jdbcType=VARCHAR},
+			</if>
+			<if test="pkPost != null">
+				PK_POST = #{pkPost,jdbcType=VARCHAR},
+			</if>
+			<if test="jobcode != null">
+				JOBCODE = #{jobcode,jdbcType=VARCHAR},
+			</if>
+			<if test="jobname != null">
+				JOBNAME = #{jobname,jdbcType=VARCHAR},
+			</if>
+			<if test="poststat != null">
+				POSTSTAT = #{poststat,jdbcType=VARCHAR},
+			</if>
+			<if test="hiendflag != null">
+				HIENDFLAG = #{hiendflag,jdbcType=VARCHAR},
+			</if>
+			<if test="pkPsnjob != null">
+				PK_PSNJOB = #{pkPsnjob,jdbcType=VARCHAR},
+			</if>
+			<if test="pkBaspost != null">
+				PK_BASPOST = #{pkBaspost,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				MOBILE = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="orgendflag != null">
+				ORGENDFLAG = #{orgendflag,jdbcType=VARCHAR},
+			</if>
+			<if test="pkDeptpsn != null">
+				PK_DEPTPSN = #{pkDeptpsn,jdbcType=VARCHAR},
+			</if>
+			<if test="deptpsncode != null">
+				DEPTPSNCODE = #{deptpsncode,jdbcType=VARCHAR},
+			</if>
+			<if test="deptpsnname != null">
+				DEPTPSNNAME = #{deptpsnname,jdbcType=VARCHAR},
+			</if>
+			<if test="pkPsndoc != null">
+				PK_PSNDOC = #{pkPsndoc,jdbcType=VARCHAR},
+			</if>
+			<if test="onedeptcode != null">
+				ONEDEPTCODE = #{onedeptcode,jdbcType=VARCHAR},
+			</if>
+			<if test="onedeptname != null">
+				ONEDEPTNAME = #{onedeptname,jdbcType=VARCHAR},
+			</if>
+			<if test="cityname != null">
+				CITYNAME = #{cityname,jdbcType=VARCHAR},
+			</if>
+			<if test="jobendflag != null">
+				JOBENDFLAG = #{jobendflag,jdbcType=VARCHAR},
+			</if>
+			<if test="joblastflag != null">
+				JOBLASTFLAG = #{joblastflag,jdbcType=VARCHAR},
+			</if>
+			<if test="orglastflag != null">
+				ORGLASTFLAG = #{orglastflag,jdbcType=VARCHAR},
+			</if>
+			<if test="jobglbdef10 != null">
+				JOBGLBDEF10 = #{jobglbdef10,jdbcType=VARCHAR},
+			</if>
+			<if test="pkOrg != null">
+				PK_ORG= #{pkOrg,jdbcType=VARCHAR},
+			</if>
+			<if test="pkDept != null">
+				PK_DEPT= #{pkDept,jdbcType=VARCHAR},
+			</if>
+			<if test="onedeptpk != null">
+				ONE_DEPT_PK =#{onedeptpk,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME =#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME =#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where CODE = #{code,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.chinamobo.ue.system.entity.TomEmp">
+		update TOM_EMP
+		set
+		NAME = #{name,jdbcType=VARCHAR},
+		ID = #{id,jdbcType=VARCHAR},
+		PK_PSNCL =
+		#{pkPsncl,jdbcType=VARCHAR},
+		PSNCLCODE = #{psnclcode,jdbcType=VARCHAR},
+		PSNCLCNAME = #{psnclcname,jdbcType=VARCHAR},
+		SHORTNAME =
+		#{shortname,jdbcType=VARCHAR},
+		JOBGLBDEF17 =
+		#{jobglbdef17,jdbcType=VARCHAR},
+		TOPCODE = #{topcode,jdbcType=VARCHAR},
+		TOPNAME = #{topname,jdbcType=VARCHAR},
+		MODIFIEDTIME =
+		#{modifiedtime,jdbcType=VARCHAR},
+		BEGINDATE =
+		#{begindate,jdbcType=VARCHAR},
+		ENDDATE =
+		#{enddate,jdbcType=VARCHAR},
+		SECRET_EMAIL =
+		#{secretEmail,jdbcType=VARCHAR},
+		OFFICEPHONE =
+		#{officephone,jdbcType=VARCHAR},
+		ORGCODE = #{orgcode,jdbcType=VARCHAR},
+		ORGNAME = #{orgname,jdbcType=VARCHAR},
+		DEPTCODE =
+		#{deptcode,jdbcType=VARCHAR},
+		DEPTNAME = #{deptname,jdbcType=VARCHAR},
+		DEPTTOPCODE = #{depttopcode,jdbcType=VARCHAR},
+		DEPTTOPNAME =
+		#{depttopname,jdbcType=VARCHAR},
+		CITYCODE =
+		#{citycode,jdbcType=VARCHAR},
+		POSTCODE = #{postcode,jdbcType=VARCHAR},
+		POSTNAME = #{postname,jdbcType=VARCHAR},
+		BANKCODE =
+		#{bankcode,jdbcType=VARCHAR},
+		BANKNAME = #{bankname,jdbcType=VARCHAR},
+		BANKTYPECODE = #{banktypecode,jdbcType=VARCHAR},
+		BANKTYPENAME =
+		#{banktypename,jdbcType=VARCHAR},
+		ISMAINJOB =
+		#{ismainjob,jdbcType=VARCHAR},
+		CREATIONTIME =
+		#{creationtime,jdbcType=VARCHAR},
+		BIRTHDATE =
+		#{birthdate,jdbcType=VARCHAR},
+		SEX = #{sex,jdbcType=VARCHAR},
+		IDTYPE =
+		#{idtype,jdbcType=VARCHAR},
+		PK_POST = #{pkPost,jdbcType=VARCHAR},
+		JOBCODE = #{jobcode,jdbcType=VARCHAR},
+		JOBNAME =
+		#{jobname,jdbcType=VARCHAR},
+		POSTSTAT = #{poststat,jdbcType=VARCHAR},
+		HIENDFLAG = #{hiendflag,jdbcType=VARCHAR},
+		PK_PSNJOB =
+		#{pkPsnjob,jdbcType=VARCHAR},
+		PK_BASPOST =
+		#{pkBaspost,jdbcType=VARCHAR},
+		MOBILE = #{mobile,jdbcType=VARCHAR},
+		ORGENDFLAG = #{orgendflag,jdbcType=VARCHAR},
+		PK_DEPTPSN =
+		#{pkDeptpsn,jdbcType=VARCHAR},
+		DEPTPSNCODE =
+		#{deptpsncode,jdbcType=VARCHAR},
+		DEPTPSNNAME =
+		#{deptpsnname,jdbcType=VARCHAR},
+		PK_PSNDOC =
+		#{pkPsndoc,jdbcType=VARCHAR},
+		ONEDEPTCODE =
+		#{onedeptcode,jdbcType=VARCHAR},
+		ONEDEPTNAME =
+		#{onedeptname,jdbcType=VARCHAR},
+		CITYNAME =
+		#{cityname,jdbcType=VARCHAR},
+		JOBENDFLAG =
+		#{jobendflag,jdbcType=VARCHAR},
+		JOBLASTFLAG =
+		#{joblastflag,jdbcType=VARCHAR},
+		ORGLASTFLAG =
+		#{orglastflag,jdbcType=VARCHAR},
+		ORGENDFLAG1 =
+		#{orgendflag1,jdbcType=VARCHAR},
+		JOBGLBDEF10 =
+		#{jobglbdef10,jdbcType=VARCHAR}
+		where CODE = #{code,jdbcType=VARCHAR}
+	</update>
+	<!-- 查询总数 -->
+	<select id="countByExample" parameterType="map" resultType="java.lang.Integer">
+		select count(*) from (select distinct e.code from tom_emp
+		e,tom_user_log lol where e.code=lol.code
+		<if test='statuss == "2"'>
+			and e.pk_org = #{example.orgcode,jdbcType=VARCHAR}
+		</if>
+		<if test='statuss == "3"'>
+			and (e.deptcode = #{example.deptcode,jdbcType=VARCHAR} or e.depttopcode
+			= #{example.deptcode,jdbcType=VARCHAR} or e.onedeptcode=
+			#{example.deptcode,jdbcType=VARCHAR})
+		</if>
+		<if test="example.name != null">
+			and INSTR(e.name,#{example.name,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.deptname != null">
+			and INSTR(e.deptname,#{example.deptname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.code != null">
+			and INSTR(e.code,#{example.code,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.cityname != null">
+			and INSTR(e.cityname,#{example.cityname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.sex != null">
+			and e.sex =#{example.sex,jdbcType=VARCHAR}
+		</if>
+		<if test='taskState=="Y"'>
+			and e.code in (${ids})
+		</if>
+		<if test='taskState=="N"'>
+			and e.code not in (${ids})
+		</if>
+		<if test='example.poststat != null'>
+			and e.poststat = #{example.poststat,jdbcType=VARCHAR}
+		</if>
+		<if test="begindate != null">
+			and e.BEGINDATE = #{begindate,jdbcType=VARCHAR}
+		</if>
+		) as a
+	</select>
+	<!-- 分页查询所有人员 -->
+	<select id="selectByMany" parameterType="map" resultMap="EmpUserLog">
+		SELECT distinct e.*,lol.status FROM
+		tom_emp e,tom_user_log lol where
+		e.code=lol.code
+		<if test='statuss=="2"'>
+			and e.pk_org = #{example.orgcode,jdbcType=VARCHAR}
+		</if>
+		<if test='statuss =="3"'>
+			and (e.deptcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.depttopcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.onedeptcode= #{example.deptcode,jdbcType=VARCHAR})
+		</if>
+		<if test="example.name != null">
+			and INSTR(e.name,#{example.name,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.deptname != null">
+			and INSTR(e.deptname,#{example.deptname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.code != null">
+			and INSTR(e.code,#{example.code,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.cityname != null">
+			and INSTR(e.cityname,#{example.cityname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.sex != null">
+			and e.sex =#{example.sex,jdbcType=VARCHAR}
+		</if>
+		<if test='taskState=="Y"'>
+			and e.code in (${ids})
+		</if>
+		<if test='taskState=="N"'>
+			and e.code not in (${ids})
+		</if>
+		<if test='example.poststat != null'>
+			and e.poststat = #{example.poststat,jdbcType=VARCHAR}
+		</if>
+		<if test="begindate != null">
+			and e.BEGINDATE = #{begindate,jdbcType=VARCHAR}
+		</if>
+		limit <![CDATA[#{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+	</select>
+	<select id="selectListByCourseId" resultMap="BaseResultMap"
+		parameterType="map">
+		select e.* from tom_emp e,TOM_COURSE_EMP_RELATION c
+		where e.code=c.code
+		<if test="courseId!= null">
+			and c.COURSE_ID=#{courseId,jdbcType=DECIMAL}
+		</if>
+		<if test="status!= null">
+			and c.STATUS=#{status,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null">
+			and c.CREATE_TIME=#{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="type != null">
+			and c.TYPE=#{type,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<select id="selectByExamId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select e.* from tom_emp e,TOM_EXAM_EMP_ALLOCATION a
+		where e.code=a.code and a.EXAM_ID=#{id,jdbcType=DECIMAL}
+	</select>
+	<select id="selectByExamIdType" resultMap="BaseResultMap" parameterType="map">
+		select e.* from tom_emp e,TOM_EXAM_EMP_ALLOCATION a
+		where e.code=a.code
+		<if test="examId != null">
+			and a.EXAM_ID=#{examId,jdbcType=DECIMAL}
+		</if>
+		<if test="type != null">
+			and a.TYPE=#{type,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<!-- 查询总数 -->
+	<select id="countByAdmin" parameterType="map" resultType="java.lang.Integer">
+		<!-- select count(*) from (select distinct * from tom_emp e,tom_user_log -->
+		
+		select count(*) from (select distinct e.code from tom_emp e,tom_user_log
+		lol where e.code=lol.code and lol.status='Y' and e.code not in (select
+		a.code from tom_admin a)
+		<if test='statuss == "2"'>
+			and e.pk_org = #{example.orgcode,jdbcType=VARCHAR}
+		</if>
+		<if test='statuss == "3"'>
+			and (e.deptcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.depttopcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.onedeptcode= #{example.deptcode,jdbcType=VARCHAR})
+		</if>
+		<if test="example.name != null">
+			and INSTR(e.name,#{example.name,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.deptname != null">
+			and INSTR(e.deptname,#{example.deptname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.code != null">
+			and INSTR(e.code,#{example.code,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.cityname != null">
+			and INSTR(e.cityname,#{example.cityname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.sex != null">
+			and e.sex=#{example.sex,jdbcType=VARCHAR}
+		</if>
+		)as c
+	</select>
+	<!-- 分页查询所有人员 -->
+	<select id="selectByAdmin" parameterType="map" resultMap="EmpUserLog">
+		SELECT distinct e.*,lol.status FROM
+		tom_emp e,tom_user_log lol where
+		e.code=lol.code and lol.status='Y' and e.code not in (select a.code
+		from tom_admin a)
+		<if test='statuss=="2"'>
+			and e.pk_org = #{example.orgcode,jdbcType=VARCHAR}
+		</if>
+		<if test='statuss =="3"'>
+			and (e.deptcode = #{example.deptcode,jdbcType=VARCHAR} or e.depttopcode
+			= #{example.deptcode,jdbcType=VARCHAR} or e.onedeptcode=
+			#{example.deptcode,jdbcType=VARCHAR})
+		</if>
+		<if test="example.name != null">
+			and INSTR(e.name,#{example.name,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.deptname != null">
+			and INSTR(e.deptname,#{example.deptname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.code != null">
+			and INSTR(e.code,#{example.code,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.cityname != null">
+			and INSTR(e.cityname,#{example.cityname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.sex != null">
+			and e.sex =#{example.sex,jdbcType=VARCHAR}
+		</if>
+		limit <![CDATA[#{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+	</select>
+	<!-- 查询总数 -->
+	<select id="countByLecture" parameterType="map" resultType="java.lang.Integer">
+		<!-- select count(*) from (select distinct * from tom_emp e,tom_user_log -->
+		
+		select count(*) from (select distinct e.code from tom_emp e,tom_user_log
+		lol where e.code=lol.code and lol.status='Y' and e.code not in (select
+		l.code from tom_lecture l where l.is_internal_lecturer='Y')
+		<if test='statuss == "2"'>
+			and e.pk_org = #{example.orgcode,jdbcType=VARCHAR}
+		</if>
+		<if test='statuss == "3"'>
+			and (e.deptcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.depttopcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.onedeptcode= #{example.deptcode,jdbcType=VARCHAR})
+		</if>
+		<if test="example.name != null">
+			and INSTR(e.name,#{example.name,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.deptname != null">
+			and INSTR(e.deptname,#{example.deptname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.code != null">
+			and INSTR(e.code,#{example.code,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.cityname != null">
+			and INSTR(e.cityname,#{example.cityname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.sex != null">
+			and e.sex =#{example.sex,jdbcType=VARCHAR}
+		</if>
+		)as d
+	</select>
+	<!-- 分页查询所有人员 -->
+	<select id="selectByLecture" parameterType="map" resultMap="EmpUserLog">
+		SELECT distinct e.*,lol.status FROM
+		tom_emp e,tom_user_log lol where
+		e.code=lol.code and lol.status='Y' and e.code not in (select a.code
+		from tom_lecture a where a.is_internal_lecturer='Y')
+		<if test='statuss=="2"'>
+			and e.pk_org = #{example.orgcode,jdbcType=VARCHAR}
+		</if>
+		<if test='statuss =="3"'>
+			and (e.deptcode = #{example.deptcode,jdbcType=VARCHAR} or e.depttopcode
+			= #{example.deptcode,jdbcType=VARCHAR} or e.onedeptcode=
+			#{example.deptcode,jdbcType=VARCHAR})
+		</if>
+		<if test="example.name != null">
+			and INSTR(e.name,#{example.name,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.deptname != null">
+			and INSTR(e.deptname,#{example.deptname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.code != null">
+			and INSTR(e.code,#{example.code,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.cityname != null">
+			and INSTR(e.cityname,#{example.cityname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.sex != null">
+			and e.sex=#{example.sex,jdbcType=VARCHAR}
+		</if>
+		limit <![CDATA[#{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+	</select>
+	<!-- 查询总数 -->
+	<select id="countSelectEmp" parameterType="map" resultType="java.lang.Integer">
+		<!-- select count(*) from (select distinct * from tom_emp e,tom_user_log -->
+		select count(*) from (select distinct e.code from tom_emp e,tom_user_log
+		lol where e.code=lol.code and lol.status='Y'
+		<if test='statuss == "2"'>
+			and e.pk_org = #{example.orgcode,jdbcType=VARCHAR}
+		</if>
+		<if test='statuss == "3"'>
+			and (e.deptcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.depttopcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.onedeptcode= #{example.deptcode,jdbcType=VARCHAR})
+		</if>
+		<if test="example.name != null">
+			and INSTR(e.name,#{example.name,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.deptname != null">
+			and INSTR(e.deptname,#{example.deptname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.code != null">
+			and INSTR(e.code,#{example.code,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.cityname != null">
+			and INSTR(e.cityname,#{example.cityname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.sex != null">
+			and e.sex =#{example.sex,jdbcType=VARCHAR}
+		</if>
+		<if test='taskState=="N"'>
+			and e.code not in (${ids})
+		</if>
+		<if test='taskState=="Y"'>
+			and e.code in (${ids})
+		</if>
+		<if test="begindate !=null">
+			and e.BEGINDATE=#{begindate,jdbcType=VARCHAR}
+		</if>
+		<if test='country == "ch"'>
+			and <![CDATA[length( e.name ) <> CHARACTER_LENGTH(e.name)]]>
+		</if>
+		<if test='country == "en"'>
+			and <![CDATA[!(length( e.name ) <> CHARACTER_LENGTH(e.name))]]>
+		</if>
+		)as b
+	</select>
+	<!-- 分页查询所有人员 -->
+	<select id="selectEmp" parameterType="map" resultMap="EmpUserLog">
+		SELECT distinct e.*,lol.status FROM
+		tom_emp e,tom_user_log lol where
+		e.code=lol.code and lol.status='Y'
+		<if test='statuss=="2"'>
+			and e.pk_org = #{example.orgcode,jdbcType=VARCHAR}
+		</if>
+		<if test='statuss =="3"'>
+			and (e.deptcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.depttopcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.onedeptcode= #{example.deptcode,jdbcType=VARCHAR})
+		</if>
+		<if test="example.name != null">
+			and INSTR(e.name,#{example.name,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.deptname != null">
+			and INSTR(e.deptname,#{example.deptname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.code != null">
+			and INSTR(e.code,#{example.code,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.cityname != null">
+			and INSTR(e.cityname,#{example.cityname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.sex != null">
+			and e.sex=#{example.sex,jdbcType=VARCHAR}
+		</if>
+		<if test="begindate !=null">
+			and e.BEGINDATE=#{begindate,jdbcType=VARCHAR}
+		</if>
+		<if test='taskState=="Y"'>
+			and e.code in (${ids})
+		</if>
+		<if test='taskState=="N"'>
+			and e.code not in (${ids})
+		</if>
+		<if test='country == "ch"'>
+			and <![CDATA[length( e.name ) <> CHARACTER_LENGTH(e.name)]]>
+		</if>
+		<if test='country == "en"'>
+			and <![CDATA[!(length( e.name ) <> CHARACTER_LENGTH(e.name))]]>
+		</if>
+		limit <![CDATA[#{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+	</select>
+	<select id="selectByEmp" parameterType="map" resultMap="BaseResultMap">
+		SELECT distinct e.* FROM
+		tom_emp e where 1=1
+		<if test='statuss=="2"'>
+			and e.pk_org = #{example.orgcode,jdbcType=VARCHAR}
+		</if>
+		<if test='statuss =="3"'>
+			and (e.deptcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.depttopcode = #{example.deptcode,jdbcType=VARCHAR} or
+			e.onedeptcode= #{example.deptcode,jdbcType=VARCHAR})
+		</if>
+		<if test="example.name != null">
+			and INSTR(e.name,#{example.name,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.deptname != null">
+			and INSTR(e.deptname,#{example.deptname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.code != null">
+			and INSTR(e.code,#{example.code,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.cityname != null">
+			and INSTR(e.cityname,#{example.cityname,jdbcType=VARCHAR})>0
+		</if>
+		<if test="example.sex != null">
+			and INSTR(e.sex,#{example.sex,jdbcType=VARCHAR})>0
+		</if>
+	</select>
+	<select id="selectOne" parameterType="String" resultType="java.lang.Integer">
+		select
+		count(*) from tom_emp e
+		where e.code =#{code,jdbcType=VARCHAR}
+	</select>
+	<select id="selectAll" resultType="com.chinamobo.ue.system.entity.TomEmpOne">
+		select * from tom_emp
+	</select>
+	<!-- <select id="selectApplicationStart" resultType="com.chinamobo.ue.system.dto.TomSendMessage"> 
+		select a.activity_name as name,a.application_start_time as time,a.activity_id 
+		as id from tom_activity a <![CDATA[ where now()+1<=a.application_start_time 
+		and a.application_start_time< now()+(1445/24/60)]]> </select> <select id="selectApplicationEnd" 
+		resultType="com.chinamobo.ue.system.dto.TomSendMessage"> select a.activity_name 
+		as name,a.APPLICATION_DEADLINE as time,a.activity_id as id from tom_activity 
+		a <![CDATA[where now()+1<= a.APPLICATION_DEADLINE and a.APPLICATION_DEADLINE< 
+		now()+(1445/24/60)]]> </select> -->
+
+	<!-- <select id="selectActivityStart" resultType="com.chinamobo.ue.system.dto.TomSendMessage"> 
+		select a.activity_name as name,a.activity_start_time as time,e.mobile as 
+		phone,e.secret_email as email,e.code as code from tom_activity a,tom_emp 
+		e,tom_activity_emps_relation aer <![CDATA[ where a.activity_id=aer.activity_id 
+		and e.code=aer.code and aer.apply_status='Y' and aer.status='Y' and now()+1<= 
+		a.activity_start_time and a.activity_start_time< now()+(1445/24/60)]]> 
+		</select> <select id="selectActivityEnd" resultType="com.chinamobo.ue.system.dto.TomSendMessage"> 
+		select a.activity_name as name,a.activity_end_time as time,e.mobile as phone,e.secret_email 
+		as email,e.code as code from tom_activity a,tom_emp e,tom_activity_emps_relation 
+		aer <![CDATA[ where a.activity_id=aer.activity_id and e.code=aer.code and 
+		aer.apply_status='Y' and aer.status='Y' and now()+1<= a.activity_end_time 
+		and a.activity_end_time< now()+(1445/24/60)]]> </select> -->
+	<!-- 线下课程开始前 -->
+	<select id="selectTaskStart" resultType="com.chinamobo.ue.system.dto.TomSendMessage" parameterType="String">
+		select distinct ap.activity_id as id, c.course_name as
+		name,ap.course_id as courseId,ap.start_time as beginTime,ap.end_time as time,ap.course_address as address from tom_activity_property ap,tom_courses
+		c where 
+		 ap.course_id=c.course_id and c.course_online='N' and ap.PRE_TASK ='' and
+		  <foreach collection="list" item="item" open="(" close=")" separator="or" >
+		  <![CDATA[  ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL   #{item} MINUTE)<= ap.start_time  and ap.start_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 
+			 #{item} + 5   MINUTE ))]]>
+		   </foreach> 
+	</select>
+	<select id="selectTaskStart2" resultType="com.chinamobo.ue.system.dto.TomSendMessage" parameterType="String">
+		select distinct ap.activity_id as id, c.course_name as
+		name,ap.course_id as courseId,ap.start_time as beginTime,ap.end_time as time,ap.course_address as address from tom_activity_property ap,tom_courses
+		c where 
+		 ap.course_id=c.course_id and c.course_online='N' and ap.PRE_TASK ='' and
+  <foreach collection="list" item="item" open="(" close=")" separator="or" >
+		  <![CDATA[  ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL   #{item} MINUTE)<=ap.end_time  and ap.end_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 
+			 #{item} + 5   MINUTE ))]]>
+		   </foreach> 
+	</select>
+		<select id="selectTaskStart3" resultType="com.chinamobo.ue.system.dto.TomSendMessage" parameterType="String">
+		SELECT a.ACTIVITY_ID as id,c.classes as perTask,b.COURSE_ID as courseId,b.course_name as name,b.COURSE_NAME_EN as nameEn,c.begin_time as beginTime,c.end_time as time,c.classes_address AS address,c.classes_address_en AS addressEn
+		FROM
+		tom_activity_property a
+		LEFT JOIN
+		tom_courses b
+		ON a.course_id=b.course_id
+		LEFT JOIN
+		tom_course_classes c
+		ON b.course_id=c.course_id
+		WHERE a.course_id IS NOT NULL
+		AND b.course_online='N'
+		AND a.PRE_TASK = ''
+		AND
+  		<foreach collection="list" item="item" open="(" close=")" separator="or" >
+ 	 	<![CDATA[ ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL   #{item} MINUTE)<= c.begin_time  and c.begin_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 
+  			 #{item} + 5   MINUTE )) ]]>
+	    </foreach>
+	</select>
+	<!-- <select id="selectTaskStart" resultType="com.chinamobo.ue.system.dto.TomSendMessage">
+		select distinct ap.activity_id as id, c.course_name as
+		name,ap.start_time as time from tom_activity_property ap,tom_courses
+		c,tom_activity_emps_relation aer where aer.activity_id=ap.activity_id
+		and ap.course_id=c.course_id and c.course_online='N'<![CDATA[  and ( ( date_add(now(), INTERVAL 60 MINUTE)<= ap.start_time and ap.start_time< date_add(now(), INTERVAL 65 MINUTE)) or (date_add(now(), INTERVAL 1440 MINUTE)<= ap.start_time and ap.start_time< date_add(now(), INTERVAL 1445 MINUTE)))]]>
+	</select> -->
+		<select id="selectTaskEnd" resultType="com.chinamobo.ue.system.dto.TomSendMessage" parameterType="String">
+		select distinct ap.activity_id as id, ap.exam_name as name,ap.end_time
+		as time from tom_activity_property ap
+		where  ap.course_id is null <![CDATA[  and  ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 240 MINUTE)<= ap.end_time  and ap.end_time< ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 245 MINUTE) ))]]>
+	</select>
+<!-- 	<select id="selectTaskEnd" resultType="com.chinamobo.ue.system.dto.TomSendMessage">
+		select distinct ap.activity_id as id, ap.exam_name as name,ap.end_time
+		as time from tom_activity_property ap,tom_activity_emps_relation aer
+		where aer.activity_id=ap.activity_id
+		and ap.course_id is null <![CDATA[  and  ( date_add(now(), INTERVAL 240 MINUTE)<= ap.end_time  and ap.end_time< ( date_add(now(), INTERVAL 245 MINUTE) ))]]>
+	</select> -->
+	<select id="selectByMessageId" resultMap="BaseResultMap"
+		parameterType="int">
+		select e.code,e.name from tom_emp e,tom_message_employees me where
+		e.code=me.emp_code and me.message_id=#{messageId,jdbcType=DECIMAL}
+	</select>
+	<!-- <select id="selectExamBegin" resultType="com.chinamobo.ue.system.dto.TomSendMessage"> 
+		select e.exam_name as name,e.begin_time as time,em.code as id,em.mobile as 
+		phone,em.secret_email as email from tom_exam e,tom_emp em,tom_exam_emp_allocation 
+		eea <![CDATA[ where e.exam_id=eea.exam_id and em.code=eea.code and e.exam_type='C' 
+		and now()+1<= e.begin_time and e.begin_time< now()+(1445/24/60)]]> </select> -->
+	<!-- <select id="selectExamEnd" resultType="com.chinamobo.ue.system.dto.TomSendMessage">
+		select distinct e.exam_id as id, e.exam_name as name,e.end_time as
+		time from tom_exam e,tom_exam_emp_allocation eea <![CDATA[ where e.exam_id=eea.exam_id  and e.exam_type='C'
+	 and ( date_add(now(), INTERVAL 60 MINUTE)<= e.end_time  and e.end_time< ( date_add(now(), INTERVAL 65 MINUTE) ))]]>
+	</select> -->
+	<select id="selectExamEnd"  resultType="com.chinamobo.ue.system.dto.TomSendMessage">
+		select distinct e.exam_id as id, e.exam_name as name,e.end_time as
+		time from tom_exam e,tom_exam_emp_allocation eea  where e.exam_id=eea.exam_id  and
+		  <foreach collection="list" item="item" open="(" close=")" separator="or" >
+		<![CDATA[  ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL   #{item} MINUTE)<= e.end_time  and e.end_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 
+			 #{item} + 5   MINUTE ))]]>
+		   </foreach> 
+	</select>
+	<select id="selectExamBegin" resultType="com.chinamobo.ue.system.dto.TomSendMessage">
+		select distinct e.exam_id as id, e.exam_name as name,e.end_time as
+		time from tom_exam e,tom_exam_emp_allocation eea  where e.exam_id=eea.exam_id  and
+		  <foreach collection="list" item="item" open="(" close=")" separator="or" >
+	<![CDATA[ ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL   #{item} MINUTE)<= e.begin_time  and e.begin_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 
+			 #{item} + 5   MINUTE )) ]]>
+		   </foreach> 
+	</select>
+	<!-- <select id="selectCode" resultMap="BaseResultMap" > select * from (select 
+		t.* from tom_emp t order by t.code desc) where rownum=1 </select> -->
+		
+		
+	<!-- 查询部门人员 -->
+	<select id="selectByWxDept" parameterType="map" resultMap="EmpUserLog">
+		SELECT distinct e.*,lol.status FROM
+		tom_emp e,tom_user_log lol where
+		e.code=lol.code
+			and (e.deptcode = #{deptcode,jdbcType=VARCHAR} or
+			e.depttopcode = #{deptcode,jdbcType=VARCHAR} or
+			e.onedeptcode= #{deptcode,jdbcType=VARCHAR})
+	</select>
+	<select id="selectAllDept" resultMap="EmpUserLog">
+		select * from tom_emp
+	</select>
+	<!-- 线上课程开始前推送 -->
+	<select id="selectCourseNow" resultType="com.chinamobo.ue.system.dto.TomSendMessage">
+		select distinct ap.activity_id as id, c.course_name as
+		name, ap.course_id as courseId,ap.course_id as courseId,ap.start_time as beginTime,ap.end_time as time from tom_activity_property ap,tom_courses
+		c where 
+		 ap.course_id=c.course_id and c.course_online='Y'<![CDATA[  and ( date_format(now(),'%Y-%c-%d %H:%i')<= ap.start_time and ap.start_time< date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 5 MINUTE))]]>
+	</select>
+	<!-- 必修线上考试开始前推送 -->
+	<select id="selectExamNow" resultType="com.chinamobo.ue.system.dto.TomSendMessage">
+		select distinct ap.activity_id as id, ap.exam_name as name,ap.end_time
+		as time,ap.exam_id as examId,ap.pre_task as preTask,ap.start_time as beginTime from tom_activity_property ap,tom_activity aer
+		where aer.activity_id=ap.activity_id and aer.need_apply='N' and ap.pre_task is not null
+		and ap.course_id is null <![CDATA[  and  ( date_format(now(),'%Y-%c-%d %H:%i')<= ap.start_time  and ap.start_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 5 MINUTE))]]>
+	</select>
+	<!-- 线下课程结束前推送考试 -->
+	<select id="selectCourseEnd" resultType="com.chinamobo.ue.system.dto.TomSendMessage">
+		select distinct ap.activity_id as id, c.course_name as
+		name,aer.need_apply as needApply,ap.sort as sort,ap.course_id as courseId,ap.start_time as time from tom_activity_property ap,tom_courses
+		c ,tom_activity aer where aer.activity_id=ap.activity_id
+		and ap.course_id=c.course_id and c.course_online='N'<![CDATA[  and ( date_format(date_format(now(),'%Y-%c-%d %H:%i'),'%Y-%c-%d %H:%i')<= ap.end_time and ap.end_time< date_add(date_format(date_format(now(),'%Y-%c-%d %H:%i'),'%Y-%c-%d %H:%i'), INTERVAL 5 MINUTE))]]>
+	</select>
+	<!-- 活动开始前 -->
+	<select id="selectAct" resultType="com.chinamobo.ue.system.dto.TomSendMessage" parameterType="map">
+		select  activity_id as id, activity_name as name,activity_start_time as
+		beginTime,activity_end_time as time from tom_activity   where 
+		  <foreach collection="list" item="item" open="(" close=")" separator="or" >
+			<![CDATA[ ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL   #{item} MINUTE)<= activity_start_time  and activity_start_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 
+			 #{item} + 5   MINUTE )) ]]>
+		   </foreach> 
+	</select>
+	<!-- 活动结束前 -->
+	<select id="selectEndAct" resultType="com.chinamobo.ue.system.dto.TomSendMessage" parameterType="map">
+		select  activity_id as id, activity_name as name, activity_start_time as
+		beginTime,activity_end_time as time from tom_activity   where  
+		  <foreach collection="list" item="item" open="(" close=")" separator="or" >
+			<![CDATA[ ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL   #{item} MINUTE)<= activity_end_time  and activity_end_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 
+			 #{item} + 5   MINUTE )) ]]>
+		   </foreach> 
+	</select>
+	<!-- 线上课程开始前时间 -->
+	<select id="selectCOnline" resultType="com.chinamobo.ue.system.dto.TomSendMessage" parameterType="String">
+	select distinct e.activity_id as id, c.course_name as
+		name,e.course_id as courseId,e.start_time as beginTime,e.end_time as time from tom_activity_property e,tom_courses c where e.course_id=c.course_id and c.course_online='Y' and e.PRE_TASK='' and
+		<foreach collection="list" item="item" open="(" close=")" separator="or" >
+	<![CDATA[ ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL   #{item} MINUTE)<= e.start_time  and e.start_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 
+			 #{item} + 5   MINUTE )) ]]>
+		   </foreach> 
+	</select>
+	<!-- 线上课程结束前时间 -->
+	<select id="selectCOnlineEnd" resultType="com.chinamobo.ue.system.dto.TomSendMessage" parameterType="String">
+	select distinct e.activity_id as id, c.course_name as
+		name, e.course_id as courseId,e.start_time as beginTime,e.end_time as time from tom_activity_property e,tom_courses c where e.course_id=c.course_id and c.course_online='Y' and e.PRE_TASK='' and
+		<foreach collection="list" item="item" open="(" close=")" separator="or" >
+	<![CDATA[ ( date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL   #{item} MINUTE)<= e.end_time  and e.end_time<  date_add(date_format(now(),'%Y-%c-%d %H:%i'), INTERVAL 
+			 #{item} + 5   MINUTE )) ]]>
+		   </foreach> 
+	</select>
+	
+	<!-- 查询部门下所有人员 -->
+	<select id="selectByDeptCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT *
+		FROM tom_emp
+		WHERE DEPTCODE = #{deptCode,jdbcType=VARCHAR}
+	</select>
+</mapper>

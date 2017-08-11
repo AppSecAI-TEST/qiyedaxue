@@ -1,0 +1,9 @@
+<div ng-controller="EmployeeGradeModelController">	
+	<!--列出已勾选的项-->
+    <div ng-show="itemArr.choosedItemArr.length >0" class="form-control-static clearfix choosed-items-container">
+        <label class="checkbox-inline choosed-item" style="cursor: default;" ng-repeat="item in itemArr.choosedItemArr">{{item.name}}</label>
+    </div>
+    <div ng-show="itemArr.choosedItemArr.length == 0">
+        <label class="checkbox-inline choosed-item" style="cursor: default;" ng-bind="'无'"></label>
+    </div>
+</div>

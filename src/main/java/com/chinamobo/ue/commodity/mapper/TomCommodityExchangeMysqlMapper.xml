@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinamobo.ue.commodity.dao.TomCommodityExchangeMapper" >
+  <resultMap id="BaseResultMap" type="com.chinamobo.ue.commodity.entity.TomCommodityExchange" >
+    <result column="EMP_NAME" property="empName" jdbcType="VARCHAR" />
+    <result column="EMP_NUMBER" property="empNumber" jdbcType="VARCHAR" />
+    <result column="COMMODITY_NAME" property="commodityName" jdbcType="VARCHAR" />
+    <result column="CDKEY" property="cdkey" jdbcType="VARCHAR" />
+    <result column="POST_METHOD" property="postMethod" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_TIME" property="exchangeTime" jdbcType="TIMESTAMP" />
+    <result column="EXPRESS_COMPANY" property="expressCompany" jdbcType="VARCHAR" />
+    <result column="EXPRESS_NUMBER" property="expressNumber" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_STATE" property="exchangeState" jdbcType="VARCHAR" />
+    <result column="PHONE_NUMBER" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="COMMODITY_ID" property="commodityId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE,EMP_NAME, EMP_NUMBER, COMMODITY_NAME, CDKEY, POST_METHOD, 
+    EXCHANGE_TIME, EXPRESS_COMPANY, EXPRESS_NUMBER, EXCHANGE_STATE,PHONE_NUMBER,NAME,SEX,ADDRESS,CODE,COMMODITY_ID
+  </sql>
+  <resultMap id="BaseResultMapForExchangeDto" type="com.chinamobo.ue.api.commodity.dto.CommodityExchangeResult" >
+  <result column="COMMODITY_ID" property="commodityId" jdbcType="DECIMAL" />
+    <result column="COMMODITY_PRICE" property="commodityPrice" jdbcType="DECIMAL" />
+    <result column="COMMODITY_NAME" property="commodityName" jdbcType="VARCHAR" />
+    <result column="CDKEY" property="cdkey" jdbcType="VARCHAR" />
+    <result column="POST_METHOD" property="postMethod" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_TIME" property="exchangeTime" jdbcType="TIMESTAMP" />
+    <result column="EXPRESS_COMPANY" property="expressCompany" jdbcType="VARCHAR" />
+    <result column="EXPRESS_NUMBER" property="expressNumber" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_STATE" property="exchange_state" jdbcType="VARCHAR" />
+     <result column="COMMODITY_PICTURE" property="commodityPicture" jdbcType="VARCHAR" />
+     <result column="ARAYACAK_ADDRESS" property="arayacakAddress" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.chinamobo.ue.commodity.entity.TomCommodityExchange" >
+    insert into TOM_COMMODITY_EXCHANGE (CODE,EMP_NAME, EMP_NUMBER, COMMODITY_NAME, 
+      CDKEY, POST_METHOD, EXCHANGE_TIME, 
+      EXPRESS_COMPANY, EXPRESS_NUMBER, EXCHANGE_STATE
+      )
+    values (#{code,jdbcType=VARCHAR},#{empName,jdbcType=VARCHAR}, #{empNumber,jdbcType=VARCHAR}, #{commodityName,jdbcType=VARCHAR}, 
+      #{cdkey,jdbcType=VARCHAR}, #{postMethod,jdbcType=VARCHAR}, #{exchangeTime,jdbcType=TIMESTAMP}, 
+      #{expressCompany,jdbcType=VARCHAR}, #{expressNumber,jdbcType=VARCHAR}, #{exchangeState,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinamobo.ue.commodity.entity.TomCommodityExchange" >
+    insert into TOM_COMMODITY_EXCHANGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <if test="code != null" >
+        CODE,
+      </if>
+      <if test="empName != null" >
+        EMP_NAME,
+      </if>
+      <if test="empNumber != null" >
+        EMP_NUMBER,
+      </if>
+      <if test="commodityName != null" >
+        COMMODITY_NAME,
+      </if>
+      <if test="cdkey != null" >
+        CDKEY,
+      </if>
+      <if test="postMethod != null" >
+        POST_METHOD,
+      </if>
+      <if test="exchangeTime != null" >
+        EXCHANGE_TIME,
+      </if>
+      <if test="expressCompany != null" >
+        EXPRESS_COMPANY,
+      </if>
+      <if test="expressNumber != null" >
+        EXPRESS_NUMBER,
+      </if>
+      <if test="exchangeState != null" >
+        EXCHANGE_STATE,
+      </if>
+       <if test="phoneNumber != null" >
+        PHONE_NUMBER,
+      </if>
+       <if test="name != null" >
+        NAME,
+      </if>
+       <if test="sex != null" >
+        SEX,
+      </if>
+       <if test="address != null" >
+        ADDRESS,
+      </if>
+       <if test="commodityId != null" >
+        COMMODITY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="empName != null" >
+        #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="empNumber != null" >
+        #{empNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityName != null" >
+        #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cdkey != null" >
+        #{cdkey,jdbcType=VARCHAR},
+      </if>
+      <if test="postMethod != null" >
+        #{postMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeTime != null" >
+        #{exchangeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expressCompany != null" >
+        #{expressCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNumber != null" >
+        #{expressNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeState != null" >
+        #{exchangeState,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>     
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null" >
+        #{commodityId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <!-- 查询全部 -->
+  <select id="queryList" resultMap="BaseResultMap" parameterType="map">
+  	select DISTINCT
+  	<include refid="Base_Column_List"/>
+  	from TOM_COMMODITY_EXCHANGE where 1=1
+   <if test="empCode != null" >
+        and(INSTR(EMP_NUMBER,#{empNumber,jdbcType=VARCHAR})>0 or INSTR(CDKEY,#{empNumber,jdbcType=VARCHAR})>0)
+   </if>
+   <if test="exchangeState != null" >
+        and EXCHANGE_STATE = #{exchangeState,jdbcType=VARCHAR}
+   </if>
+   <if test="postMethod != null" >
+        and POST_METHOD = #{postMethod,jdbcType=VARCHAR}
+   </if>order by isnull(EXCHANGE_TIME)-1, EXCHANGE_TIME desc  <!-- nulls last -->
+  </select>
+  <!-- 分页查询 -->
+  <select id="selectPage" resultMap="BaseResultMap" parameterType="map">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	
+    from  TOM_COMMODITY_EXCHANGE where 1=1
+     <if test="empNumber != null" >
+         and(INSTR(EMP_NUMBER,#{empNumber,jdbcType=VARCHAR})>0 or INSTR(CDKEY,#{empNumber,jdbcType=VARCHAR})>0)
+    </if>
+    <if test="exchangeState != null" >
+        and EXCHANGE_STATE = #{exchangeState,jdbcType=VARCHAR}
+   </if>
+    <if test="postMethod != null" >
+        and POST_METHOD = #{postMethod,jdbcType=VARCHAR}
+   </if>order by isnull(EXCHANGE_TIME)-1, EXCHANGE_TIME desc  <!-- nulls last -->
+    limit<![CDATA[
+    #{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]>
+  </select>
+  <!-- 查询数量 -->
+  <select id="count" parameterType="map" resultType="java.lang.Integer">
+  	select count(*) from TOM_COMMODITY_EXCHANGE where 1=1
+  	<if test="empNumber != null" >
+       and(INSTR(EMP_NUMBER,#{empNumber,jdbcType=VARCHAR})>0 or INSTR(CDKEY,#{empNumber,jdbcType=VARCHAR})>0)
+    </if>
+    <if test="exchangeState != null" >
+        and EXCHANGE_STATE = #{exchangeState,jdbcType=VARCHAR}
+   </if>
+    <if test="postMethod != null" >
+         and POST_METHOD = #{postMethod,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="countByMap" resultType="int" parameterType="map">
+		select count(*) from tom_commodity t,tom_commodity_exchange te 
+		where t.commodity_id=te.commodity_id
+		and te.emp_number=#{userId,jdbcType=DECIMAL}
+		<if test="keyWord!= null">
+		and INSTR(te.commodity_name,#{keyWord,jdbcType=VARCHAR})>0 
+		</if>
+	</select>
+	
+	<select id="selectByCode" resultMap="BaseResultMapForExchangeDto"
+		parameterType="map">
+	   select t.commodity_id,t.commodity_name,t.commodity_price,t.commodity_picture,
+		t.arayacak_address,te.cdkey,te.post_method,te.express_company,te.express_number,
+		te.exchange_state,te.exchange_time from tom_commodity t,tom_commodity_exchange te 
+		where t.commodity_id=te.commodity_id
+and te.emp_number=#{userId,jdbcType=DECIMAL}
+		<if test="keyWord!= null">
+		and INSTR(te.commodity_name,#{keyWord,jdbcType=VARCHAR})>0 
+		</if> order by exchange_time desc 
+    limit<![CDATA[
+    #{startNum,jdbcType=DECIMAL},#{endNum,jdbcType=DECIMAL}]]> 
+	</select>
+	
+	<select id="selectExchangeDeails" resultMap="BaseResultMapForExchangeDto"
+		parameterType="map">
+		select t.commodity_id,t.commodity_name,t.commodity_price,t.commodity_picture,
+		t.arayacak_address,te.cdkey,te.post_method,te.express_company,te.express_number,
+		te.exchange_state,te.exchange_time from tom_commodity t,tom_commodity_exchange te 
+		where t.commodity_id=te.commodity_id
+		and te.emp_number=#{userId,jdbcType=DECIMAL} and te.commodity_id=#{commodityId,jdbcType=DECIMAL} and te.exchange_time= #{exchangeTime,jdbcType=TIMESTAMP}
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chinamobo.ue.commodity.entity.TomCommodityExchange">
+  	SELECT <include refid="Base_Column_List"/> FROM  TOM_COMMODITY_EXCHANGE where 1=1
+    <if test="exchangeState != null" >
+        and EXCHANGE_STATE = #{exchangeState,jdbcType=VARCHAR}
+   </if>
+    <if test="postMethod != null" >
+        and POST_METHOD = #{postMethod,jdbcType=VARCHAR}
+   </if> order by isnull(EXCHANGE_TIME)-1, EXCHANGE_TIME desc  <!-- nulls last -->
+   
+  </select>
+  
+  <!-- 根据Code，commodityId查详细信息 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="com.chinamobo.ue.commodity.entity.TomCommodityExchange">
+		select c.EMP_NAME as empName,c.PHONE_NUMBER as phoneNumber,c.ADDRESS as address,c.CODE as code,
+		c.COMMODITY_ID as commodityId,c.POST_METHOD as postMethod,c.EXCHANGE_STATE as exchangeState
+		from tom_commodity_exchange
+		c where COMMODITY_ID = #{commodityId,jdbcType=DECIMAL}
+		and code = #{code,jdbcType=VARCHAR}
+		and exchange_time= #{exchangeTime,jdbcType=TIMESTAMP}
+	</select>
+	<update id="updateExample" parameterType="com.chinamobo.ue.commodity.entity.TomCommodityExchange" >
+    update TOM_COMMODITY_EXCHANGE
+    <set >
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNumber != null" >
+        EXPRESS_NUMBER = #{expressNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCompany != null" >
+        EXPRESS_COMPANY = #{expressCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeState != null" >
+        EXCHANGE_STATE = #{exchangeState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COMMODITY_ID = #{commodityId,jdbcType=DECIMAL}
+    and code = #{code,jdbcType=VARCHAR}
+    and exchange_time= #{exchangeTime,jdbcType=TIMESTAMP}
+  </update>
+</mapper>

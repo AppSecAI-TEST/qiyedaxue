@@ -1,0 +1,49 @@
+<div >
+ <!-- 模态框（Modal） -->
+	<div style="z-index: 1060;" class="modal fade" ng-class="{'in':modalDialog.openGradeModel,'display-block':modalDialog.openGradeModel}"  
+		role="dialog"  ng-if="modalDialog.openGradeModel">
+	   <div class="modal-dialog" ng-style="setStyle_02()">
+			<form id="gradeForm" name="gradeForm" novalidate class="form-horizontal" role="form" class="form-horizontal" role="form">
+	      		<div class="modal-content">
+		         	<div class="modal-header">
+			            <a class="close del-icon" ng-click="closeGradeModal()">&times;</a>
+			            <h4 class="modal-title">评分</h4>
+		         	</div>
+		         	<div class="modal-body">
+		         		<div class="container-fluid">
+			         		<div class="row">
+					          	<h1 style="text-align:center;" ng-bind="data.length==0?'本次缺考':data[0].examName"></h1>
+								<div class="container-fluid" ng-class="{'container-lastone':$index==(data.length-1)}" ng-repeat="t in data">
+									<div ng-if="t.topicType=='O'">
+										<h3 ng-bind="($index+1) + '.' + t.topic +'(' + (t.empAnswerName == null ? '' : t.empAnswerName) +')(' + t.rightScore + '分)'"></h3>
+										<div class="container-options">
+											<h4 ng-class="{'right-option':o.right=='Y'}" ng-repeat="o in t.topicOptions"  ng-bind="o.optionName"></h4>
+											<h4 class="pull-right" ng-bind="'得分：'+t.score"></h4>
+										</div>
+									</div>
+									<div ng-if="t.topicType=='S'">
+										<h3 ng-bind="($index+1) + '.' + t.topic +'(' + t.rightScore + '分)'"></h3>
+										<div class="container-options">
+											<h4 ng-bind="'员工答案：' + (t.subjectiveItemAnswer == null ? '未作答' : t.subjectiveItemAnswer)"></h4>
+											<h4 class="right-option" ng-repeat="o in t.topicOptions"  ng-bind="'参考答案：' + o.optionName"></h4>
+											<h4 class="pull-right" ng-if="showInput">
+												得分：<input type="text" class="width_3" name="score{{$index}}" 
+														ng-class="{'invalid-score-input':t.scoreInvalid}" ng-init="t.score=undefined" ng-model="t.score" ng-keyup="checkNumber(t)" required>
+											</h4>
+											<h4 class="pull-right" ng-if="!showInput"  ng-bind="'得分：'+t.score"></h4>
+										</div>
+									</div>
+								</div>
+			         		</div>
+		         		</div>
+		         	</div>
+					<div class="modal-footer">
+	      				<a class="btn btn-primary btn-control" ng-show="gradeForm.$valid&&data.length>0&&showInput" ng-click="grade()">评分</a> 
+			         	<a class="btn btn-primary" ng-click="closeGradeModal()">关闭</a>
+			      	</div>
+	      		</div>
+	      	</form>
+		</div>
+	</div>
+	<div style="z-index: 1055;" class="modal-backdrop fade" ng-class="{'in':modalDialog.openGradeModel,'display-block':modalDialog.openGradeModel,'display-none':!modalDialog.openGradeModel}" ></div>
+</div>

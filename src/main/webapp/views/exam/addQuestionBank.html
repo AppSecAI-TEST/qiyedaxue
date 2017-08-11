@@ -1,0 +1,115 @@
+<meta charset="UTF-8">
+<div class="container-fluid overflow-auto" ng-controller="AddQuestionBankController" id="page">
+	<form name="questionBankForm" novalidate class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">题库名称:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="questionBankName"
+					name="questionBankName" ng-model="questionBank.questionBankName"
+					ng-maxlength="50" required placeholder="请输入题库名称">(最多输入50个字符)
+			</div>
+			<div class="error"
+				ng-show="questionBankForm.questionBankName.$dirty&&questionBankForm.questionBankName.$invalid
+				||questionBankForm.$submitted&&questionBankForm.questionBankName.$invalid">
+				<span ng-show="questionBankForm.questionBankName.$error.required"
+					class="glyphicon glyphicon-exclamation-sign">题库名称不能为空</span>
+				<span ng-show="questionBankForm.questionBankName.$error.maxlength"
+					class="glyphicon glyphicon-exclamation-sign">题库名称最多50个字符</span>
+			</div>
+		</div>
+		<!--上传题库-->
+		<div ng-controller="QuestionBankFileUploadController">
+			<div class="form-group">
+				<label class="col-xs-2 control-label">添加试题方式:</label>
+				<div class="col-xs-5 width_6"> 
+					<ul class="nav nav-tabs width_1">
+						<li ng-class="{'active': addQuestionByUploadFile}"><a ng-click="byUploadFile()">文件导入试题</a></li>
+						<li ng-class="{'active': !addQuestionByUploadFile}"><a ng-click="byHandActuated()">手动添加试题</a></li>
+					</ul>
+				</div>
+				<!-- 动态生成隐藏域用于提交课程章节文件地址 -->
+				<input  type="hidden"  name="filePath"  ng-model="fileOrQuestionsLength" required-item/>
+				<div class="error" ng-show="questionBankForm.filePath.$invalid&&questionBankForm.$submitted">
+					<span ng-show="questionBankForm.filePath.$error.requiredItem"  class="glyphicon glyphicon-exclamation-sign">请上传题库文件或至少添加一道试题</span>
+				</div>
+			</div>
+			<!--20170505 xgq add end-->
+			<div class="form-group" ng-show="addQuestionByUploadFile" >
+				<label class="col-xs-2 control-label">上传试题文件:</label>
+				<div class="col-xs-5 width_6">
+					<a class="fileInputBtn btn btn-primary btn-control">选择文件</a>
+					<input type="file" class="fileInput btn btn-control"  id="questionBankFileInput" nv-file-select multiple uploader="uploader">
+					<div class="inputIntro">(&nbsp;&nbsp;可上传2003版(.xls)&nbsp;&nbsp;/&nbsp;&nbsp;2007版(.xlsx)的Excel表&nbsp;&nbsp;)</div>
+					<div class="" style="margin-top:10px;">
+						<a href="/enterpriseuniversity/services/file/download?filePath=file/ItemBankTemplate/QuestionBank.xlsx&fileName=QuestionBank.xlsx">
+							Excel模板下载
+						</a>
+					</div>
+				</div>
+			</div>
+			<div ng-show="!addQuestionByUploadFile">
+				<!-- 添加试题 -->
+				<div class="form-group">
+					<label class="col-xs-2 control-label"></label>
+					<div class="col-xs-10">
+						<a href="javascript:void(0);" class="btn btn-primary" ng-click="addQuestion()">+添加试题</a>
+					</div>
+				</div>
+				<!--20170505 xgq add end-->
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label"></label>
+				<div class="col-xs-5 width_6"> 
+					<div ng-include="'/enterpriseuniversity/views/modalTemplate/handAddQuestionModalTemplate.html'"></div> 
+				</div>
+			</div> 
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label" for="courseSection">题库分类:</label>
+			<div class="col-xs-5 width_6">
+				<a href="javascript:void(0)" class="btn btn-primary  btn-control" ng-disabled="isOpenCourse"
+					ng-click="openQuestionClassifyPaperModal()">选择题库分类</a>
+			</div>
+			<div ng-include="'/enterpriseuniversity/views/modalTemplate/selectQuestionClassifyModalTemplate.html'"></div>
+			<input type="hidden" class="form-control"  name="classificationId"  ng-model="questionBank.questionClassificationId"  required-item>	
+			<div class="error" ng-show="questionBankForm.classificationId.$invalid&&questionBankForm.$submitted">
+				<span ng-show="questionBankForm.classificationId.$error.requiredItem" class="glyphicon glyphicon-exclamation-sign">请选择题库分类</span>
+			</div>
+			<div class="col-xs-offset-2 col-xs-5">
+				 <div ng-show="itemArr.choosedItemArr.length >0" class="form-control-static classifies-container clearfix choosed-items-container width_4">
+			        <label class="checkbox-inline choosed-item" style="cursor: default;" ng-repeat="item in itemArr.choosedItemArr">
+			        	{{item.questionClassificationName}}
+			            <span class="del-icon" ng-click="itemArr.deleteItem(item)">&nbsp;&nbsp;&times;</span>
+			        </label>
+	    		</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label" for="courseSection">题库授权:</label>
+			<div class="col-xs-5 width_6">
+				<div>
+					<a href="javascript:void(0)" class="btn btn-primary  btn-control"
+						data-toggle="modal" ng-click="doOpenAdminModal()">选择管理员</a>
+				</div>
+				<div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+				<input type="hidden" name="admins" ng-model="questionBank.admins" required-admin>
+			</div>
+			<div class="error" ng-show="questionBankForm.admins.$invalid&&questionBankForm.$submitted">
+				<span ng-show="questionBankForm.admins.$error.requiredAdmin" class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-xs-offset-2 col-xs-8">
+				<a class="btn btn-primary btn-control" ng-click="doSave()">保存</a> 
+				<a class="btn btn-link" ng-click="returnAddQuestionBank()">返&nbsp;&nbsp;&nbsp;回</a>
+			</div>
+		</div>
+       <div class="modal-backdrop fade" ng-class="{'in':addQuestionBankSubmit,'display-block':addQuestionBankSubmit,'display-none':!addQuestionBankSubmit}"></div>
+	</form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

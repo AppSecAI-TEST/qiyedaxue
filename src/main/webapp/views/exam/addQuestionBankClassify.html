@@ -1,0 +1,79 @@
+<meta charset="UTF-8">
+<div class="container-fluid" ng-controller="AddQuestionBankClassifyController" id="page">
+	<form name="questionBankClassifyForm" novalidate
+		class="form-horizontal" role="form" class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">分类名称:</label>
+			<div class="col-xs-5 width_6">
+				<input type="text" class="form-control width_1" id="fileName" name="questionClassificationName" required
+					ng-model="questionBankClassify.questionClassificationName" ng-maxlength="50">(最多输入50个字符)
+			</div>
+			<div class="error"
+				ng-show="questionBankClassifyForm.questionClassificationName.$dirty&&questionBankClassifyForm.questionClassificationName.$invalid
+				||questionBankClassifyForm.$submitted&&questionBankClassifyForm.questionClassificationName.$invalid">
+				<span ng-show="questionBankClassifyForm.questionClassificationName.$error.required"
+					class="glyphicon glyphicon-exclamation-sign">题库分类不能为空</span>
+				<span ng-show="questionBankClassifyForm.questionClassificationName.$error.maxlength"
+					class="glyphicon glyphicon-exclamation-sign">题库分类最多50个字符</span>
+			</div>
+		</div>
+		<div class="form-group">
+            <label  class="col-xs-2 control-label">上级分类名称:</label>
+            <div class="col-xs-4 width_6">
+            	<div class="input-group width_2">
+                    <input type="text" placeholder="请选择上级分类" class="form-control width_1"  name="parentClassificationName"  readonly 
+                    	ng-model="questionBankClassify.parentClassificationName">
+                    <span class="input-group-btn">
+                        <a href="javascript:void(0)" class="btn btn-primary  btn-control"  ng-click="doOpenRadioCourseClassifyModal()">选择上级分类</a>
+                    </span>
+                </div>
+            </div>
+            <div ng-include="'/enterpriseuniversity/views/modalTemplate/radioQuestionClassifyModalTemplate.html'"></div>
+        </div>
+		<div class="form-group">
+			<label  class="col-xs-2 control-label">分类简介:</label>
+			<div class="col-xs-5 width_6">
+				<textarea type="text" class="form-control width_1" name="questionClassificationAbstra"  rows="4"
+					ng-model="questionBankClassify.questionClassificationAbstra" ng-maxlength="500"  placeholder="请输入分类简介" required>(最多输入500个字符)
+                </textarea>
+			</div>
+ 			<div class="error" ng-show="questionBankClassifyForm.questionClassificationAbstra.$dirty
+ 				&&questionBankClassifyForm.questionClassificationAbstra.$invalid
+ 				||questionBankClassifyForm.$submitted&&questionBankClassifyForm.questionClassificationAbstra.$invalid">  
+ 				<span ng-show="questionBankClassifyForm.questionClassificationAbstra.$error.required"
+ 					class="glyphicon glyphicon-exclamation-sign">请输入分类简介</span> 
+ 				<span ng-show="questionBankClassifyForm.questionClassificationAbstra.$error.maxlength"
+ 					class="glyphicon glyphicon-exclamation-sign">分类简介最多500个字符</span> 
+ 			</div>  
+		</div>
+		<!-- start选择管理员-->
+        <div class="form-group">
+            <label class="col-xs-2 control-label">题库分类授权:</label>
+            <div class="col-xs-5 width_6">
+		        <div class="form-control-static">
+		            <a href="javascript:void(0)" class="btn btn-primary  btn-control" data-toggle="modal"
+		               ng-click="doOpenAdminModal()">选择管理员</a>
+		        </div>
+		        <div class="width_4" ng-include="'/enterpriseuniversity/views/modalTemplate/adminModalTemplate.html'"></div>
+    		</div>
+    		<input type="hidden" name="admins" ng-model="questionBankClassify.admins" required-admin>
+    		<div class="error" ng-show="questionBankClassifyForm.admins.$invalid&&questionBankClassifyForm.$submitted">
+                <span ng-show="questionBankClassifyForm.admins.$error.requiredAdmin" class="glyphicon glyphicon-exclamation-sign">请选择管理员</span>
+           	</div>
+        </div>
+        <!-- end 选择管理员 -->
+		<div class="form-group">
+			<div class="col-xs-offset-2 col-xs-8">
+				<a class="btn btn-primary btn-control" ng-click="doSave()">保存</a>
+				<a class="btn btn-link" ng-click="doReturn()">返&nbsp;&nbsp;&nbsp;回</a>
+			</div>
+		</div>
+		 <div class="modal-backdrop fade" ng-class="{'in':addQuestionBankClassifySubmit,'display-block':addQuestionBankClassifySubmit,'display-none':!addQuestionBankClassifySubmit}"></div>
+	</form>
+</div>
+<script type="text/javascript">
+//监听窗口大小变化，自适应高度
+$(document).ready(function () {
+	resizeView();
+});
+</script>

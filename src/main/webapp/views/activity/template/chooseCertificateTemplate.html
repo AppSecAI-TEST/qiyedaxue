@@ -1,0 +1,53 @@
+<div ng-controller="ChooseCertificateModelController">
+	<div class="container-fluid">
+		<div class="form-control-static" ng-show="!hideChooseCertBtn">
+         	<a href="javascript:void(0)" class="btn btn-primary btn-control" ng-click="openCertificateModal()">选择证书</a>
+         	<a href="javascript:void(0)" class="btn btn-link" ng-click="toAddCertificatePage()">制作证书</a>
+    	</div>
+	 
+		<div class="template-container" ng-show="itemArr.oldChoosedItem">
+	  	    <div class="cert-img" ng-style="certImgStyle('/enterpriseuniversity/', itemArr.oldChoosedItem.address)"></div>
+	  	    <!-- <img ng-src="{{itemArr.oldChoosedItem.address}}"> -->
+	 	</div>
+	</div>	
+	<!-- 模态框（Modal） start-->
+	<div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}" tabindex="-1" role="dialog" ng-if="openModalDialog">
+		<div class="modal-dialog" ng-style="setStyle_02()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" ng-click="doClose()">&times;</a>
+					<h4 class="modal-title">选择证书</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid" style="padding: 0;">
+						<table class="table table-striped table-bordered table-hover table-condensed table-layout">
+							<thead>
+								<tr>
+									<th width="50px">选择</th>
+									<th width="50px">序号</th>
+									<th class="min-width1">证书预览</th>
+									<th width="100px">创建时间</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in page.data" ng-class="{'current-focus-tr':item.checked}" style="cursor:pointer;" ng-click="itemArr.chooseItem(item)">
+									<td><input type="radio" name="activityCertificate" ng-checked="item.checked" style="cursor:pointer;"/></td>
+									<td ng-bind="$index+1"></td>
+									<td><img ng-src="{{'/enterpriseuniversity/' + item.address}}" width="175" height="124"></td>
+									<td ng-bind="item.createTime.time | date:'yyyy-MM-dd HH:mm:ss'"></td>
+								</tr>
+							</tbody>
+						</table>
+						<!-- 分页 -->
+						<div class="container-fluid" pagination conf="paginationConf"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+                    <a class="btn btn-default" ng-click="doClose()">关闭</a>
+                    <a class="btn btn-primary" ng-click="doSure()">确定</a>
+                </div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+</div>

@@ -1,0 +1,108 @@
+<meta charset="utf-8">
+<div class="container-fluid overflow-auto" id="page" ng-controller="CommodityExchangeController">
+	<div class="row-fluid">
+		<div class="container-fluid">
+			<ul class="nav nav-tabs" style="margin-top:15px;">
+				<li ng-class="{'active':showCommodityExchangeList}"><a ng-click="commodityExchange()">商品兑换</a></li>
+				<li ng-class="{'active':showExchangeHistoryList}"><a ng-click="exchangeHistory()">兑换历史</a></li>
+			</ul>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="container-fluid top-func-bar">
+					<div class="row">
+						<div class="col-xs-10">
+							<form role="search" class="">
+								<div class="row">
+									<div class="col-xs-6">
+										<div class="input-group" ng-class="{'has-error':empCode.length>=20}">
+											<input type="text" placeholder="搜索兑换码/员工编号" class="form-control" 
+												ng-model="empCode" maxlength="20" ng-keydown='autoSearch($event)'>
+											<span class="input-group-btn">
+												<a class="btn  btn-primary" ng-click="search()">搜索</a>
+											</span>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="col-xs-2">
+      						<select style="line-height: 28px;" class="form-control" ng-model="postMethod" ng-change="changeSeclectOption()" ng-options=" x.value as x.name for x in method">
+          						<option value="" >全部</option>
+      						</select>
+      					</div>
+					</div>
+				</div>
+				<div class="container-fluid">
+					<table ng-show="showCommodityExchangeList" class="table table-striped table-bordered table-hover table-condensed table-layout">
+						<thead>
+							<tr>
+								<th width="40px">序号</th>
+								<th class="col-xs-2">员工姓名</th>
+								<th width="110px">员工编号</th>
+								<th class="col-xs-2">商品名称</th>
+								<th class="col-xs-2">兑换码</th>
+								<th width="100px">兑换方式</th>
+								<th class="col-xs-2">兑换时间</th>
+								<th width="100px">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="a in page.data" ng-class="{'current-focus-tr':a.cdkey == currHighLightRow.cdkey&&a.cdkey!=null}" ng-click="highLightCurrRow(a)" style="cursor:pointer;">
+								<td ng-bind="$index+1"></td>
+								<td ng-bind="a.empName"></td>
+								<td ng-bind="a.empNumber"></td>
+								<td ng-bind="a.commodityName"></td>
+								<td ng-bind="a.cdkey"></td>
+								<td ng-bind="a.postMethod=='1'?'邮寄':'自提'"></td>
+								<td ng-bind="a.exchangeTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+								<td>
+									<a class="btn btn-link" ng-click="exchange(a)" >兑换</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table ng-show="showExchangeHistoryList" class="table table-striped table-bordered table-hover table-condensed table-layout">
+							<thead>
+								<tr>
+									<th width="40px">序号</th>
+									<th class="col-xs-2">员工姓名</th>
+									<th width="110px">员工编号</th>
+									<th class="col-xs-2">商品名称</th>
+									<th class="col-xs-2">兑换码</th>
+									<th width="100px">兑换方式</th>
+									<th class="col-xs-2">兑换时间</th>
+									<th width="100px">状态</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="a in page.data" ng-class="{'current-focus-tr':a.cdkey == currHighLightRow.cdkey&&a.cdkey!=null}" ng-click="highLightCurrRow(a)" style="cursor:pointer;">
+									<td ng-bind="$index+1"></td>
+									<td ng-bind="a.empName"></td>
+									<td ng-bind="a.empNumber"></td>
+									<td ng-bind="a.commodityName"></td>
+									<td ng-bind="a.cdkey"></td>
+									<td ng-bind="a.postMethod=='1'?'邮寄':'自提'"></td>
+									<td ng-bind="a.exchangeTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+									<td>
+										<p>已兑换</p>
+									</td>
+								</tr>
+							</tbody>
+					</table>
+					<div class="container-fluid" style="margin-top:20px;" ng-show="showExchangeHistoryList&&page.data.length>0">
+						<a class="btn btn-primary btn-con-trol" href="/enterpriseuniversity/services/commodityExchange/downloadExchangeExcel">导&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</a>
+					</div>
+					<div class="container-fluid" pagination conf="paginationConf"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group"  ng-include="'/enterpriseuniversity/views/modalTemplate/exchangeCommodityExchangeModalTemplate.html'"></div>
+</div>
+<script type="text/javascript">
+    //监听窗口大小变化，自适应高度
+    $(document).ready(function () {
+    	resizeView();
+    });
+</script>

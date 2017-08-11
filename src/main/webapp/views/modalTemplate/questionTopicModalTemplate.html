@@ -1,0 +1,26 @@
+<div >
+	<!-- 查看题库模态框（Modal） -->
+	<div class="modal fade" ng-class="{'in':modalDialog.openQuestionModal,'display-block':modalDialog.openQuestionModal}" tabindex="-1" 
+    	role="dialog" aria-labelledby="myModalLabel" ng-if="modalDialog.openQuestionModal">
+	   <div class="modal-dialog" ng-style="setStyle_02()">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <a class="close del-icon" ng-click="closeQuestionModal()">&times;</a>
+	            <h4 class="modal-title">查看题库</h4>
+	         </div>
+	         <div class="modal-body">
+	          	<h1 align="center">{{questionBankDetail.questionBankName}}</h1>
+				<div ng-repeat="t in questionBankDetail.topics">
+					<h3 >{{$index+1}}.{{t.topicName}}</h3>
+					<h4 ng-repeat="o in t.topicOptions" ng-show="o.right=='Y'">&nbsp;&nbsp;&nbsp;&nbsp;<font color="#00DB00">{{o.optionName}}</font></h4>
+					<h4 ng-repeat="o in t.topicOptions" ng-show="o.right=='N'">&nbsp;&nbsp;&nbsp;&nbsp;{{o.optionName}}</h4>
+				</div>
+	         </div>
+	         <div class="modal-footer">
+	        	<a  class="btn btn-default" ng-click="closeQuestionModal()">关闭</a>
+	         </div>
+	      </div>
+		</div>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':modalDialog.openQuestionModal,'display-block':modalDialog.openQuestionModal,'display-none':!modalDialog.openQuestionModal}"></div>
+</div>

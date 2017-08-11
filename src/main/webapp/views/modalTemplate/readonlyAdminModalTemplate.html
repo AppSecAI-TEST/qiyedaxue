@@ -1,0 +1,7 @@
+<div ng-controller="AdminModalController">
+    <!--列出已勾选的项-->
+    <div ng-show="itemArr.choosedItemArr.length >0"
+         class="form-control-static clearfix choosed-items-container">
+        <label class="checkbox-inline choosed-item" style="cursor: default;" ng-repeat="item in itemArr.choosedItemArr" ng-bind="item.name"></label>
+    </div>
+</div>

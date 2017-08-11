@@ -1,0 +1,66 @@
+<div ng-controller="exchangeCommodityExchangeController">
+	<div class="modal fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog}" ng-if="openModalDialog" >
+		<form name="$parent.commodityExchangeForm" class="form-horizontal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close del-icon" ng-click="doClose()">&times;</button>
+				 		<h2 class="modal-title">商品兑换</h2>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="form-group">
+								<label class="col-xs-2 control-label width_14">姓名：</label>
+								<label class="col-xs-2 label-value width_1" ng-bind="commodityInformation.empName"></label>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2 control-label width_14">手机：</label>
+								<label class="col-xs-2 label-value width_1" ng-bind="commodityInformation.phoneNumber"></label>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2 control-label width_14">地址：</label>
+								<label class="col-xs-2 label-value width_1" ng-bind="commodityInformation.address"></label>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2 control-label width_14">快递公司：</label>
+								<div class="col-xs-5 width_6">
+									<input type="text" class="form-control width_1"  id="expressCompany" name="expressCompany"
+					                       ng-model="commodityInformation.expressCompany"
+					                       ng-maxlength="20"
+					                       required
+					                       placeholder="请输入快递公司名称">
+								</div>
+								<div class="error" ng-show="commodityExchangeForm.expressCompany.$dirty&&commodityExchangeForm.expressCompany.$invalid
+									||commodityExchangeForm.$submitted&&commodityExchangeForm.expressCompany.$invalid">
+									<span ng-show="commodityExchangeForm.expressCompany.$error.required"
+										class="glyphicon glyphicon-exclamation-sign pull-left">请填写快递公司</span>
+									<span ng-show="commodityExchangeForm.expressCompany.$error.maxlength"
+										class="glyphicon glyphicon-exclamation-sign pull-left">快递公司名称最多20个字符</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-2 control-label width_14">快递单号：</label>
+								<div class="col-xs-5 width_6">
+					              	<input type="text" class="form-control width_1" id="expressNumber" name="expressNumber" 
+					                       ng-model="commodityInformation.expressNumber"
+					                       ng-pattern="/^[A-Za-z0-9]{8,20}$/"
+					                       required
+					                       placeholder="请输入快递单号">
+								</div>
+								<div class="error" ng-show="commodityExchangeForm.expressNumber.$dirty&&commodityExchangeForm.expressNumber.$invalid || commodityExchangeForm.expressNumber.$invalid&&commodityExchangeForm.$submitted" >
+						            <span ng-show="commodityExchangeForm.expressNumber.$error.required" class="glyphicon glyphicon-exclamation-sign pull-left">请输入快递单号</span>
+						            <span ng-show="commodityExchangeForm.expressNumber.$error.pattern" class="glyphicon glyphicon-exclamation-sign pull-left">快递单号由8~20个数字与英文组成</span>
+					            </div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+                    	<a class="btn btn-primary btn-control" ng-click="mail()">我已寄出</a>
+						<a class="btn btn-link" ng-click="returnCommodityExchange()">返&nbsp;&nbsp;&nbsp;回</a>
+                	</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-backdrop fade" ng-class="{'in':openModalDialog,'display-block':openModalDialog,'display-none':!openModalDialog}"></div>
+</div>
